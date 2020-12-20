@@ -2,6 +2,7 @@ IP-CIDR,203.205.0.0/16,no-resolve
 IP-CIDR,101.88.0.0/13,no-resolve
 IP-CIDR,59.36.112.0/20,no-resolve
 IP-CIDR,52.196.0.0/14,no-resolve
+IP-CIDR,109.244.0.0/16,no-resolve
 DOMAIN-SUFFIX,qq.com
 DOMAIN-SUFFIX,tencent.com
 DOMAIN-SUFFIX,gtimg.cn
