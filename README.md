@@ -1,1 +1,1 @@
-QQ & Games (CN Server)
+Proxy rlues for QQ & Games (CN Server)
