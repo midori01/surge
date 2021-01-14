@@ -10,7 +10,9 @@ IP-CIDR,183.61.32.0/19,no-resolve
 IP-CIDR,81.68.0.0/14,no-resolve
 DOMAIN-SUFFIX,qq.com
 DOMAIN-SUFFIX,tencent.com
+DOMAIN-SUFFIX,tencent-cloud.com
 DOMAIN-SUFFIX,gtimg.cn
+DOMAIN-SUFFIX,gtimg.com
 DOMAIN-KEYWORD,qcloud
 DOMAIN-KEYWORD,gcloud
 USER-AGENT,smoba*
