@@ -1,1 +1,1 @@
-Proxy rlues for QQ & Games (CN Server)
+Proxy rlues for Tencent Games. 
