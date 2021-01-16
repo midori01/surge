@@ -5,7 +5,6 @@ IP-CIDR,111.30.128.0/18,no-resolve
 IP-CIDR,61.241.32.0/19,no-resolve
 IP-CIDR,157.255.0.0/16,no-resolve
 IP-CIDR,123.150.0.0/15,no-resolve
-IP-CIDR,59.36.112.0/20,no-resolve
 IP-CIDR,59.37.96.0/19,no-resolve
 IP-CIDR,183.61.32.0/19,no-resolve
 USER-AGENT,QQ*
