@@ -8,6 +8,8 @@ IP-CIDR,14.16.0.0/12,no-resolve
 IP-CIDR,81.68.0.0/14,no-resolve
 IP-CIDR,59.36.112.0/20,no-resolve
 IP-CIDR,129.226.0.0/16,no-resolve
+IP-CIDR,221.180.128.0/17,no-resolve
+IP-CIDR,111.26.0.0/16,no-resolve
 DOMAIN-SUFFIX,qq.com
 DOMAIN-SUFFIX,tencent.com
 DOMAIN-SUFFIX,tencent-cloud.com
