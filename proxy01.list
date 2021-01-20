@@ -9,3 +9,4 @@ IP-CIDR,59.37.96.0/19,no-resolve
 IP-CIDR,183.61.32.0/19,no-resolve
 USER-AGENT,QQ*
 DOMAIN-SUFFIX,mail.qq.com
+DOMAIN-SUFFIX,ts.qq.com
