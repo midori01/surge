@@ -1,0 +1,19 @@
+DOMAIN,ex.qq.com
+DOMAIN,shmmsns.qpic.cn
+DOMAIN,down-update.qq.com
+DOMAIN-SUFFIX,pstatp.com
+DOMAIN-SUFFIX,taobao.com
+DOMAIN-SUFFIX,alicdn.com
+DOMAIN-SUFFIX,sinaimg.cn
+DOMAIN-SUFFIX,weibo.com
+DOMAIN-SUFFIX,weibocdn.com
+DOMAIN-SUFFIX,biliapi.net
+DOMAIN-SUFFIX,biliapi.com
+DOMAIN-SUFFIX,bilibili.com
+DOMAIN-SUFFIX,bilivideo.com
+DOMAIN-SUFFIX,hpplay.cn
+DOMAIN-SUFFIX,video.qq.com
+DOMAIN-SUFFIX,weishi.qq.com
+DOMAIN-SUFFIX,weixin.qq.com
+USER-AGENT,WeChat*
+USER-AGENT,MicroMessenger Client
