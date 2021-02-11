@@ -50,6 +50,10 @@ DOMAIN-SUFFIX,mzstatic.com
 DOMAIN-SUFFIX,akamai.net
 DOMAIN-SUFFIX,yimg.jp
 DOMAIN-SUFFIX,yimg.com
+DOMAIN-SUFFIX,phncdn.com
+DOMAIN-SUFFIX,phprcdn.com
+DOMAIN-SUFFIX,pornhub.com
+DOMAIN-SUFFIX,pornhubpremium.com
 DOMAIN-KEYWORD,twitter
 DOMAIN-KEYWORD,google
 DOMAIN-KEYWORD,instagram
@@ -62,6 +66,8 @@ DOMAIN-KEYWORD,amazon
 DOMAIN-KEYWORD,yahoo
 DOMAIN-KEYWORD,yandex
 DOMAIN-KEYWORD,clubhouse
+DOMAIN-KEYWORD,okex
+USER-AGENT,OKEx*
 USER-AGENT,YouTube*
 USER-AGENT,TikTok*
 USER-AGENT,Reddit*
