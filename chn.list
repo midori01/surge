@@ -15,5 +15,6 @@ DOMAIN-SUFFIX,hpplay.cn
 DOMAIN-SUFFIX,video.qq.com
 DOMAIN-SUFFIX,weishi.qq.com
 DOMAIN-SUFFIX,weixin.qq.com
+USER-AGENT,Weibo*
 USER-AGENT,WeChat*
 USER-AGENT,MicroMessenger Client
