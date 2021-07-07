@@ -1,3 +1,4 @@
+AND,((PROTOCOL,UDP), (DEST-PORT,443))
 DOMAIN,track.tiara.daum.net
 DOMAIN,track.tiara.kakao.com
 DOMAIN,zgsdk.zhugeio.com
