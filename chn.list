@@ -22,3 +22,4 @@ DOMAIN-SUFFIX,weixin.qq.com
 USER-AGENT,Weibo*
 USER-AGENT,WeChat*
 USER-AGENT,MicroMessenger Client
+USER-AGENT,QQMobileToken*
