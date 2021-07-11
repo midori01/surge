@@ -1,6 +1,7 @@
 IP-CIDR,183.236.55.250/32,no-resolve
 IP-CIDR,139.226.50.254/32,no-resolve
 DOMAIN,ex.qq.com
+DOMAIN,ex.exmail.qq.com:443
 DOMAIN,shmmsns.qpic.cn
 DOMAIN,down-update.qq.com
 DOMAIN,time.apple.com
