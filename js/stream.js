@@ -1,3 +1,26 @@
+/*
+
+脚本参考 @Helge_0x00 
+修改日期：2022.12.16
+Surge配置参考注释
+ 
+ ----------------------------------------
+ 
+[Panel]
+策略面板 = script-name=解锁检测,update-interval=7200
+
+[Script]
+解锁检测 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Stream-All.js,script-update-interval=0,argument=title=解锁检测&icon=headphones.circle&color=#FF2121
+
+----------------------------------------
+
+支持使用脚本使用 argument 参数自定义配置，如：argument=title=解锁检测&icon=headphones.circle&color=#FF2121，具体参数如下所示，
+ * title: 面板标题
+ * icon: SFSymbols 图标
+ * color：图标颜色
+ 
+ */
+
 let args = getArgs();
 
 const REQUEST_HEADERS = {
@@ -6,10 +29,15 @@ const REQUEST_HEADERS = {
   'Accept-Language': 'en',
 }
 
+// 即将登陆
 const STATUS_COMING = 2
+// 支持解锁
 const STATUS_AVAILABLE = 1
+// 不支持解锁
 const STATUS_NOT_AVAILABLE = 0
+// 检测超时
 const STATUS_TIMEOUT = -1
+// 检测异常
 const STATUS_ERROR = -2
 
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36';
@@ -191,25 +219,33 @@ async function testDisneyPlus() {
   try {
     let { region, cnbl } = await Promise.race([testHomePage(), timeout(7000)])
     console.log(`homepage: region=${region}, cnbl=${cnbl}`)
+    // 即将登陆
+    //  if (cnbl == 2) {
+    //    return { region, status: STATUS_COMING }
+    //  }
     let { countryCode, inSupportedLocation } = await Promise.race([getLocationInfo(), timeout(7000)])
     console.log(`getLocationInfo: countryCode=${countryCode}, inSupportedLocation=${inSupportedLocation}`)
 
     region = countryCode ?? region
     console.log("region:" + region)
+    // 即将登陆
     if (inSupportedLocation === false || inSupportedLocation === 'false') {
       return { region, status: STATUS_COMING }
     } else {
+      // 支持解锁
       return { region, status: STATUS_AVAILABLE }
     }
 
   } catch (error) {
     console.log("error:" + error)
 
+    // 不支持解锁
     if (error === 'Not Available') {
       console.log("不支持")
       return { status: STATUS_NOT_AVAILABLE }
     }
 
+    // 检测超时
     if (error === 'Timeout') {
       return { status: STATUS_TIMEOUT }
     }
