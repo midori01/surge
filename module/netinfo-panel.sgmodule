@@ -6,7 +6,7 @@
 Netinfo-Panel = script-name=Netinfo-js,update-interval=1
 
 [Script]
-Netinfo-js = type=generic,timeout=30,script-path=https://github.com/midori01/surge/raw/main/js/network.js,script-update-interval=0
+Netinfo-js = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/network.js,script-update-interval=0
 
 [Host]
 ip-api.com = 208.95.112.1
