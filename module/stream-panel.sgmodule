@@ -6,4 +6,4 @@
 Stream-Panel = script-name=Stream-js,update-interval=1
 
 [Script]
-Stream-js = type=generic,timeout=30,script-path=https://github.com/midori01/surge/raw/main/js/stream.js,script-update-interval=0,argument=title=解锁检测&icon=headphones.circle&color=#FF2121
+Stream-js = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/stream.js,script-update-interval=0
