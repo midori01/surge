@@ -1,0 +1,9 @@
+#!name=Flush DNS
+#!desc=清除 DNS 缓存
+#!system=ios
+
+[Panel]
+flushdns = script-name=flushdns-js,update-interval=1
+
+[Script]
+flushdns-js = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/flushdns.js,argument=title=FLush DNS&icon=cube&color=#afe59a&server=false
