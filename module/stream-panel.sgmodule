@@ -3,7 +3,7 @@
 #!system=ios
 
 [Panel]
-unblock-panel = script-name=unblock-js,update-interval=1
+stream-panel = script-name=stream-js,update-interval=1
 
 [Script]
-unblock-js = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/unblock.js,script-update-interval=0,argument=title=Stream Unblock&icon=play.tv.fill&color=#D22F28
+stream-js = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/stream.js,script-update-interval=0,argument=title=Stream Unblock&icon=play.tv.fill&color=#D22F28
