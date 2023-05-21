@@ -26,7 +26,7 @@ const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (
   hour = hour > 9 ? hour : "0" + hour;
   minutes = minutes > 9 ? minutes : "0" + minutes;
   let panel_result = {
-    title: `${args.title}` || `Stream`,
+    title: `${args.title}` || `Stream Unblock`,
     content: '',
     icon: args.icon || "play.tv.fill",
     "icon-color": args.color || "#D22F28",
