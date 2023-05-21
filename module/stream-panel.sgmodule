@@ -1,0 +1,9 @@
+#!name=Stream Unblock Panel
+#!desc=流媒体解锁检测
+#!system=ios
+
+[Panel]
+Stream-Panel = script-name=Stream-js,update-interval=1
+
+[Script]
+Stream-js = type=generic,timeout=30,script-path=https://github.com/midori01/surge/raw/main/js/stream.js,script-update-interval=0
