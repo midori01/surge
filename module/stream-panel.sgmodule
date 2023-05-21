@@ -6,4 +6,4 @@
 unblock-panel = script-name=unblock-js,update-interval=1
 
 [Script]
-unblock-js = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Stream-All.js,script-update-interval=0
+unblock-js = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/unblock.js,script-update-interval=0,argument=title=Stream Unblock&icon=play.tv.fill&color=#D22F28
