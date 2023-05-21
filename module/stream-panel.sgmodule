@@ -6,4 +6,4 @@
 stream-panel = script-name=stream-js,update-interval=1
 
 [Script]
-stream-js = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/stream.js,script-update-interval=0,argument=title=Media&icon=play.tv.fill&color=#D22F28
+stream-js = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/stream.js,script-update-interval=0,argument=title=Streaming&icon=play.tv.fill&color=#D22F28
