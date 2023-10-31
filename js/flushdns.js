@@ -1,5 +1,5 @@
 !(async () => {
-    let panel = { title: "Flush DNS" },
+    let panel = { title: "DNS" },
         showServer = true,
         dnsCache;
     if (typeof $argument != "undefined") {
@@ -15,7 +15,7 @@
     }
     if ($trigger == "button") await httpAPI("/v1/dns/flush");
     let delay = ((await httpAPI("/v1/test/dns_delay")).delay * 1000).toFixed(0);
-    panel.content = `[DNS Latency] ${delay}ms${dnsCache ? `\nserver:\n${dnsCache}` : ""}`;
+    panel.content = `[Latency] ${delay}ms${dnsCache ? `\n[Server] ${dnsCache}` : ""}`;
     $done(panel);
 })();
 
