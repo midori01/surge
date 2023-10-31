@@ -24,11 +24,10 @@
   panel.title = params.name || 'Server Info';
   panel.icon = params.icon || 'bolt.horizontal.icloud.fill';
   panel["icon-color"] = shifts[col];
-  panel.content = `CPU:    ${cpuUsage}        |  MEM:    ${memUsage}\n` +
-    `Recv: ${bytesToSize(outTraffic)}  |  Sent: ${bytesToSize(inTraffic)}\n` +
-    `Total: ${trafficSize}\n` +
+  panel.content = `CPU: ${cpuUsage} | MEM: ${memUsage}\n` +
+    `Total: ${trafficSize} [RX: ${bytesToSize(outTraffic)} | TX: ${bytesToSize(inTraffic)}]\n` +
     `Uptime: ${formatUptime(jsonData.uptime)}\n` +
-    `Last Update: ${timeString}`;
+    `Update: ${timeString}`;
 
   $done(panel);
 })().catch((e) => {
@@ -77,7 +76,7 @@ var hours = Math.floor((seconds % (3600 * 24)) / 3600);
 var minutes = Math.floor((seconds % 3600) / 60);
 var result = '';
 if (days > 0) {
-  result += days + ' day' + (days > 1 ? 's' : '') + ', ';
+  result += days + ' day' + (days > 1 ? 's' : '') + ' ';
 }
 if (hours > 0) {
   result += hours + ' hour' + (hours > 1 ? 's' : '') + ' ';
