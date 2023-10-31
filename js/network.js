@@ -143,7 +143,7 @@ function getIP() {
       info.push(`[Protocol] IPv4 Only`);
     }
     if (v4?.primaryRouter && getSSID()) info.push(`[Gateway] ${v4?.primaryRouter}`);
-    if (v4?.primaryAddress) info.push(`[Private IP] ${v4?.primaryAddress}`);
+    if (v4?.primaryAddress) info.push(`[PrivateIP] ${v4?.primaryAddress}`);
   }
   info = info.join("\n");
   return info + "\n";
@@ -159,7 +159,7 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       title: getSSID() ?? getCellularInfo(),
       content:
         getIP() +
-        `[Public IP] ${info.query}\n` +
+        `[PublicIP] ${info.query}\n` +
         `[ASN/ISP] ${info.as}\n` +
         `[Location] ${info.city}, ${info.countryCode}`,
       icon: getSSID() ? 'wifi' : 'simcard',
