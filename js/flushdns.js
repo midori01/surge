@@ -11,7 +11,7 @@
     }
     if (showServer) {
         dnsCache = (await httpAPI("/v1/dns", "GET")).dnsCache;
-        dnsCache = [...new Set(dnsCache.map((d) => d.server))].toString().replace(/,/g, "\n");
+        dnsCache = [...new Set(dnsCache.map((d) => d.server))].toString().replace(/,/g, ", ");
     }
     if ($trigger == "button") await httpAPI("/v1/dns/flush");
     let delay = ((await httpAPI("/v1/test/dns_delay")).delay * 1000).toFixed(0);
