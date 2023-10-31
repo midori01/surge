@@ -15,7 +15,7 @@
     }
     if ($trigger == "button") await httpAPI("/v1/dns/flush");
     let delay = ((await httpAPI("/v1/test/dns_delay")).delay * 1000).toFixed(0);
-    panel.content = `[Latency] ${delay}ms${dnsCache ? `\n[Server] ${dnsCache}` : ""}`;
+    panel.content = `[Latency] ${delay}ms${dnsCache ? `\n[Servers] ${dnsCache}` : ""}`;
     $done(panel);
 })();
 
