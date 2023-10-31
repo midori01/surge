@@ -11,7 +11,7 @@ let args = getArgs();
   let content = [`[Usage] ${bytesToSize(used)} | ${bytesToSize(total)}`];
 
   if (resetDayLeft) {
-    content.push(`[Reset] ${resetDayLeft} Day(s) Left`);
+    content.push(`[Reset] ${resetDayLeft} days later`);
   }
   if (expire && expire !== "false") {
     if (/^[\d.]+$/.test(expire)) expire *= 1000;
@@ -102,7 +102,7 @@ function getRmainingDays(resetDay) {
 }
 
 function bytesToSize(bytes) {
-  if (bytes === 0) return "0B";
+  if (bytes === 0) return "0";
   let k = 1024;
   sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
   let i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -114,5 +114,5 @@ function formatTime(time) {
   let year = dateObj.getFullYear();
   let month = dateObj.getMonth() + 1;
   let day = dateObj.getDate();
-  return year + "-" + month + "-" + day;
+  return year + "/" + month + "/" + day;
 }
