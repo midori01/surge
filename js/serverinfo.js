@@ -25,7 +25,7 @@
   panel.icon = params.icon || 'aqi.medium';
   panel["icon-color"] = shifts[col];
   panel.content = `[Usage] CPU ${cpuUsage} | MEM ${memUsage}\n` +
-    `[Traffic] ${trafficSize} (↓${bytesToSize(outTraffic)} | ↑${bytesToSize(inTraffic)})\n` +
+    `[Traffic] RX ${bytesToSize(outTraffic)} | TX ${bytesToSize(inTraffic)}\n` +
     `[Uptime] ${formatUptime(jsonData.uptime)}\n` +
     `[Update] ${timeString}`;
 
@@ -90,7 +90,7 @@ return result;
 function bytesToSize(bytes) {
   if (bytes === 0) return '0';
   let k = 1024;
-  let sizes = ['B', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
+  let sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'E', 'ZB', 'YB'];
   let i = Math.floor(Math.log(bytes) / Math.log(k));
   return `${(bytes / Math.pow(k, i)).toFixed(2)}${sizes[i]}`;
 }
