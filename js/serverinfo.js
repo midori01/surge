@@ -25,7 +25,7 @@
   panel.icon = params.icon || 'aqi.medium';
   panel["icon-color"] = shifts[col];
   panel.content = `[Usage] CPU ${cpuUsage} | MEM ${memUsage}\n` +
-    `[TOT] ${trafficSize}, RX ${bytesToSize(outTraffic)} | TX ${bytesToSize(inTraffic)}]\n` +
+    `[Traffic] ${trafficSize}, ↓${bytesToSize(outTraffic)}|↑${bytesToSize(inTraffic)}\n` +
     `[Uptime] ${formatUptime(jsonData.uptime)}\n` +
     `[Update] ${timeString}`;
 
