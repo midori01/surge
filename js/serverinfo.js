@@ -22,12 +22,12 @@
   };
   const col = Diydecide(0, 30, 70, parseInt(jsonData.mem_usage));
   panel.title = params.name || 'Server Info';
-  panel.icon = params.icon || 'bolt.horizontal.icloud.fill';
+  panel.icon = params.icon || 'aqi.medium';
   panel["icon-color"] = shifts[col];
-  panel.content = `CPU: ${cpuUsage} | MEM: ${memUsage}\n` +
-    `Total: ${trafficSize} [RX: ${bytesToSize(outTraffic)} | TX: ${bytesToSize(inTraffic)}]\n` +
-    `Uptime: ${formatUptime(jsonData.uptime)}\n` +
-    `Update: ${timeString}`;
+  panel.content = `[Usage] CPU ${cpuUsage} | MEM ${memUsage}\n` +
+    `[TOT] ${trafficSize}, RX ${bytesToSize(outTraffic)} | TX ${bytesToSize(inTraffic)}]\n` +
+    `[Uptime] ${formatUptime(jsonData.uptime)}\n` +
+    `[Update] ${timeString}`;
 
   $done(panel);
 })().catch((e) => {
@@ -88,11 +88,11 @@ return result;
 }
 
 function bytesToSize(bytes) {
-  if (bytes === 0) return '0 B';
+  if (bytes === 0) return '0';
   let k = 1024;
-  let sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  let sizes = ['B', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
   let i = Math.floor(Math.log(bytes) / Math.log(k));
-  return `${(bytes / Math.pow(k, i)).toFixed(2)} ${sizes[i]}`;
+  return `${(bytes / Math.pow(k, i)).toFixed(2)}${sizes[i]}`;
 }
 
 function Diydecide(x, y, z, item) {
