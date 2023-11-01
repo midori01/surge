@@ -1,1 +1,8 @@
+#!name=SubInfo
+#!system=ios
 
+[Panel]
+subinfo = script-name=subinfo,update-interval=1
+
+[Script]
+subinfo = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/subinfo.js,script-update-interval=0,argument=url=订阅链接&reset_day=1&title=Airport&color=#00A1DE
