@@ -4,7 +4,7 @@ apt update && apt install -y python3 python3-pip python3-psutil
 wget -O /root/serverinfo.py https://raw.githubusercontent.com/midori01/surge/main/etc/serverinfo.py
 cat > /etc/systemd/system/serverinfo.service <<EOF
 [Unit]
-Description=Server Info Monitor
+Description=ServerInfo Monitor
 
 [Service]
 Type=simple
