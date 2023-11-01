@@ -1,5 +1,0 @@
-#!name = DoH
-#!desc = DNS-over-HTTPS
-
-[General]
-encrypted-dns-server = https://public.dns.iij.jp/dns-query
