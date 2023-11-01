@@ -1,0 +1,8 @@
+#!name=ServerInfo
+#!system=ios
+
+[Panel]
+serverinfo = script-name=serverinfo,update-interval=1
+
+[Script]
+serverinfo = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.js,argument=url=http://127.0.0.1:7122&name=ServerInfo,script-update-interval=0
