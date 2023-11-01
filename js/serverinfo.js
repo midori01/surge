@@ -21,7 +21,7 @@
     '3': '#EF476F'
   };
   const col = Diydecide(0, 30, 70, parseInt(jsonData.mem_usage));
-  panel.title = params.name || 'Server Info';
+  panel.title = params.name || 'ServerInfo';
   panel.icon = params.icon || 'aqi.medium';
   panel["icon-color"] = shifts[col];
   panel.content = `[Usage] CPU ${cpuUsage} | MEM ${memUsage}\n` +
