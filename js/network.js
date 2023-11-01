@@ -140,7 +140,7 @@ function getIP() {
     if (v6?.primaryAddress) {
       info.push(`[Protocol] IPv4/IPv6 Dual Stack`);
     } else {
-      info.push(`[Protocol] IPv4 Only`);
+      info.push(`[Protocol] IPv4 Single Stack`);
     }
     if (v4?.primaryRouter && getSSID()) info.push(`[Gateway] ${v4?.primaryRouter}`);
     if (v4?.primaryAddress) info.push(`[Private IP] ${v4?.primaryAddress}`);
@@ -161,7 +161,7 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         getIP() +
         `[Public IP] ${info.query}\n` +
         `[Provider] ${info.as}\n` +
-        `[Location] ${info.city}, ${info.countryCode}`,
+        `[Location] ${info.city}, ${info.country} (${info.countryCode})`,
       icon: getSSID() ? 'wifi' : 'simcard',
       'icon-color': getSSID() ? '#9F9F9F' : '#9F9F9F',
     });
