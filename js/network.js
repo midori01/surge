@@ -51,19 +51,6 @@ function randomString(e = 6) {
   return n;
 }
 
-function getFlagEmoji(countryCode) {
-
-if (countryCode.toUpperCase() == 'TW') {
-    countryCode = 'JP'
-  }
-
-  const codePoints = countryCode
-    .toUpperCase()
-    .split('')
-    .map((char) => 127397 + char.charCodeAt());
-  return String.fromCodePoint(...codePoints);
-}
-
 function loadCarrierNames() {
   return {
     '466-11': '中華電信', '466-92': '中華電信',
@@ -128,7 +115,7 @@ function getCellularInfo() {
 }
 
 function getSSID() {
-  return `Wi-Fi | ${network.wifi?.ssid}`;
+  return $network.wifi?.ssid;
 }
 
 function getIP() {
