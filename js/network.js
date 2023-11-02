@@ -128,7 +128,7 @@ function getCellularInfo() {
 }
 
 function getSSID() {
-  return $network.wifi?.ssid;
+  return `Wi-Fi | ${network.wifi?.ssid}`;
 }
 
 function getIP() {
