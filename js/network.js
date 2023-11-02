@@ -162,7 +162,7 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         `[Public IP] ${info.query}\n` +
         `[Provider] ${info.as}\n` +
         `[Location] ${info.city}, ${info.country}\n` +
-        `[TZ/CCY] ${info.timezone} (${info.countryCode}) ${info.currency}`,
+        `[Timezone] ${info.timezone} (${info.countryCode})`,
       icon: getSSID() ? 'wifi' : 'simcard',
       'icon-color': getSSID() ? '#9F9F9F' : '#9F9F9F',
     });
