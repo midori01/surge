@@ -142,8 +142,12 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/message.png"
     },
     {
-      "name": "UN",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/un.png"
+      "name": "US",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/us.png"
+    },
+    {
+      "name": "UK",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/uk.png"
     },
     {
       "name": "JP",
@@ -161,14 +165,7 @@
       "name": "TW",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/tw.png"
     },
-    {
-      "name": "US",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/us.png"
-    },
-    {
-      "name": "UK",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/uk.png"
-    },
+
     {
       "name": "HK",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/hk.png"
@@ -180,6 +177,10 @@
     {
       "name": "CN",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/cn.png"
+    },
+    {
+      "name": "UN",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/un.png"
     },
     {
       "name": "Surge Classic",
