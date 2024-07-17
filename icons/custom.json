@@ -184,6 +184,14 @@
     {
       "name": "WireGuard",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/wireguard.png"
+    },
+    {
+      "name": "Shadowsocks",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/shadowsocks.png"
+    },
+    {
+      "name": "V2Ray",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/v2ray.png"
     }
   ]
 }
