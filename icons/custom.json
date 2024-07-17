@@ -62,23 +62,23 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/liber.png"
     },
     {
-      "name": "Surge Classic",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/surge_classic.png"
-    },
-    {
-      "name": "Hysteria",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/hysteria.png"
+      "name": "Surge",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/surge.png"
     },
     {
       "name": "WireGuard",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/wireguard.png"
     },
     {
+      "name": "Hysteria",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/hysteria.png"
+    },
+    {
       "name": "Shadowsocks",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/shadowsocks.png"
     },
     {
-      "name": "V2Ray",
+      "name": "VMess",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/v2ray.png"
     },
     {
