@@ -34,12 +34,12 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/dog.png"
     },
     {
-      "name": "IDCF",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/idcf.png"
+      "name": "Nippon",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/nippon.png"
     },
     {
-      "name": "Trump",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/trump.png"
+      "name": "IDCF",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/idcf.png"
     },
     {
       "name": "Shina",
@@ -140,6 +140,14 @@
     {
       "name": "CN",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/cn.png"
+    },
+    {
+      "name": "100kg",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/100kg.png"
+    },
+    {
+      "name": "Trump",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/trump.png"
     }
   ]
 }
