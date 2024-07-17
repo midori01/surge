@@ -22,10 +22,6 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/nippon.png"
     },
     {
-      "name": "Dog",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/dog.png"
-    },
-    {
       "name": "Pig",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/pig.png"
     },
@@ -40,6 +36,10 @@
     {
       "name": "IDCF",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/idcf.png"
+    },
+    {
+      "name": "Oracle",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/oracle.png"
     },
     {
       "name": "LINE Brown",
