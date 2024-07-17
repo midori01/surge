@@ -62,6 +62,26 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/liber.png"
     },
     {
+      "name": "Surge Classic",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/surge_classic.png"
+    },
+    {
+      "name": "Surge Inky",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/surge_inky.png"
+    },
+    {
+      "name": "WireGuard",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/wireguard.png"
+    },
+    {
+      "name": "Shadowsocks",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/shadowsocks.png"
+    },
+    {
+      "name": "V2Ray",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/v2ray.png"
+    }
+    {
       "name": "Alipay",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/alipay.png"
     },
@@ -180,26 +200,6 @@
     {
       "name": "UN",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/un.png"
-    },
-    {
-      "name": "Surge Classic",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/surge_classic.png"
-    },
-    {
-      "name": "Surge Inky",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/surge_inky.png"
-    },
-    {
-      "name": "WireGuard",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/wireguard.png"
-    },
-    {
-      "name": "Shadowsocks",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/shadowsocks.png"
-    },
-    {
-      "name": "V2Ray",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/v2ray.png"
     }
   ]
 }
