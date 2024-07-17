@@ -48,6 +48,98 @@
     {
       "name": "Trump",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/trump.png"
+    },
+    {
+      "name": "Panda",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/panda.png"
+    },
+    {
+      "name": "Pac-Man",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/pacman.png"
+    },
+    {
+      "name": "Taiko",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/taiko.png"
+    },
+    {
+      "name": "No Name",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/nonamepng"
+    },
+    {
+      "name": "Doraemon",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/doraemon.png"
+    },
+    {
+      "name": "Korosensei",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/korosensei.png"
+    },
+    {
+      "name": "Monokuma",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/monokuma.png"
+    },
+    {
+      "name": "Apple",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/apple.png"
+    },
+    {
+      "name": "YouTube",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/youtube.png"
+    },
+    {
+      "name": "Netflix",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/netflix.png"
+    },
+    {
+      "name": "Bilibili",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/bilibili.png"
+    },
+    {
+      "name": "Music",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/music.png"
+    },
+    {
+      "name": "Message",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/message.png"
+    },
+    {
+      "name": "UN",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/un.png"
+    },
+    {
+      "name": "JP",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/jp.png"
+    },
+    {
+      "name": "KR",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/kr.png"
+    },
+    {
+      "name": "SG",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/sg.png"
+    },
+    {
+      "name": "TW",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/tw.png"
+    },
+    {
+      "name": "US",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/us.png"
+    },
+    {
+      "name": "UK",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/uk.png"
+    },
+    {
+      "name": "HK",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/hk.png"
+    },
+    {
+      "name": "MO",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/mo.png"
+    },
+    {
+      "name": "CN",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/cn.png"
     }
   ]
 }
