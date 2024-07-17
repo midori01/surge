@@ -2,6 +2,14 @@
   "name": "Custom Icons",
   "icons": [
     {
+      "name": "Kakao Neo",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/neo.png"
+    },
+    {
+      "name": "LIBER",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/liber.png"
+    },
+    {
       "name": "Global",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/global.png"
     },
