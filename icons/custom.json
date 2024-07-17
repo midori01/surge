@@ -2,6 +2,10 @@
   "name": "Custom Icons",
   "icons": [
     {
+      "name": "Global",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/global.png"
+    },
+    {
       "name": "Shina",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/shina.png"
     }
