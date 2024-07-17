@@ -22,14 +22,6 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/waddle.png"
     },
     {
-      "name": "Global",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/global.png"
-    },
-    {
-      "name": "Shina",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/shina.png"
-    },
-    {
       "name": "Alipay",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/alipay.png"
     },
@@ -48,6 +40,14 @@
     {
       "name": "Trump",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/trump.png"
+    },
+    {
+      "name": "Shina",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/shina.png"
+    },
+    {
+      "name": "Global",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/global.png"
     },
     {
       "name": "Panda",
