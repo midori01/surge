@@ -34,12 +34,16 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/alipay.png"
     },
     {
-      "name": "Trump",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/trump.png"
+      "name": "Billd",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/billd.png"
     },
     {
       "name": "Maruino",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/maruino.png"
+    },
+    {
+      "name": "Trump",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/trump.png"
     }
   ]
 }
