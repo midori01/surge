@@ -180,6 +180,10 @@
     {
       "name": "CN",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/cn.png"
+    },
+    {
+      "name": "WireGuard",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/wireguard.png"
     }
   ]
 }
