@@ -220,6 +220,10 @@
     {
       "name": "UN",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/un.png"
+    },
+    {
+      "name": "M",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/m.png"
     }
   ]
 }
