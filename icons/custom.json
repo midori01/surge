@@ -222,10 +222,6 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/un.png"
     },
     {
-      "name": "M",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/m.png"
-    },
-    {
       "name": "Shodan",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/shodan.png"
     },
@@ -234,12 +230,20 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/censys.png"
     },
     {
+      "name": "Fries",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/fries.png"
+    },
+    {
       "name": "McDonald's",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/mcd.png"
     },
     {
       "name": "KFC",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/kfc.png"
+    },
+    {
+      "name": "M",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/m.png"
     }
   ]
 }
