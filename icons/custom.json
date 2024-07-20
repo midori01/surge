@@ -262,12 +262,24 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/iij.png"
     },
     {
+      "name": "M",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/m.png"
+    },
+    {
       "name": "Cisco AnyConnect",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/cisco.png"
     },
     {
-      "name": "M",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/m.png"
+      "name": "NAUTICA",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/nautica.png"
+    },
+    {
+      "name": "BEAMS",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/beams.png"
+    },
+    {
+      "name": "nanamica",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/nanamica.png"
     }
   ]
 }
