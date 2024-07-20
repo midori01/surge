@@ -283,11 +283,15 @@
     },
     {
       "name": " China Virus",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/virus.png"
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/chn-virus.png"
     },
     {
       "name": " CCP Virus",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/ccp.png"
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/ccp-virus.png"
+    },
+    {
+      "name": " Pooh Virus",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/pooh-virus.png"
     }
   ]
 }
