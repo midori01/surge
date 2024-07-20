@@ -242,10 +242,6 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/kfc.png"
     },
     {
-      "name": "M",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/m.png"
-    },
-    {
       "name": "Cisco AnyConnect",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/cisco.png"
     },
@@ -258,8 +254,16 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/softbank.png"
     },
     {
+      "name": "KDDI",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/kddi.png"
+    },
+    {
       "name": "IIJ",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/iij.png"
+    },
+    {
+      "name": "M",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/m.png"
     }
   ]
 }
