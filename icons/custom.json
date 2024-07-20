@@ -242,8 +242,8 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/kfc.png"
     },
     {
-      "name": "Cisco AnyConnect",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/cisco.png"
+      "name": "docomo",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/docomo.png"
     },
     {
       "name": "NTT",
@@ -260,6 +260,10 @@
     {
       "name": "IIJ",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/iij.png"
+    },
+    {
+      "name": "Cisco AnyConnect",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/cisco.png"
     },
     {
       "name": "M",
