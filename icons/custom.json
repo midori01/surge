@@ -248,6 +248,18 @@
     {
       "name": "Cisco AnyConnect",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/cisco.png"
+    },
+    {
+      "name": "NTT",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/ntt.png"
+    },
+    {
+      "name": "SoftBank",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/softbank.png"
+    },
+    {
+      "name": "IIJ",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/iij.png"
     }
   ]
 }
