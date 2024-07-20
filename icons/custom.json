@@ -280,6 +280,10 @@
     {
       "name": "UN",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/un.png"
+    },
+    {
+      "name": " China Virus",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/virus.png"
     }
   ]
 }
