@@ -162,6 +162,26 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/iij.png"
     },
     {
+      "name": " Virus",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/red-virus.png"
+    },
+    {
+      "name": " China Virus",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/chn-virus.png"
+    },
+    {
+      "name": " CCP Virus",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/ccp-virus.png"
+    },
+    {
+      "name": " Pooh Virus",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/pooh-virus.png"
+    },
+    {
+      "name": " Nikumam Virus",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/man-virus.png"
+    },
+    {
       "name": "Alipay",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/alipay.png"
     },
@@ -280,18 +300,6 @@
     {
       "name": "UN",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/un.png"
-    },
-    {
-      "name": " China Virus",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/chn-virus.png"
-    },
-    {
-      "name": " CCP Virus",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/ccp-virus.png"
-    },
-    {
-      "name": " Pooh Virus",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/pooh-virus.png"
     }
   ]
 }
