@@ -284,6 +284,10 @@
     {
       "name": " China Virus",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/virus.png"
+    },
+    {
+      "name": " CCP Virus",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/ccp.png"
     }
   ]
 }
