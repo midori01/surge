@@ -300,6 +300,18 @@
     {
       "name": "UN",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/un.png"
+    },
+    {
+      "name": "China Mobile",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/cm.png"
+    },
+    {
+      "name": "China Unicom",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/cu.png"
+    },
+    {
+      "name": "China Telecom",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/ct.png"
     }
   ]
 }
