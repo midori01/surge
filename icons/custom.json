@@ -62,24 +62,24 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/hamburger.png"
     },
     {
-      "name": "PayPal",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/paypal.png"
+      "name": "Shodan",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/shodan.png"
     },
     {
-      "name": "iCloud",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/icloud.png"
+      "name": "Censys",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/censys.png"
     },
     {
-      "name": "ChatGPT",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/chatgpt.png"
+      "name": "Starbucks",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/starbucks.png"
     },
     {
-      "name": "Spotify",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/spotify.png"
+      "name": "McDonald's",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/mcd.png"
     },
     {
-      "name": "Steam",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/steam.png"
+      "name": "KFC",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/kfc.png"
     },
     {
       "name": "IDCF",
@@ -100,26 +100,6 @@
     {
       "name": "Azure",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/azure.png"
-    },
-    {
-      "name": "Shodan",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/shodan.png"
-    },
-    {
-      "name": "Censys",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/censys.png"
-    },
-    {
-      "name": "Starbucks",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/starbucks.png"
-    },
-    {
-      "name": "McDonald's",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/mcd.png"
-    },
-    {
-      "name": "KFC",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/kfc.png"
     },
     {
       "name": "Surge",
@@ -200,6 +180,26 @@
     {
       "name": "China Telecom",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/ct.png"
+    },
+    {
+      "name": "PayPal",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/paypal.png"
+    },
+    {
+      "name": "iCloud",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/icloud.png"
+    },
+    {
+      "name": "ChatGPT",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/chatgpt.png"
+    },
+    {
+      "name": "Spotify",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/spotify.png"
+    },
+    {
+      "name": "Steam",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/steam.png"
     },
     {
       "name": "Alipay",
