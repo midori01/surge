@@ -54,12 +54,52 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/ice.png"
     },
     {
+      "name": "Fries",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/fries.png"
+    },
+    {
+      "name": "X",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/x.png"
+    },
+    {
+      "name": "PayPal",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/paypal.png"
+    },
+    {
+      "name": "iCloud",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/icloud.png"
+    },
+    {
+      "name": "ChatGPT",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/chatgpt.png"
+    },
+    {
+      "name": "Spotify",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/spotify.png"
+    },
+    {
+      "name": "Steam",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/steam.png"
+    },
+    {
       "name": "IDCF",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/idcf.png"
     },
     {
       "name": "Oracle",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/oracle.png"
+    },
+    {
+      "name": "Akamai",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/akamai.png"
+    },
+    {
+      "name": "AWS",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/aws.png"
+    },
+    {
+      "name": "Azure",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/azure.png"
     },
     {
       "name": "Shodan",
