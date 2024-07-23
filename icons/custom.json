@@ -90,12 +90,12 @@
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/oracle.png"
     },
     {
-      "name": "Akamai",
-      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/akamai.png"
-    },
-    {
       "name": "AWS",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/aws.png"
+    },
+    {
+      "name": "Akamai",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/akamai.png"
     },
     {
       "name": "Azure",
