@@ -64,7 +64,7 @@ function getCellularInfo() {
     'HSUPA': '3.75G',
     'eHRPD': '3.9G',
     'LTE': '4G',
-    'NSA': '5G',
+    'NRNSA': '5G',
     'NR': '5G',
   };
 
