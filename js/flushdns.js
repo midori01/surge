@@ -1,8 +1,8 @@
 !(async () => {
     let panel = {
-        title: "DNS",
-        icon: "cube",
-        icon-color: "FF4500"
+        "title": "DNS",
+        "icon": "cube",
+        "icon-color": "#FF4500"
     },
         showServer = true,
         dnsCache;
