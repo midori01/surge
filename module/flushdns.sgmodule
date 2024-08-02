@@ -1,8 +1,0 @@
-#!name=Flush DNS
-#!system=ios
-
-[Panel]
-flushdns = script-name=flushdns,update-interval=1
-
-[Script]
-flushdns = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/flushdns.js,argument=server=true&icon=cube&color=#FF4500,script-update-interval=0
