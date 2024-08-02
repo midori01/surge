@@ -113,7 +113,7 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         `[Provider] ${info.isp}\n` +
         `[Location] ${info.city}, ${info.country}`,
       icon: getSSID() ? 'wifi' : 'simcard',
-      'icon-color': getSSID() ? '#006AB6' : '#006AB6',
+      'icon-color': getSSID() ? '#73C2FB' : '#73C2FB',
     });
   }).catch(error => {
     if (String(error).startsWith("Network changed")) {
