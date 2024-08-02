@@ -110,7 +110,7 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       content:
         getIP() +
         `[Outbound] ${info.query}\n` +
-        `[Provider] ${info.as}\n` +
+        `[Provider] ${info.isp}\n` +
         `[Location] ${info.city}, ${info.country}`,
       icon: getSSID() ? 'wifi' : 'simcard',
       'icon-color': getSSID() ? '#9F9F9F' : '#9F9F9F',
