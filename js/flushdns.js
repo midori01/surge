@@ -2,7 +2,7 @@
     let panel = {
         "title": "DNS",
         "icon": "cube",
-        "icon-color": "#FF4500"
+        "icon-color": "#FF7E00"
     },
         showServer = true,
         dnsCache;
