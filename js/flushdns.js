@@ -1,5 +1,9 @@
 !(async () => {
-    let panel = { title: "DNS" },
+    let panel = {
+        title: "DNS",
+        icon: "cube",
+        icon-color: "FF4500"
+    },
         showServer = true,
         dnsCache;
     if (typeof $argument != "undefined") {
