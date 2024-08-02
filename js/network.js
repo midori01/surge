@@ -129,7 +129,6 @@ function getIP() {
     } else {
       info.push(`[Protocol] IPv4 Single Stack`);
     }
-    if (v4?.primaryRouter && getSSID()) info.push(`[Gateway] ${v4?.primaryRouter}`);
     if (v4?.primaryAddress) info.push(`[Private IP] ${v4?.primaryAddress}`);
   }
   info = info.join("\n");
