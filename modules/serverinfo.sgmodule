@@ -1,0 +1,8 @@
+#!name=Serverinfo
+#!desc=Show Server Information.
+
+[Script]
+serverinfo = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.js,argument=url=http://127.0.0.1:7122,script-update-interval=0
+
+[Panel]
+serverinfo = script-name=serverinfo,update-interval=1
