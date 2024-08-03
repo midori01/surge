@@ -1,16 +1,17 @@
 #!/bin/bash
 
 apt update && apt install -y python3 python3-pip python3-psutil
-wget -O /root/serverinfo.py https://raw.githubusercontent.com/midori01/surge/main/etc/serverinfo.py
+mkdir -p /opt
+wget -O /opt/serverinfo.py https://raw.githubusercontent.com/midori01/surge/main/etc/serverinfo.py
 cat > /etc/systemd/system/serverinfo.service <<EOF
 [Unit]
 Description=ServerInfo Monitor
 
 [Service]
 Type=simple
-WorkingDirectory=/root/
+WorkingDirectory=/opt/
 User=root
-ExecStart=/usr/bin/python3 /root/serverinfo.py
+ExecStart=/usr/bin/python3 /opt/serverinfo.py
 Restart=always
 
 [Install]
