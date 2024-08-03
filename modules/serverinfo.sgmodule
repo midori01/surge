@@ -1,6 +1,9 @@
 #!name=Serverinfo
 #!desc=Show Server Information.
 
+[Rule]
+AND,((IP-CIDR,127.0.0.1/32,no-resolve), (DEST-PORT,7122), (PROTOCOL,HTTP)),PROXY
+
 [Script]
 serverinfo = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.js,argument=url=http://127.0.0.1:7122,script-update-interval=0
 
