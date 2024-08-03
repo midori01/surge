@@ -1,5 +1,4 @@
 class httpMethod {
-
   static _httpRequestCallback(resolve, reject, error, response, data) {
     if (error) {
       reject(error);
@@ -47,7 +46,15 @@ function randomString(e = 6) {
   var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
     a = t.length,
     n = "";
-  for (i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+  for (let i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+  return n;
+}
+
+function randomString32() {
+  var t = "abcdefghijklmnopqrstuvwxyz0123456789",
+    a = t.length,
+    n = "";
+  for (let i = 0; i < 32; i++) n += t.charAt(Math.floor(Math.random() * a));
   return n;
 }
 
@@ -100,9 +107,13 @@ function getIP() {
 }
 
 function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
+  // 生成32位随机字符串
+  const random32 = randomString32();
+  const randomUrl = `http://${random32}.edns.ip-api.com/json`;
+
   Promise.all([
     httpMethod.get('http://ip-api.com/json'),
-    httpMethod.get('http://h0lmeytuf53au1u1bhw4xymwyqos03co.edns.ip-api.com/json')
+    httpMethod.get(randomUrl)
   ])
   .then(responses => {
     const [ipApiResponse, dnsApiResponse] = responses;
