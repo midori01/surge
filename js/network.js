@@ -24,32 +24,6 @@ class httpMethod {
   }
 }
 
-class loggerUtil {
-  constructor() {
-    this.id = randomString();
-  }
-
-  log(message) {
-    message = `[${this.id}] [ LOG ] ${message}`;
-    console.log(message);
-  }
-
-  error(message) {
-    message = `[${this.id}] [ERROR] ${message}`;
-    console.log(message);
-  }
-}
-
-var logger = new loggerUtil();
-
-function randomString(e = 6) {
-  var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
-    a = t.length,
-    n = "";
-  for (let i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
-  return n;
-}
-
 function randomString32() {
   var t = "abcdefghijklmnopqrstuvwxyz0123456789",
     a = t.length,
@@ -147,11 +121,8 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       }
     }
     if (retryTimes > 0) {
-      logger.error(error);
-      logger.log(`Retry after ${retryInterval}ms`);
       setTimeout(() => getNetworkInfo(--retryTimes, retryInterval), retryInterval);
     } else {
-      logger.error(error);
       $done({
         title: 'Error',
         content: 'Network Error',
@@ -168,7 +139,6 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   const surgeMaxTimeout = 29500;
   const scriptTimeout = retryTimes * 5000 + retryTimes * retryInterval;
   setTimeout(() => {
-    logger.log("Script timeout");
     $done({
       title: "Timeout",
       content: "Network Timeout",
@@ -177,6 +147,5 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
     });
   }, scriptTimeout > surgeMaxTimeout ? surgeMaxTimeout : scriptTimeout);
 
-  logger.log("Script start");
   getNetworkInfo(retryTimes, retryInterval);
 })();
