@@ -4,14 +4,14 @@
         "icon": "cube",
         "icon-color": "#FF7E00"
     },
-        showServer = true,
+        showServer = false,
         dnsCache;
     if (typeof $argument != "undefined") {
         let arg = Object.fromEntries($argument.split("&").map((item) => item.split("=")));
         if (arg.title) panel.title = arg.title;
         if (arg.icon) panel.icon = arg.icon;
         if (arg.color) panel["icon-color"] = arg.color;
-        if (arg.server == "false") showServer = false;
+        if (arg.server == "true") showServer = true;
     }
     if (showServer) {
         dnsCache = (await httpAPI("/v1/dns", "GET")).dnsCache;
