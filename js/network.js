@@ -100,22 +100,38 @@ function getIP() {
 }
 
 function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
-  httpMethod.get('http://ip-api.com/json').then(response => {
-    if (Number(response.status) > 300) {
-      throw new Error(`Request error with http status code: ${response.status}\n${response.data}`);
+  Promise.all([
+    httpMethod.get('http://ip-api.com/json'),
+    httpMethod.get('http://5ytgfhxbtwhgx1md7f54kefgxfjixon8.edns.ip-api.com/json')
+  ])
+  .then(responses => {
+    const [ipApiResponse, dnsApiResponse] = responses;
+
+    if (Number(ipApiResponse.status) > 300) {
+      throw new Error(`Request error with http status code: ${ipApiResponse.status}\n${ipApiResponse.data}`);
     }
-    const info = JSON.parse(response.data);
+
+    if (Number(dnsApiResponse.status) > 300) {
+      throw new Error(`Request error with http status code: ${dnsApiResponse.status}\n${dnsApiResponse.data}`);
+    }
+
+    const ipApiInfo = JSON.parse(ipApiResponse.data);
+    const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
+
     $done({
       title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
       content:
         getIP() +
-        `[Outbound] ${info.query}\n` +
-        `[Provider] ${info.isp}\n` +
-        `[Location] ${info.city}, ${info.country}`,
+        `[Outbound] ${ipApiInfo.query}\n` +
+        `[Provider] ${ipApiInfo.isp}\n` +
+        `[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n` +
+        `[DNS IP] ${dnsApiInfo.ip}\n` +
+        `[DNS Geo] ${dnsApiInfo.geo}`,
       icon: getSSID() ? 'wifi' : 'simcard',
       'icon-color': getSSID() ? '#73C2FB' : '#73C2FB',
     });
-  }).catch(error => {
+  })
+  .catch(error => {
     if (String(error).startsWith("Network changed")) {
       if (getSSID()) {
         $network.wifi = undefined;
