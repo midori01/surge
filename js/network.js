@@ -107,13 +107,11 @@ function getIP() {
 }
 
 function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
-  // 生成32位随机字符串
   const random32 = randomString32();
-  const randomUrl = `http://${random32}.edns.ip-api.com/json`;
 
   Promise.all([
     httpMethod.get('http://ip-api.com/json'),
-    httpMethod.get(randomUrl)
+    httpMethod.get(`http://${random32}.edns.ip-api.com/json`)
   ])
   .then(responses => {
     const [ipApiResponse, dnsApiResponse] = responses;
