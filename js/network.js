@@ -107,11 +107,9 @@ function getIP() {
 }
 
 function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
-  const random32 = randomString32();
-
   Promise.all([
     httpMethod.get('http://ip-api.com/json'),
-    httpMethod.get(`http://${random32}.edns.ip-api.com/json`)
+    httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`)
   ])
   .then(responses => {
     const [ipApiResponse, dnsApiResponse] = responses;
