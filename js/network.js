@@ -125,7 +125,7 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         `[Outbound] ${ipApiInfo.query}\n` +
         `[Provider] ${ipApiInfo.isp}\n` +
         `[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n` +
-        `[DNS] ${dnsApiInfo.ip}`
+        `[DNS] ${dnsApiInfo.ip}`,
       icon: getSSID() ? 'wifi' : 'simcard',
       'icon-color': getSSID() ? '#73C2FB' : '#73C2FB',
     });
