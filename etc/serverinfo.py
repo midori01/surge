@@ -40,7 +40,7 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
 def run_server():
     with socketserver.ThreadingTCPServer(("127.0.0.1", 7122), RequestHandler) as httpd:
         try:
-            print(f"Serving at port {port}")
+            print(f"Serving at port 7122")
             httpd.serve_forever()
         except KeyboardInterrupt:
             print("KeyboardInterrupt is captured, program exited")
