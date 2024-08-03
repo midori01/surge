@@ -102,7 +102,7 @@ function getIP() {
 function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   Promise.all([
     httpMethod.get('http://ip-api.com/json'),
-    httpMethod.get('http://5ytgfhxbtwhgx1md7f54kefgxfjixon8.edns.ip-api.com/json')
+    httpMethod.get('http://edns.ip-api.com/json')
   ])
   .then(responses => {
     const [ipApiResponse, dnsApiResponse] = responses;
@@ -125,8 +125,7 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         `[Outbound] ${ipApiInfo.query}\n` +
         `[Provider] ${ipApiInfo.isp}\n` +
         `[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n` +
-        `[DNS IP] ${dnsApiInfo.ip}\n` +
-        `[DNS Geo] ${dnsApiInfo.geo}`,
+        `[DNS] ${dnsApiInfo.ip}`
       icon: getSSID() ? 'wifi' : 'simcard',
       'icon-color': getSSID() ? '#73C2FB' : '#73C2FB',
     });
