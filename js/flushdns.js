@@ -1,32 +1,35 @@
-!(async () => {
-    let panel = {
-        "title": "DNS",
-        "icon": "cube",
+(async () => {
+    const panel = {
+        title: "DNS",
+        icon: "cube",
         "icon-color": "#FF7E00"
-    },
-        showServer = false,
-        dnsCache;
-    if (typeof $argument != "undefined") {
-        let arg = Object.fromEntries($argument.split("&").map((item) => item.split("=")));
-        if (arg.title) panel.title = arg.title;
-        if (arg.icon) panel.icon = arg.icon;
-        if (arg.color) panel["icon-color"] = arg.color;
-        if (arg.server == "true") showServer = true;
+    };
+    let showServer = false;
+    let dnsCache;
+
+    if (typeof $argument !== "undefined") {
+        const args = Object.fromEntries($argument.split("&").map(item => item.split("=")));
+        panel.title = args.title || panel.title;
+        panel.icon = args.icon || panel.icon;
+        panel["icon-color"] = args.color || panel["icon-color"];
+        showServer = args.server === "true";
     }
+
     if (showServer) {
-        dnsCache = (await httpAPI("/v1/dns", "GET")).dnsCache;
-        dnsCache = [...new Set(dnsCache.map((d) => d.server))].toString().replace(/,/g, ", ");
+        const { dnsCache: cache } = await httpAPI("/v1/dns", "GET");
+        dnsCache = [...new Set(cache.map(d => d.server))].join(", ");
     }
-    if ($trigger == "button") await httpAPI("/v1/dns/flush");
-    let delay = ((await httpAPI("/v1/test/dns_delay")).delay * 1000).toFixed(0);
-    panel.content = `[Latency] ${delay} ms${dnsCache ? `\n[Servers] ${dnsCache}` : ""}`;
+
+    if ($trigger === "button") await httpAPI("/v1/dns/flush");
+
+    const { delay } = await httpAPI("/v1/test/dns_delay");
+    panel.content = `[Latency] ${(delay * 1000).toFixed(0)} ms${dnsCache ? `\n[Servers] ${dnsCache}` : ""}`;
+
     $done(panel);
 })();
 
 function httpAPI(path = "", method = "POST", body = null) {
     return new Promise((resolve) => {
-        $httpAPI(method, path, body, (result) => {
-            resolve(result);
-        });
+        $httpAPI(method, path, body, resolve);
     });
 }
