@@ -400,6 +400,66 @@
     {
       "name": "UN",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/un.png"
+    },
+    {
+      "name": "Earth",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/earth.png"
+    },
+    {
+      "name": "Globe",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/globe.png"
+    },
+    {
+      "name": "US Map",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/map_us.png"
+    },
+    {
+      "name": "US Daddy",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/dad_us.png"
+    },
+    {
+      "name": "Statue of Liberty",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/liberty.png"
+    },
+    {
+      "name": "US Flag",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/flag_us.png"
+    },
+    {
+      "name": "JP Flag",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/flag_jp.png"
+    },
+    {
+      "name": "SG Flag",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/flag_sg.png"
+    },
+    {
+      "name": "TW Flag",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/flag_tw.png"
+    },
+    {
+      "name": "YT Flag",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/ytb.png"
+    },
+    {
+      "name": "TR Flag",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/flag_tr.png"
+    },
+    {
+      "name": "IN Flag",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/flag_in.png"
+    },
+    {
+      "name": "NG Flag",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/flag_ng.png"
+    },
+    {
+      "name": "HK Flag",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/flag_hk.png"
+    },
+    {
+      "name": "CN Flag",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/flag_cn.png"
     }
   ]
 }
