@@ -63,7 +63,8 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   while (retryTimes > 0) {
     try {
       const [ipApiResponse, dnsApiResponse] = await Promise.all([
-        httpMethod.get('http://ip-api.com/json'),
+        // httpMethod.get('http://ip-api.com/json'),
+        httpMethod.get({ url: 'http://208.95.112.1', headers: { Host: 'ip-api.com' } }),
         httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`)
       ]);
 
