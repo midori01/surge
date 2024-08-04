@@ -2,7 +2,7 @@
 #!desc=Rules for Overriding iRingo.
 
 [Rule]
-DOMAIN,gspe1-ssl.ls.apple.com,ᴘʀᴏxʏ
+DOMAIN,gspe1-ssl.ls.apple.com,ᴇɢʀᴇꜱꜱ
 DOMAIN,gspe12-cn-ssl.ls.apple.com,ᴄɴʟɪꜱᴛ
 DOMAIN,gspe19-cn-ssl.ls.apple.com,ᴄɴʟɪꜱᴛ
 DOMAIN-SUFFIX,is.autonavi.com,ᴄɴʟɪꜱᴛ
