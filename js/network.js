@@ -65,7 +65,7 @@ function getSTUNIP() {
     pc.createDataChannel('');
     pc.createOffer()
       .then(offer => pc.setLocalDescription(offer))
-      .catch(() => resolve(''));
+      .catch(() => resolve({ ip: '', port: '' }));
 
     pc.onicecandidate = (ice) => {
       if (ice && ice.candidate && ice.candidate.candidate) {
@@ -114,9 +114,11 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
       const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? 'N/A' : `${dnsApiInfo.ip} - ${dnsGeoCountry}`;
 
+      const stunInfo = stunResult.ip ? `${stunResult.ip}:${stunResult.port}` : 'N/A';
+
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n[Provider] ${ipApiInfo.as}\n[WebRTC] ${stunResult.ip || 'N/A'}:${stunResult.port || 'N/A'}\n[DNS Leak] ${dnsLeakInfo}`,
+        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n[Provider] ${ipApiInfo.as}\n[WebRTC] ${stunInfo}\n[DNS Leak] ${dnsLeakInfo}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
