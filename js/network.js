@@ -3,20 +3,20 @@ class httpMethod {
     error ? reject(error) : resolve({ ...response, data });
   }
 
-  static get(option = {}) {
+  static request(method, option = {}) {
     return new Promise((resolve, reject) => {
-      $httpClient.get(option, (error, response, data) => {
+      $httpClient[method](option, (error, response, data) => {
         this._httpRequestCallback(resolve, reject, error, response, data);
       });
     });
   }
 
+  static get(option = {}) {
+    return this.request('get', option);
+  }
+
   static post(option = {}) {
-    return new Promise((resolve, reject) => {
-      $httpClient.post(option, (error, response, data) => {
-        this._httpRequestCallback(resolve, reject, error, response, data);
-      });
-    });
+    return this.request('post', option);
   }
 }
 
@@ -59,37 +59,66 @@ function getIP() {
   return `${!v4 && !v6 ? 'Network Error' : `[Protocol] ${protocol}\n${internalIP}`}\n`;
 }
 
+function getSTUNIP() {
+  return new Promise((resolve) => {
+    const pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
+    pc.createDataChannel('');
+    pc.createOffer()
+      .then(offer => pc.setLocalDescription(offer))
+      .catch(() => resolve(''));
+
+    pc.onicecandidate = (ice) => {
+      if (ice && ice.candidate && ice.candidate.candidate) {
+        const ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+        const ip = ipRegex.exec(ice.candidate.candidate);
+        if (ip) {
+          resolve(ip[1]);
+          pc.close();
+        }
+      }
+    };
+
+    setTimeout(() => {
+      resolve('');
+      pc.close();
+    }, 1000);
+  });
+}
+
 async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
+  const checkStatus = (response) => {
+    if (response.status > 300) {
+      throw new Error(`Request error with HTTP status code: ${response.status}\n${response.data}`);
+    }
+    return response;
+  };
+
   while (retryTimes > 0) {
     try {
-      const [ipApiResponse, dnsApiResponse] = await Promise.all([
+      const [ipApiResponse, dnsApiResponse, stunIP] = await Promise.all([
         httpMethod.get('http://208.95.112.1/json'),
-        httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`)
+        httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`),
+        Promise.race([
+          getSTUNIP(),
+          new Promise(resolve => setTimeout(() => resolve(''), 1000))
+        ])
       ]);
 
-      if (ipApiResponse.status > 300 || dnsApiResponse.status > 300) {
-        throw new Error(`Request error with http status code: ${ipApiResponse.status}\n${ipApiResponse.data}`);
-      }
+      checkStatus(ipApiResponse);
+      checkStatus(dnsApiResponse);
 
       const ipApiInfo = JSON.parse(ipApiResponse.data);
       const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[Provider] ${ipApiInfo.as}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n[DNS Leak] ${dnsApiInfo.ip}\n[DNS Geo] ${dnsApiInfo.geo}`,
+        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[Provider] ${ipApiInfo.as}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n[DNS Leak] ${dnsApiInfo.ip}\n[DNS Geo] ${dnsApiInfo.geo}\n[WebRTC] ${stunIP || 'N/A'}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
 
       return;
     } catch (error) {
-      if (String(error).startsWith("Network changed")) {
-        if (getSSID()) {
-          $network.wifi = undefined;
-          $network.v4 = undefined;
-          $network.v6 = undefined;
-        }
-      }
       retryTimes--;
       if (retryTimes > 0) {
         await new Promise(resolve => setTimeout(resolve, retryInterval));
@@ -111,7 +140,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   const surgeMaxTimeout = 29500;
   const scriptTimeout = Math.min(retryTimes * 5000 + retryTimes * retryInterval, surgeMaxTimeout);
 
-  setTimeout(() => {
+  const timeoutHandle = setTimeout(() => {
     $done({
       title: "Timeout",
       content: "Network Timeout",
@@ -120,5 +149,5 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
     });
   }, scriptTimeout);
 
-  getNetworkInfo(retryTimes, retryInterval);
+  getNetworkInfo(retryTimes, retryInterval).finally(() => clearTimeout(timeoutHandle));
 })();
