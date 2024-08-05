@@ -107,7 +107,7 @@ async function resolveHostname(ip) {
   } catch (error) {
     console.error('Error resolving hostname:', error);
   }
-  return 'No Reverse DNS Record Found';
+  return 'No rDNS Record Found';
 }
 
 async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
