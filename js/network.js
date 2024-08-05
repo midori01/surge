@@ -58,7 +58,7 @@ function getIP() {
   const interface = v4?.primaryInterface ? `${v4.primaryInterface}` : '';
   const gateway = v4?.primaryRouter ? `${v4.primaryRouter}` : '';
   const internalIP = v4?.primaryAddress ? `${v4.primaryAddress}` : '';
-  return `${!v4 && !v6 ? 'Network Error' : `[Protocol] ${protocol} / ${interface}\n[Internal] ${gateway} / ${internalIP}`}\n`;
+  return `${!v4 && !v6 ? 'Network Error' : `[Protocol] ${protocol} - ${interface}\n[Internal] ${gateway} / ${internalIP}`}\n`;
 }
 
 function getSTUNIP() {
