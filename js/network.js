@@ -91,6 +91,25 @@ function getCurrentTimestamp() {
   return `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
 }
 
+async function resolveHostname(ip) {
+  const ipToReverseDNS = (ip) => {
+    return ip.split('.').reverse().join('.') + '.in-addr.arpa';
+  };
+
+  const reverseDNS = ipToReverseDNS(ip);
+
+  try {
+    const response = await httpMethod.get(`https://8.8.8.8/resolve?name=${reverseDNS}&type=PTR`);
+    const data = JSON.parse(response.data);
+    if (data && data.Answer && data.Answer.length > 0) {
+      return data.Answer[0].data;
+    }
+  } catch (error) {
+    console.error('Error resolving hostname:', error);
+  }
+  return 'N/A';
+}
+
 async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   const checkStatus = (response) => {
     if (response.status > 300) {
@@ -120,11 +139,12 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? 'N/A' : `${dnsApiInfo.ip} - ${dnsGeoCountry}`;
 
       const stunInfo = stunResult.ip ? `${stunResult.ip}:${stunResult.port}` : 'N/A';
+      const hostname = await resolveHostname(ipApiInfo.query);
       const timestamp = getCurrentTimestamp();
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n[Provider] ${ipApiInfo.as}\n[WebRTC] ${stunInfo}\n[DNS Leak] ${dnsLeakInfo}\n[Timestamp] ${timestamp}`,
+        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[Hostname] ${hostname}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n[Provider] ${ipApiInfo.as}\n[WebRTC] ${stunInfo}\n[DNS Leak] ${dnsLeakInfo}\n[Timestamp] ${timestamp}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
