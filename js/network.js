@@ -111,10 +111,11 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
 
       const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
+      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? 'N/A' : `${dnsApiInfo.ip} - ${dnsGeoCountry}`;
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n[Provider] ${ipApiInfo.as}\n[WebRTC] ${stunIP || 'N/A'}\n[DNS Leak] ${dnsApiInfo.ip} - ${dnsGeoCountry}`,
+        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n[Provider] ${ipApiInfo.as}\n[WebRTC] ${stunIP || 'N/A'}\n[DNS Leak] ${dnsLeakInfo}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
