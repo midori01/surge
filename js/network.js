@@ -86,6 +86,11 @@ function getSTUNIP() {
   });
 }
 
+function getCurrentTimestamp() {
+  const now = new Date();
+  return `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+}
+
 async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   const checkStatus = (response) => {
     if (response.status > 300) {
@@ -115,10 +120,11 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? 'N/A' : `${dnsApiInfo.ip} - ${dnsGeoCountry}`;
 
       const stunInfo = stunResult.ip ? `${stunResult.ip}:${stunResult.port}` : 'N/A';
+      const timestamp = getCurrentTimestamp();
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n[Provider] ${ipApiInfo.as}\n[WebRTC] ${stunInfo}\n[DNS Leak] ${dnsLeakInfo}`,
+        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n[Provider] ${ipApiInfo.as}\n[WebRTC] ${stunInfo}\n[DNS Leak] ${dnsLeakInfo}\n[Timestamp] ${timestamp}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
