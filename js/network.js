@@ -69,17 +69,18 @@ function getSTUNIP() {
 
     pc.onicecandidate = (ice) => {
       if (ice && ice.candidate && ice.candidate.candidate) {
-        const ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
-        const ip = ipRegex.exec(ice.candidate.candidate);
-        if (ip) {
-          resolve(ip[1]);
+        const ipPortRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})\s(\d+)/;
+        const ipPortMatch = ipPortRegex.exec(ice.candidate.candidate);
+        if (ipPortMatch) {
+          const [_, ip, , port] = ipPortMatch;
+          resolve({ ip, port });
           pc.close();
         }
       }
     };
 
     setTimeout(() => {
-      resolve('');
+      resolve({ ip: '', port: '' });
       pc.close();
     }, 1000);
   });
@@ -95,12 +96,12 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
   while (retryTimes > 0) {
     try {
-      const [ipApiResponse, dnsApiResponse, stunIP] = await Promise.all([
+      const [ipApiResponse, dnsApiResponse, stunResult] = await Promise.all([
         httpMethod.get('http://208.95.112.1/json'),
         httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`),
         Promise.race([
           getSTUNIP(),
-          new Promise(resolve => setTimeout(() => resolve(''), 1000))
+          new Promise(resolve => setTimeout(() => resolve({ ip: '', port: '' }), 1000))
         ])
       ]);
 
@@ -115,7 +116,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n[Provider] ${ipApiInfo.as}\n[WebRTC] ${stunIP || 'N/A'}\n[DNS Leak] ${dnsLeakInfo}`,
+        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country}\n[Provider] ${ipApiInfo.as}\n[WebRTC] ${stunResult.ip || 'N/A'}:${stunResult.port || 'N/A'}\n[DNS Leak] ${dnsLeakInfo}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
