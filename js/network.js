@@ -99,7 +99,7 @@ async function resolveHostname(ip) {
   const reverseDNS = ipToReverseDNS(ip);
 
   try {
-    const response = await httpMethod.get(`https://8.8.8.8/resolve?name=${reverseDNS}&type=PTR`);
+    const response = await httpMethod.get(`http://223.5.5.5/resolve?name=${reverseDNS}&type=PTR`);
     const data = JSON.parse(response.data);
     if (data && data.Answer && data.Answer.length > 0) {
       return data.Answer[0].data;
@@ -107,7 +107,7 @@ async function resolveHostname(ip) {
   } catch (error) {
     console.error('Error resolving hostname:', error);
   }
-  return 'No PTR Record Found';
+  return 'No Reverse DNS Record Found';
 }
 
 async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
