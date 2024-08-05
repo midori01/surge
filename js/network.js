@@ -107,7 +107,7 @@ async function resolveHostname(ip) {
   } catch (error) {
     console.error('Error resolving hostname:', error);
   }
-  return 'N/A';
+  return 'No PTR Record Found';
 }
 
 async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
@@ -136,7 +136,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
 
       const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
-      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? '${dnsApiInfo.ip} - N/A' : `${dnsApiInfo.ip} - ${dnsGeoCountry}`;
+      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `${dnsApiInfo.ip} - N/A` : `${dnsApiInfo.ip} - ${dnsGeoCountry}`;
 
       const stunInfo = stunResult.ip ? `${stunResult.ip}:${stunResult.port}` : 'N/A (STUN Timeout)';
       const hostname = await resolveHostname(ipApiInfo.query);
