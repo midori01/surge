@@ -1,7 +1,8 @@
 (async () => {
   try {
-    const params = getParams($argument);
-    const stats = await httpAPI(params.url);
+    const params = getParams();
+    const url = params.url || 'http://127.0.0.1:7122';
+    const stats = await httpAPI(url);
     const jsonData = JSON.parse(stats.body);
     const updateTime = new Date(jsonData.last_time);
     console.log(updateTime);
@@ -15,7 +16,7 @@
     const uptime = formatUptime(jsonData.uptime);
 
     const panel = {
-      title: params.name || 'ServerInfo',
+      title: params.name || 'Server Status',
       icon: params.icon || 'aqi.medium',
       "icon-color": getColorBasedOnMemUsage(parseInt(jsonData.mem_usage)),
       content: `[Usage] CPU ${cpuUsage} | MEM ${memUsage}\n` +
@@ -38,7 +39,7 @@
 
 function httpAPI(path) {
   const headers = {
-    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/93.0.4577.63 Mobile/15E148 Safari/604.1 EdgiOS/46.7.4.1'
+    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Mobile/15E148 Safari/604.1'
   };
   return new Promise((resolve, reject) => {
     $httpClient.get({ url: path, headers }, (err, resp, body) => {
@@ -52,8 +53,12 @@ function httpAPI(path) {
   });
 }
 
-function getParams(param) {
-  return Object.fromEntries(new URLSearchParams($argument).entries());
+function getParams() {
+  try {
+    return Object.fromEntries(new URLSearchParams($argument).entries());
+  } catch (e) {
+    return {};
+  }
 }
 
 function formatUptime(seconds) {
