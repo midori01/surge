@@ -99,7 +99,7 @@ async function resolveHostname(ip) {
   const reverseDNS = ipToReverseDNS(ip);
 
   try {
-    const response = await httpMethod.get(`https://8.8.8.8/resolve?name=${reverseDNS}&type=PTR`);
+    const response = await httpMethod.get(`https://dns.google/resolve?name=${reverseDNS}&type=PTR`);
     const data = JSON.parse(response.data);
     if (data && data.Answer && data.Answer.length > 0) {
       return data.Answer[0].data;
