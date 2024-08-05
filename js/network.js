@@ -55,10 +55,10 @@ function getSSID() {
 function getIP() {
   const { v4, v6 } = $network;
   const protocol = v6?.primaryAddress ? 'IPv4 & IPv6' : 'IPv4 Only';
-  const interface = v4?.primaryInterface ? `${v4.primaryInterface}` : '';
+  const interface = v4?.primaryInterface ? `[Interface] ${v4.primaryInterface}` : '';
   const gateway = v4?.primaryRouter ? `[Gateway] ${v4.primaryRouter}` : '';
   const internalIP = v4?.primaryAddress ? `[Internal IP] ${v4.primaryAddress}` : '';
-  return `${!v4 && !v6 ? 'Network Error' : `[Protocol] ${protocol} (${interface})\n${gateway}\n${internalIP}`}\n`;
+  return `${!v4 && !v6 ? 'Network Error' : `[Protocol] ${protocol}\n${interface}\n${gateway}\n${internalIP}`}\n`;
 }
 
 function getSTUNIP() {
