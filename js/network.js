@@ -142,9 +142,11 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const hostname = await resolveHostname(ipApiInfo.query);
       const timestamp = getCurrentTimestamp();
 
+      const location = ipApiInfo.city === ipApiInfo.country ? `${ipApiInfo.country} (${ipApiInfo.countryCode})` : `${ipApiInfo.city}, ${ipApiInfo.country} (${ipApiInfo.countryCode})`;
+
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[PTR] ${hostname}\n[ISP] ${ipApiInfo.as}\n[Location] ${ipApiInfo.city}, ${ipApiInfo.country} (${ipApiInfo.countryCode})\n[WebRTC] ${stunInfo}\n[DNS Leak] ${dnsLeakInfo}\n[Timestamp] ${timestamp}`,
+        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[PTR] ${hostname}\n[ISP] ${ipApiInfo.as}\n[Location] ${location}\n[WebRTC] ${stunInfo}\n[DNS Leak] ${dnsLeakInfo}\n[Timestamp] ${timestamp}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
