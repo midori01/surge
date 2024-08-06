@@ -161,7 +161,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         location = `Frankfurt, ${ipApiInfo.country}`;
       } else if (ipApiInfo.countryCode === 'TW') {
         const isTaipei = /Taipei/.test(ipApiInfo.regionName) || /Taipei/.test(ipApiInfo.city);
-        location = isTaipei ? `Taipei, ROC (${ipApiInfo.countryCode})` : `${ipApiInfo.city}, ROC (${ipApiInfo.countryCode})`;
+        location = isTaipei ? `Taipei, ROC (${ipApiInfo.country})` : `${ipApiInfo.city}, ROC (${ipApiInfo.country})`;
       } else if (ipApiInfo.countryCode === 'CN') {
         if (['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(ipApiInfo.regionName)) {
           location = `${ipApiInfo.regionName}, P.R. China`;
@@ -174,7 +174,9 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         location = `${ipApiInfo.city}, ${ipApiInfo.region}, USA`;
       } else if (ipApiInfo.countryCode === 'CA') {
         location = `${ipApiInfo.city}, ${ipApiInfo.region}, ${ipApiInfo.country}`;
-      } else if (['HK', 'MO', 'SG', 'VA', 'MC', 'GI'].includes(ipApiInfo.countryCode)) {
+      } else if (['HK', 'MO'].includes(ipApiInfo.countryCode)) {
+        location = `${ipApiInfo.country} SAR, PRC`;
+      } else if (['SG', 'VA', 'MC', 'GI'].includes(ipApiInfo.countryCode)) {
         location = `${ipApiInfo.country} (${ipApiInfo.countryCode})`;
       } else {
         location = `${ipApiInfo.city}, ${ipApiInfo.country}`;
