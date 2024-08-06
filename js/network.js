@@ -142,30 +142,33 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
 
       const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
-      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `${dnsApiInfo.ip} - N/A` : `${dnsApiInfo.ip} - ${dnsGeoCountry}`;
+      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country
+        ? `${dnsApiInfo.ip} - N/A`
+        : `${dnsApiInfo.ip} - ${dnsGeoCountry}`;
 
       const stunInfo = stunResult.ip ? `${stunResult.ip}:${stunResult.port}` : 'N/A (STUN Timeout)';
       const hostname = await resolveHostname(ipApiInfo.query);
       const timestamp = getCurrentTimestamp();
 
       let location;
-      if (ipApiInfo.country === 'United Kingdom') {
+      if (ipApiInfo.countryCode === 'GB') {
         location = `${ipApiInfo.city}, UK (${ipApiInfo.countryCode})`;
-      } else if (ipApiInfo.country === 'United Arab Emirates') {
+      } else if (ipApiInfo.countryCode === 'AE') {
         location = `${ipApiInfo.city}, UAE (${ipApiInfo.countryCode})`;
-      } else if (ipApiInfo.country === 'Taiwan') {
-        location = `${ipApiInfo.city}, ROC (${ipApiInfo.countryCode})`;
+      } else if (ipApiInfo.countryCode === 'TW') {
+        const isTaipei = /Taipei/.test(ipApiInfo.regionName) || /Taipei/.test(ipApiInfo.city);
+        location = isTaipei ? `Taipei, ROC (${ipApiInfo.countryCode})` : `${ipApiInfo.city}, ROC (${ipApiInfo.countryCode})`;
       } else if (['HK', 'MO', 'SG', 'VA', 'MC', 'GI'].includes(ipApiInfo.countryCode)) {
         location = `${ipApiInfo.country} (${ipApiInfo.countryCode})`;
-      } else if (ipApiInfo.country === 'China') {
+      } else if (ipApiInfo.countryCode === 'CN') {
         if (['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(ipApiInfo.regionName)) {
           location = `${ipApiInfo.regionName}, PR China (${ipApiInfo.countryCode})`;
         } else {
           location = `${ipApiInfo.city}, PR China (${ipApiInfo.countryCode})`;
         }
-      } else if (ipApiInfo.country === 'Japan') {
+      } else if (ipApiInfo.countryCode === 'JP') {
         location = `${ipApiInfo.regionName}, ${ipApiInfo.country} (${ipApiInfo.countryCode})`;
-      } else if (ipApiInfo.country === 'United States') {
+      } else if (ipApiInfo.countryCode === 'US') {
         location = `${ipApiInfo.city}, ${ipApiInfo.region} (${ipApiInfo.countryCode})`;
       } else if (ipApiInfo.city === 'Frankfurt am Main') {
         location = `Frankfurt, ${ipApiInfo.country} (${ipApiInfo.countryCode})`;
