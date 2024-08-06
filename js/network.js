@@ -154,7 +154,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       if (ipApiInfo.countryCode === 'GB') {
         location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, UK`;
       } else if (ipApiInfo.countryCode === 'AE') {
-        location = `${ipApiInfo.city}, UAE`;
+        location = `${ipApiInfo.city}, ${ipApiInfo.region}, UAE`;
       } else if (ipApiInfo.countryCode === 'ZA') {
         location = `${ipApiInfo.city}, S. Africa`;
       } else if (ipApiInfo.city === 'Frankfurt am Main') {
