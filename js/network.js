@@ -153,8 +153,10 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         location = `${ipApiInfo.city}, UK (${ipApiInfo.countryCode})`;
       } else if (ipApiInfo.country === 'United Arab Emirates') {
         location = `${ipApiInfo.city}, UAE (${ipApiInfo.countryCode})`;
+      } else if (ipApiInfo.country === 'Taiwan') {
+        location = `${ipApiInfo.city}, ROC (${ipApiInfo.countryCode})`;
       } else if (ipApiInfo.country === 'China') {
-        location = `${ipApiInfo.city}, ${ipApiInfo.region}, P.R. China (${ipApiInfo.countryCode})`;
+        location = `${ipApiInfo.city}, P.R. China (${ipApiInfo.countryCode})`;
       } else if (ipApiInfo.country === 'United States') {
         location = `${ipApiInfo.city}, ${ipApiInfo.region} (${ipApiInfo.countryCode})`;
       } else if (ipApiInfo.city === 'Frankfurt am Main') {
