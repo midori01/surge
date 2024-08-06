@@ -154,9 +154,9 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       if (ipApiInfo.countryCode === 'GB') {
         location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, UK`;
       } else if (ipApiInfo.countryCode === 'AE') {
-        location = `${ipApiInfo.city}, UAE (${ipApiInfo.countryCode})`;
+        location = `${ipApiInfo.city}, UAE`;
       } else if (ipApiInfo.city === 'Frankfurt am Main') {
-        location = `Frankfurt, ${ipApiInfo.country} (${ipApiInfo.countryCode})`;
+        location = `Frankfurt, ${ipApiInfo.country}`;
       } else if (ipApiInfo.countryCode === 'TW') {
         const isTaipei = /Taipei/.test(ipApiInfo.regionName) || /Taipei/.test(ipApiInfo.city);
         location = isTaipei ? `Taipei, ROC (${ipApiInfo.countryCode})` : `${ipApiInfo.city}, ROC (${ipApiInfo.countryCode})`;
@@ -173,7 +173,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       } else if (['HK', 'MO', 'SG', 'VA', 'MC', 'GI'].includes(ipApiInfo.countryCode)) {
         location = `${ipApiInfo.country} (${ipApiInfo.countryCode})`;
       } else {
-        location = `${ipApiInfo.city}, ${ipApiInfo.country} (${ipApiInfo.countryCode})`;
+        location = `${ipApiInfo.city}, ${ipApiInfo.country}`;
       }
 
       $done({
