@@ -155,6 +155,8 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, UK`;
       } else if (ipApiInfo.countryCode === 'AE') {
         location = `${ipApiInfo.city}, UAE`;
+      } else if (ipApiInfo.countryCode === 'ZA') {
+        location = `${ipApiInfo.city}, S. Africa`;
       } else if (ipApiInfo.city === 'Frankfurt am Main') {
         location = `Frankfurt, ${ipApiInfo.country}`;
       } else if (ipApiInfo.countryCode === 'TW') {
@@ -170,6 +172,8 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, ${ipApiInfo.country}`;
       } else if (ipApiInfo.countryCode === 'US') {
         location = `${ipApiInfo.city}, ${ipApiInfo.region}, USA`;
+      } else if (ipApiInfo.countryCode === 'CA') {
+        location = `${ipApiInfo.city}, ${ipApiInfo.region}, ${ipApiInfo.country}`;
       } else if (['HK', 'MO', 'SG', 'VA', 'MC', 'GI'].includes(ipApiInfo.countryCode)) {
         location = `${ipApiInfo.country} (${ipApiInfo.countryCode})`;
       } else {
