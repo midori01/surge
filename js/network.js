@@ -148,7 +148,18 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const hostname = await resolveHostname(ipApiInfo.query);
       const timestamp = getCurrentTimestamp();
 
-      const location = ipApiInfo.city === ipApiInfo.country ? `${ipApiInfo.country} (${ipApiInfo.countryCode})` : `${ipApiInfo.city}, ${ipApiInfo.country} (${ipApiInfo.countryCode})`;
+      let location;
+      if (ipApiInfo.country === 'United Kingdom') {
+        location = `${ipApiInfo.city}, UK (${ipApiInfo.countryCode})`;
+      } else if (ipApiInfo.country === 'United Arab Emirates') {
+        location = `${ipApiInfo.city}, UAE (${ipApiInfo.countryCode})`;
+      } else if (ipApiInfo.country === 'United States') {
+        location = `${ipApiInfo.city}, ${ipApiInfo.region} (${ipApiInfo.countryCode})`;
+      } else if (ipApiInfo.city === 'Frankfurt am Main') {
+        location = `Frankfurt, ${ipApiInfo.country} (${ipApiInfo.countryCode})`;
+      } else {
+        location = ipApiInfo.city === ipApiInfo.country ? `${ipApiInfo.country} (${ipApiInfo.countryCode})` : `${ipApiInfo.city}, ${ipApiInfo.country} (${ipApiInfo.countryCode})`;
+      }
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
