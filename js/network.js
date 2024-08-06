@@ -110,6 +110,19 @@ async function resolveHostname(ip) {
   return 'Reverse DNS Not Found';
 }
 
+async function fetchNetworkData() {
+  const [ipApiResponse, dnsApiResponse, stunResult] = await Promise.all([
+    httpMethod.get('http://208.95.112.1/json'),
+    httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`),
+    Promise.race([
+      getSTUNIP(),
+      new Promise(resolve => setTimeout(() => resolve({ ip: '', port: '' }), 1000))
+    ])
+  ]);
+
+  return { ipApiResponse, dnsApiResponse, stunResult };
+}
+
 async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   const checkStatus = (response) => {
     if (response.status > 300) {
@@ -120,14 +133,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
   while (retryTimes > 0) {
     try {
-      const [ipApiResponse, dnsApiResponse, stunResult] = await Promise.all([
-        httpMethod.get('http://208.95.112.1/json'),
-        httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`),
-        Promise.race([
-          getSTUNIP(),
-          new Promise(resolve => setTimeout(() => resolve({ ip: '', port: '' }), 1000))
-        ])
-      ]);
+      const { ipApiResponse, dnsApiResponse, stunResult } = await fetchNetworkData();
 
       checkStatus(ipApiResponse);
       checkStatus(dnsApiResponse);
