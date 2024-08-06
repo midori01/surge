@@ -162,14 +162,14 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         location = isTaipei ? `Taipei, ROC (${ipApiInfo.countryCode})` : `${ipApiInfo.city}, ROC (${ipApiInfo.countryCode})`;
       } else if (ipApiInfo.countryCode === 'CN') {
         if (['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(ipApiInfo.regionName)) {
-          location = `${ipApiInfo.regionName}, PR China (${ipApiInfo.countryCode})`;
+          location = `${ipApiInfo.regionName}, P.R. China`;
         } else {
-          location = `${ipApiInfo.city}, ${ipApiInfo.regionName} (${ipApiInfo.countryCode})`;
+          location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, PRC`;
         }
       } else if (ipApiInfo.countryCode === 'JP') {
         location = `${ipApiInfo.regionName}, ${ipApiInfo.country} (${ipApiInfo.countryCode})`;
       } else if (ipApiInfo.countryCode === 'US') {
-        location = `${ipApiInfo.city}, ${ipApiInfo.region} (${ipApiInfo.countryCode})`;
+        location = `${ipApiInfo.city}, ${ipApiInfo.region}, USA`;
       } else if (['HK', 'MO', 'SG', 'VA', 'MC', 'GI'].includes(ipApiInfo.countryCode)) {
         location = `${ipApiInfo.country} (${ipApiInfo.countryCode})`;
       } else {
