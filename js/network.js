@@ -156,7 +156,13 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       } else if (ipApiInfo.country === 'Taiwan') {
         location = `${ipApiInfo.city}, ROC (${ipApiInfo.countryCode})`;
       } else if (ipApiInfo.country === 'China') {
-        location = `${ipApiInfo.city}, PR China (${ipApiInfo.countryCode})`;
+        if (['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(ipApiInfo.regionName)) {
+          location = `${ipApiInfo.regionName}, PR China (${ipApiInfo.countryCode})`;
+        } else {
+          location = `${ipApiInfo.city}, PR China (${ipApiInfo.countryCode})`;
+        }
+      } else if (ipApiInfo.country === 'Japan') {
+        location = `${ipApiInfo.regionName}, ${ipApiInfo.country} (${ipApiInfo.countryCode})`;
       } else if (ipApiInfo.country === 'United States') {
         location = `${ipApiInfo.city}, ${ipApiInfo.region} (${ipApiInfo.countryCode})`;
       } else if (ipApiInfo.city === 'Frankfurt am Main') {
