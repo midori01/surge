@@ -13,9 +13,10 @@
     const cpuUsage = `${jsonData.cpu_usage}%`;
     const memUsage = `${jsonData.mem_usage}%`;
     const uptime = formatUptime(jsonData.uptime);
+    const hostname = jsonData.hostname;
 
     const panel = {
-      title: params.name || 'Server Status',
+      title: params.name || `Server Status | ${hostname}`,
       icon: params.icon || 'aqi.medium',
       "icon-color": getColorBasedOnMemUsage(parseInt(jsonData.mem_usage)),
       content: `[Usage] CPU ${cpuUsage} | MEM ${memUsage}\n` +
