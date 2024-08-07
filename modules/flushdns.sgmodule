@@ -1,8 +1,0 @@
-#!name=DNS
-#!desc=Flush DNS Cache.
-
-[Script]
-flushdns = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/flushdns.js,script-update-interval=0
-
-[Panel]
-flushdns = script-name=flushdns,update-interval=1
