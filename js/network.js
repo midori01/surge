@@ -151,8 +151,8 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
       const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country
-        ? `${dnsApiInfo.ip} - N/A`
-        : `${dnsApiInfo.ip} - ${dnsGeoCountry}`;
+        ? `${dnsApiInfo.ip} - Normal`
+        : `${dnsApiInfo.ip} - Leak`;
 
       const stunInfo = stunResult.ip ? `${stunResult.ip}:${stunResult.port}` : 'N/A (STUN Timeout)';
       const hostname = await resolveHostname(ipApiInfo.query);
@@ -196,7 +196,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[PTR] ${hostname}\n[ISP] ${ipApiInfo.as}\n[Location] ${location}\n[WebRTC] ${stunInfo}\n[DNS Leak] ${dnsLeakInfo}\n[Timestamp] ${timestamp}`,
+        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[PTR] ${hostname}\n[ISP] ${ipApiInfo.as}\n[Location] ${location}\n[WebRTC] ${stunInfo}\n[DNS Info] ${dnsLeakInfo}\n[Timestamp] ${timestamp}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
