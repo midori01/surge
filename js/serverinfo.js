@@ -4,8 +4,7 @@
     const url = params.url || 'http://127.0.0.1:7122';
     const stats = await httpAPI(url);
     const jsonData = JSON.parse(stats.body);
-    const updateTime = new Date(jsonData.last_time);
-    console.log(updateTime);
+    const updateTime = new Date();
     const timeString = updateTime.toLocaleString();
     const totalBytes = jsonData.bytes_total;
     const inTraffic = jsonData.bytes_sent;
