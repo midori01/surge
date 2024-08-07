@@ -69,10 +69,18 @@ function getSTUNIP() {
 
     pc.onicecandidate = (ice) => {
       if (ice && ice.candidate && ice.candidate.candidate) {
-        const ipPortRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3})\s(\d+)/;
-        const ipPortMatch = ipPortRegex.exec(ice.candidate.candidate);
+        const candidate = ice.candidate.candidate;
+        const ipPortV4Regex = /candidate:\d+\s\d+\sudp\s\d+\s([0-9]{1,3}(\.[0-9]{1,3}){3})\s(\d+)/i;
+        const ipPortV6Regex = /candidate:\d+\s\d+\sudp\s\d+\s([a-fA-F0-9:.]+)\s(\d+)/i;
+
+        let ipPortMatch = ipPortV4Regex.exec(candidate) || ipPortV6Regex.exec(candidate);
+        
         if (ipPortMatch) {
-          const [_, ip, , port] = ipPortMatch;
+          let ip = ipPortMatch[1];
+          const port = ipPortMatch[3] || ipPortMatch[2];
+          if (ip.includes(':')) {
+            ip = `[${ip}]`;
+          }
           resolve({ ip, port });
           pc.close();
         }
