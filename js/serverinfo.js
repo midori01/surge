@@ -21,7 +21,7 @@
       content: `[Usage] CPU ${cpuUsage} | MEM ${memUsage}\n` +
         `[Traffic] RX ${bytesToSize(outTraffic)} | TX ${bytesToSize(inTraffic)}\n` +
         `[Uptime] ${uptime}\n` +
-        `[Update] ${timeString}`
+        `[Timestamp] ${timeString}`
     };
 
     $done(panel);
