@@ -169,7 +169,10 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
           location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, PRC`;
         }
       } else if (ipApiInfo.countryCode === 'JP') {
-        location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, ${ipApiInfo.country}`;
+        if (ipApiInfo.regionName === 'Tokyo' && ipApiInfo.city === 'Tokyo') {
+          location = `${ipApiInfo.regionName}, ${ipApiInfo.country}`;
+        } else {
+          location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, ${ipApiInfo.country}`;
       } else if (ipApiInfo.countryCode === 'US') {
         location = `${ipApiInfo.city}, ${ipApiInfo.region}, USA`;
       } else if (ipApiInfo.countryCode === 'CA') {
