@@ -72,9 +72,7 @@ function getSTUNIP() {
         const candidate = ice.candidate.candidate;
         const ipPortV4Regex = /candidate:\d+\s\d+\sudp\s\d+\s([0-9]{1,3}(\.[0-9]{1,3}){3})\s(\d+)/i;
         const ipPortV6Regex = /candidate:\d+\s\d+\sudp\s\d+\s([a-fA-F0-9:.]+)\s(\d+)/i;
-
         let ipPortMatch = ipPortV4Regex.exec(candidate) || ipPortV6Regex.exec(candidate);
-        
         if (ipPortMatch) {
           let ip = ipPortMatch[1];
           const port = ipPortMatch[3] || ipPortMatch[2];
@@ -90,7 +88,7 @@ function getSTUNIP() {
     setTimeout(() => {
       resolve({ ip: '', port: '' });
       pc.close();
-    }, 2000);
+    }, 3000);
   });
 }
 
@@ -150,9 +148,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
 
       const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
-      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country
-        ? `${dnsApiInfo.ip} - Safe`
-        : `${dnsApiInfo.ip} - Leak`;
+      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `${dnsApiInfo.ip} - Safe` : `${dnsApiInfo.ip} - Leak`;
 
       const stunInfo = stunResult.ip ? `${stunResult.ip}:${stunResult.port}` : 'N/A (STUN Timeout)';
       const hostname = await resolveHostname(ipApiInfo.query);
