@@ -88,7 +88,7 @@ function getSTUNIP() {
     setTimeout(() => {
       resolve({ ip: '', port: '' });
       pc.close();
-    }, 3000);
+    }, 1000);
   });
 }
 
