@@ -173,6 +173,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
           location = `${ipApiInfo.regionName}, ${ipApiInfo.country}`;
         } else {
           location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, ${ipApiInfo.country}`;
+        }
       } else if (ipApiInfo.countryCode === 'US') {
         location = `${ipApiInfo.city}, ${ipApiInfo.region}, USA`;
       } else if (ipApiInfo.countryCode === 'CA') {
