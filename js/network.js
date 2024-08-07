@@ -150,13 +150,6 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const hostname = await resolveHostname(ipApiInfo.query);
       const timestamp = getCurrentTimestamp();
 
-      let isp;
-      if (ipApiInfo.asname === 'CLOUDFLARENET') {
-        isp = `AS13335 Cloudflare Warp`;
-      } else {
-        isp = `${ipApiInfo.as}`;
-      }
-
       let location;
       if (ipApiInfo.countryCode === 'GB') {
         location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, UK`;
@@ -195,7 +188,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[PTR] ${hostname}\n[ISP] ${isp}\n[Location] ${location}\n[WebRTC] ${stunInfo}\n[DNS Leak] ${dnsLeakInfo}\n[Timestamp] ${timestamp}`,
+        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[PTR] ${hostname}\n[ISP] ${ipApiInfo.as}\n[Location] ${location}\n[WebRTC] ${stunInfo}\n[DNS Leak] ${dnsLeakInfo}\n[Timestamp] ${timestamp}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
