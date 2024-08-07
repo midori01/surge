@@ -5,6 +5,7 @@ import socketserver
 import json
 import time
 import psutil
+import socket
 from datetime import datetime
 
 class RequestHandler(http.server.BaseHTTPRequestHandler):
@@ -22,8 +23,10 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
         utc_timestamp = int(time.time())
         uptime = int(time.time() - psutil.boot_time())
         last_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        hostname = socket.gethostname()
         
         response_dict = {
+            "hostname": hostname,
             "utc_timestamp": utc_timestamp,
             "uptime": uptime,
             "cpu_usage": cpu_usage,
