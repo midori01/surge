@@ -5,7 +5,7 @@
 AND,((IP-CIDR,127.0.0.1/32,no-resolve), (DEST-PORT,7122), (PROTOCOL,HTTP)),PROXY
 
 [Script]
-serverinfo = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.js,argument=url=http://127.0.0.1:7122,script-update-interval=0
+serverinfo = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.js,script-update-interval=0
 
 [Panel]
 serverinfo = script-name=serverinfo,update-interval=1
