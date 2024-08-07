@@ -151,7 +151,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
       const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country
-        ? `${dnsApiInfo.ip} - Normal`
+        ? `${dnsApiInfo.ip} - Safe`
         : `${dnsApiInfo.ip} - Leak`;
 
       const stunInfo = stunResult.ip ? `${stunResult.ip}:${stunResult.port}` : 'N/A (STUN Timeout)';
