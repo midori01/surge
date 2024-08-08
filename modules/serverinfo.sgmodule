@@ -1,8 +1,9 @@
 #!name=Serverinfo
 #!desc=Show Server Information.
+#!arguments=Policy:PROXY
 
 [Rule]
-AND,((IP-CIDR,127.0.0.1/32,no-resolve), (DEST-PORT,7122), (PROTOCOL,HTTP)),PROXY
+AND,((IP-CIDR,127.0.0.1/32,no-resolve), (DEST-PORT,7122), (PROTOCOL,HTTP)),{{{Policy}}}
 
 [Script]
 serverinfo = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.js,script-update-interval=0
