@@ -138,3 +138,4 @@ DOMAIN-SUFFIX,yundasys.com
 DOMAIN-SUFFIX,zt-express.com
 DOMAIN-SUFFIX,zto.com
 DOMAIN-SUFFIX,cn
+GEOIP,CN,no-resolve
