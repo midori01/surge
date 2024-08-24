@@ -1,7 +1,7 @@
 let args = getArgs();
 
 (async () => {
-  let info = await getDataInfo(encodeURI(args.url));
+  let info = await getDataInfo(args.url);
   if (!info) $done();
   
   let resetDayLeft = getRemainingDays(parseInt(args["reset_day"]));
@@ -32,11 +32,7 @@ let args = getArgs();
 })();
 
 function getArgs() {
-  let rawArgs = Object.fromEntries(new URLSearchParams($argument));
-  if (rawArgs.url) {
-    rawArgs.url = decodeURIComponent(rawArgs.url);
-  }
-  return rawArgs;
+  return Object.fromEntries(new URLSearchParams($argument));
 }
 
 function getUserInfo(url) {
