@@ -1,0 +1,9 @@
+#!name=Subinfo
+#!desc=Show Subscription Information.
+#!arguments=SubURL:,Title:
+
+[Script]
+subinfo = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/subinfo.js,script-update-interval=0,argument=reset_day=1&url={{{SubURL}}}&title={{{Title}}}
+
+[Panel]
+subinfo = script-name=subinfo,update-interval=1
