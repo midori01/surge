@@ -118,9 +118,7 @@ async function resolveHostname(ip) {
 
 async function fetchNetworkData() {
   const [ipApiResponse, dnsApiResponse, stunResult] = await Promise.all([
-    httpMethod.get('http://208.95.112.1/json', {
-      headers: { Host: 'ip-api.com' }
-    }),
+    httpMethod.get('http://208.95.112.1/json'),
     httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`),
     Promise.race([
       getSTUNIP(),
