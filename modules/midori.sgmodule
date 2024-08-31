@@ -1,5 +1,5 @@
 #!name=Midori
-#!desc=Dedicated Module
+#!desc=Dedicated module, do not install.
 
 [Script]
 netinfo = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/network.js,script-update-interval=0
