@@ -1,6 +1,6 @@
 #!name=Override
 #!desc=The Module for Overriding iRingo.
-#!arguments=GeoCountryCode:JP,CountryCode:JP,GeoManifest.default:CN,GeoManifest.watchOS:JP,Dispatcher:AutoNavi,Directions:AutoNavi,RAP:Apple,LocationShift:AUTO,TileSet.Map:CN,TileSet.Satellite:XX,TileSet.Traffic:CN,TileSet.POI:CN,TileSet.Flyover:XX,TileSet.Munin:XX
+#!arguments=GeoCountryCode:JP,CountryCode:JP,GeoManifest.default:JP,GeoManifest.watchOS:JP,Dispatcher:AutoNavi,Directions:AutoNavi,RAP:Apple,LocationShift:AUTO,TileSet.Map:CN,TileSet.Satellite:XX,TileSet.Traffic:CN,TileSet.POI:CN,TileSet.Flyover:XX,TileSet.Munin:XX
 
 [Script]
 siri.request = type=http-request, pattern=^https?:\/\/api(.*)\.smoot\.apple\.(com|cn)\/(bag|search|flight), requires-body=0, engine=webview, script-path=https://raw.githubusercontent.com/midori01/surge/main/js/siri.request.js, argument=CountryCode={{{CountryCode}}}
