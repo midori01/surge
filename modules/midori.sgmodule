@@ -3,13 +3,11 @@
 #!arguments=URL1:http://10.152.0.4:7122,URL2:http://10.152.0.5:7122,URL3:http://10.152.0.13:7122
 
 [Script]
-netinfo.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/network.js,script-update-interval=0
 server1.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.js,script-update-interval=0,argument=url={{{URL1}}}
 server2.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.js,script-update-interval=0,argument=url={{{URL2}}}
 server3.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.js,script-update-interval=0,argument=url={{{URL3}}}
 
 [Panel]
-netinfo = script-name=netinfo.js,update-interval=1
 server1 = script-name=server1.js,update-interval=1
 server2 = script-name=server2.js,update-interval=1
 server3 = script-name=server3.js,update-interval=1
