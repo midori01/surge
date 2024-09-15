@@ -2,7 +2,7 @@
 #!desc=Show Network Information.
 
 [Script]
-netinfo.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/network.js,script-update-interval=0
+netinfo.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/netinfo.js,script-update-interval=0
 
 [Panel]
 netinfo = script-name=netinfo.js,update-interval=1
