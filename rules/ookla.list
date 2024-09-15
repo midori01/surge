@@ -1,1 +1,0 @@
-OR,((DOMAIN,www.speedtest.net,extended-matching), (AND,((PROTOCOL,TCP), (DEST-PORT,8080), (OR,((DOMAIN-KEYWORD,ookla,extended-matching), (DOMAIN-KEYWORD,server,extended-matching), (DOMAIN-KEYWORD,speed,extended-matching), (DOMAIN-KEYWORD,test,extended-matching), (DOMAIN-KEYWORD,verizon,extended-matching))))))
