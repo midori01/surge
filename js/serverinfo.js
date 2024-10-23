@@ -38,11 +38,8 @@
 })();
 
 function httpAPI(path) {
-  const headers = {
-    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Mobile/15E148 Safari/604.1'
-  };
   return new Promise((resolve, reject) => {
-    $httpClient.get({ url: path, headers }, (err, resp, body) => {
+    $httpClient.get({ url: path }, (err, resp, body) => {
       if (err) {
         reject(err);
       } else {
