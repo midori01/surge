@@ -1,5 +1,6 @@
-#!name=Midori
+#!name=Server Status
 #!desc=Dedicated module, do not install.
+#!category=Remote
 #!arguments=URL1:http://10.152.0.4:7122,URL2:http://10.152.0.5:7122,URL3:http://10.152.0.13:7122
 
 [Script]
