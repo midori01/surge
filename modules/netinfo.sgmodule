@@ -1,5 +1,6 @@
 #!name=Netinfo
 #!desc=Show Network Information.
+#!category=Remote
 
 [Script]
 netinfo.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/netinfo.js,script-update-interval=0
