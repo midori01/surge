@@ -16,7 +16,7 @@
     const hostname = jsonData.hostname;
 
     const panel = {
-      title: params.name || `Server Status | ${hostname}`,
+      title: params.name || `Serverinfo | ${hostname}`,
       icon: params.icon || 'aqi.medium',
       "icon-color": getColorBasedOnMemUsage(parseInt(jsonData.mem_usage)),
       content: `[Usage] CPU ${cpuUsage} | MEM ${memUsage}\n` +
