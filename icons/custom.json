@@ -440,6 +440,10 @@
     {
       "name": "CN Flag",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/flag_cn.png"
+    },
+    {
+      "name": "Surgay",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/surgay.png"
     }
   ]
 }
