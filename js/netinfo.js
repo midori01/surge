@@ -192,7 +192,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}[Outbound] ${ipApiInfo.query}\n[PTR] ${hostname}\n[ISP] ${ipApiInfo.as}\n[Location] ${location}\n[WebRTC] ${stunInfo}\n[DNS Info] ${dnsLeakInfo}\n[Timestamp] ${timestamp}`,
+        content: `${getIP()}Egress: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nLocation: ${location}\nWebRTC: ${stunInfo}\nDNS: ${dnsLeakInfo}\nTime: ${timestamp}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
