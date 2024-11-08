@@ -78,7 +78,7 @@ async function resolveHostname(ip) {
   } catch (error) {
     console.error('Error resolving hostname:', error);
   }
-  return 'Reverse DNS Not Found';
+  return 'N/A';
 }
 
 async function fetchNetworkData() {
@@ -106,7 +106,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const ipApiInfo = JSON.parse(ipApiResponse.data);
       const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
       const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
-      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `No DNS Leaks` : `${dnsApiInfo.geo}`;
+      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `Congratulations! No Leak` : `${dnsApiInfo.geo}`;
       const hostname = await resolveHostname(ipApiInfo.query);
 
       let location;
@@ -147,7 +147,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       $done({
         title: getSSID() ? `${getSSID()}` : getCellularInfo(),
-        content: `IP Address: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nLocation: ${location}\nDNS Leaks: ${dnsLeakInfo}`,
+        content: `IP Address: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nLocation: ${location}\nDNS Leak: ${dnsLeakInfo}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
