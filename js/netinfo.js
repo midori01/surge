@@ -26,7 +26,7 @@ function randomString32() {
 }
 
 function getProtocolType() {
-  return $network.v6?.primaryAddress ? '[Dual Stack]' : '[Single Stack]';
+  return $network.v6?.primaryAddress ? 'Dual-Stack' : 'Single-Stack';
 }
 
 function getCellularInfo() {
@@ -59,7 +59,7 @@ function getSSID() {
 
 function getIP() {
   const { v4, v6 } = $network;
-  const internalIP = v4?.primaryAddress ? `Private: ${v4.primaryAddress}` : '';
+  const internalIP = v4?.primaryAddress ? `Internal: ${v4.primaryAddress}` : '';
   return `${!v4 && !v6 ? 'Network Error' : `${internalIP}`}\n`;
 }
 
@@ -156,7 +156,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}Public: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nGEO: ${location}\nDNS: ${dnsLeakInfo}\nTime: ${timestamp}`,
+        content: `${getIP()}Internet: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nGEO: ${location}\nDNS: ${dnsLeakInfo}\nTime: ${timestamp}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
