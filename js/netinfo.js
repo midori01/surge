@@ -25,6 +25,10 @@ function randomString32() {
   return Array.from({ length: 32 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
 }
 
+function getProtocolType() {
+  return $network.v6?.primaryAddress ? '[Dual Stack]' : '[Single Stack]';
+}
+
 function getCellularInfo() {
   const radioGeneration = {
     'GPRS': '2.5G',
@@ -44,19 +48,19 @@ function getCellularInfo() {
 
   const radio = $network['cellular-data']?.radio;
   return $network['cellular-data'] && !$network.wifi?.ssid && radio
-    ? `Cellular | ${radioGeneration[radio]} - ${radio}`
+    ? `Cellular | ${radioGeneration[radio]} - ${radio} | ${getProtocolType()}`
     : '';
 }
 
 function getSSID() {
-  return $network.wifi?.ssid || '';
+  const ssid = $network.wifi?.ssid || '';
+  return ssid ? `${ssid} | ${getProtocolType()}` : '';
 }
 
 function getIP() {
   const { v4, v6 } = $network;
-  const protocol = v6?.primaryAddress ? 'Protocol: IPv4/v6 [Dual Stack]' : 'Protocol: IPv4 [Single Stack]';
   const internalIP = v4?.primaryAddress ? `Private: ${v4.primaryAddress}` : '';
-  return `${!v4 && !v6 ? 'Network Error' : `${protocol}\n${internalIP}`}\n`;
+  return `${!v4 && !v6 ? 'Network Error' : `${internalIP}`}\n`;
 }
 
 function getSTUNIP() {
