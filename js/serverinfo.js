@@ -5,24 +5,23 @@
     const stats = await httpAPI(url);
     const jsonData = JSON.parse(stats.body);
     const updateTime = new Date();
-    const timeString = updateTime.toLocaleString();
-    const totalBytes = jsonData.bytes_total;
-    const inTraffic = jsonData.bytes_sent;
-    const outTraffic = jsonData.bytes_recv;
+    const hours = updateTime.getHours().toString().padStart(2, '0');
+    const minutes = updateTime.getMinutes().toString().padStart(2, '0');
+    const timeString = `${hours}:${minutes}`;
+    const totalBytes = jsonData.bytes_total || 0;
+    const inTraffic = jsonData.bytes_sent || 0;
+    const outTraffic = jsonData.bytes_recv || 0;
+    const cpuUsage = `${jsonData.cpu_usage || 0}%`;
+    const memUsage = `${jsonData.mem_usage || 0}%`;
     const trafficSize = bytesToSize(totalBytes);
-    const cpuUsage = `${jsonData.cpu_usage}%`;
-    const memUsage = `${jsonData.mem_usage}%`;
     const uptime = formatUptime(jsonData.uptime);
     const hostname = jsonData.hostname;
 
     const panel = {
-      title: params.name || `Serverinfo | ${hostname}`,
+      title: params.name || `${hostname} | ${timeString}`,
       icon: params.icon || 'aqi.medium',
       "icon-color": getColorBasedOnMemUsage(parseInt(jsonData.mem_usage)),
-      content: `[Usage] CPU ${cpuUsage} | MEM ${memUsage}\n` +
-        `[Traffic] RX ${bytesToSize(outTraffic)} | TX ${bytesToSize(inTraffic)}\n` +
-        `[Uptime] ${uptime}\n` +
-        `[Time] ${timeString}`
+      content: `Usage: CPU ${cpuUsage} | MEM ${memUsage}\nTraffic: RX ${bytesToSize(outTraffic)} | TX ${bytesToSize(inTraffic)}\nUptime: ${uptime}`
     };
 
     $done(panel);
