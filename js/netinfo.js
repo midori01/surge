@@ -53,19 +53,13 @@ function getCellularInfo() {
 
   const radio = $network['cellular-data']?.radio;
   return $network['cellular-data'] && !$network.wifi?.ssid && radio
-    ? `${radioGeneration[radio]} ${radio} ${getProtocolType()} ${getCurrentTimestamp()}`
+    ? `${radioGeneration[radio]} ${radio} | ${getProtocolType()} | ${getCurrentTimestamp()}`
     : '';
 }
 
 function getSSID() {
   const ssid = $network.wifi?.ssid || '';
-  return ssid ? `${ssid} ${getProtocolType()} ${getCurrentTimestamp()}` : '';
-}
-
-function getIP() {
-  const { v4, v6 } = $network;
-  const internalIP = v4?.primaryAddress ? `Internal: ${v4.primaryAddress}` : '';
-  return `${!v4 && !v6 ? 'Network Error' : `${internalIP}`}\n`;
+  return ssid ? `${ssid} | ${getProtocolType()} | ${getCurrentTimestamp()}` : '';
 }
 
 async function resolveHostname(ip) {
@@ -153,7 +147,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       $done({
         title: getSSID() ? `${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}Internet: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nArea: ${location}\nDNS Leaks: ${dnsLeakInfo}`,
+        content: `IP Address: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nLocation: ${location}\nDNS Leaks: ${dnsLeakInfo}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
