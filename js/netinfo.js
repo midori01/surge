@@ -48,7 +48,7 @@ function getCellularInfo() {
 
   const radio = $network['cellular-data']?.radio;
   return $network['cellular-data'] && !$network.wifi?.ssid && radio
-    ? `Cellular | ${radioGeneration[radio]} - ${radio} | ${getProtocolType()}`
+    ? `Cellular | ${radioGeneration[radio]} ${radio} | ${getProtocolType()}`
     : '';
 }
 
@@ -156,7 +156,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}Internet: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nGEO: ${location}\nDNS: ${dnsLeakInfo}\nTime: ${timestamp}`,
+        content: `${getIP()}Internet: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nArea: ${location}\nDNS: ${dnsLeakInfo}\nTime: ${timestamp}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
