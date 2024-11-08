@@ -25,6 +25,11 @@ function randomString32() {
   return Array.from({ length: 32 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
 }
 
+function getCurrentTimestamp() {
+  const now = new Date();
+  return now.toTimeString().slice(0, 5);
+}
+
 function getProtocolType() {
   return $network.v6?.primaryAddress ? 'Dual-Stack' : 'Single-Stack';
 }
@@ -48,24 +53,19 @@ function getCellularInfo() {
 
   const radio = $network['cellular-data']?.radio;
   return $network['cellular-data'] && !$network.wifi?.ssid && radio
-    ? `Cellular | ${radioGeneration[radio]} ${radio} | ${getProtocolType()}`
+    ? `${radioGeneration[radio]} ${radio} ${getProtocolType()} ${getCurrentTimestamp()}`
     : '';
 }
 
 function getSSID() {
   const ssid = $network.wifi?.ssid || '';
-  return ssid ? `${ssid} | ${getProtocolType()}` : '';
+  return ssid ? `${ssid} ${getProtocolType()} ${getCurrentTimestamp()}` : '';
 }
 
 function getIP() {
   const { v4, v6 } = $network;
   const internalIP = v4?.primaryAddress ? `Internal: ${v4.primaryAddress}` : '';
   return `${!v4 && !v6 ? 'Network Error' : `${internalIP}`}\n`;
-}
-
-function getCurrentTimestamp() {
-  const now = new Date();
-  return `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
 }
 
 async function resolveHostname(ip) {
@@ -111,12 +111,9 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       const ipApiInfo = JSON.parse(ipApiResponse.data);
       const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
-
       const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
-      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `${dnsApiInfo.ip}\nLeak: No DNS Leaks` : `${dnsApiInfo.ip}\nLeak: ${dnsApiInfo.geo}`;
-
+      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `No DNS Leaks` : `${dnsApiInfo.geo}`;
       const hostname = await resolveHostname(ipApiInfo.query);
-      const timestamp = getCurrentTimestamp();
 
       let location;
       if (ipApiInfo.countryCode === 'GB') {
@@ -155,8 +152,8 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       }
 
       $done({
-        title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}Internet: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nArea: ${location}\nDNS: ${dnsLeakInfo}\nTime: ${timestamp}`,
+        title: getSSID() ? `${getSSID()}` : getCellularInfo(),
+        content: `${getIP()}Internet: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nArea: ${location}\nDNS Leaks: ${dnsLeakInfo}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
