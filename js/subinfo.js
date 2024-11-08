@@ -4,27 +4,30 @@ let args = getArgs();
   let info = await getDataInfo(args.url);
   if (!info) $done();
   
-  let resetDayLeft = getRemainingDays(parseInt(args["reset_day"]));
-
+  let resetDayLeft = getRemainingDays();
   let used = info.download + info.upload;
   let total = info.total;
   let expire = args.expire || info.expire;
-  let content = [`[Usage] ${bytesToSize(used)} | ${bytesToSize(total)}`];
+  let content = [`Usage: ${bytesToSize(used)} | ${bytesToSize(total)}`];
 
-  if (resetDayLeft) {
-    content.push(`[Reset] ${resetDayLeft} days later`);
+  if (resetDayLeft > 0) {
+    content.push(`Reset: ${resetDayLeft} days later`);
+  } else {
+    content.push("Reset: Today");
   }
+
   if (expire && expire !== "false") {
     if (/^[\d.]+$/.test(expire)) expire *= 1000;
-    content.push(`[Expire] ${formatTime(expire)}`);
+    content.push(`Expire: ${formatTime(expire)}`);
   }
 
   let now = new Date();
   let hour = now.getHours().toString().padStart(2, '0');
   let minutes = now.getMinutes().toString().padStart(2, '0');
+  let currentTime = `${hour}:${minutes}`;
 
   $done({
-    title: args.title || 'LIBER',
+    title: `${args.title || 'LIBER'} | ${currentTime}`,
     content: content.join("\n"),
     icon: args.icon || "airplane.circle",
     "icon-color": args.color || "#FAC858",
@@ -72,15 +75,16 @@ async function getDataInfo(url) {
   );
 }
 
-function getRemainingDays(resetDay) {
-  if (!resetDay) return;
-
+function getRemainingDays() {
   let now = new Date();
   let today = now.getDate();
+  let resetDay = 1;
   let daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
   
-  return resetDay > today
+  return today < resetDay
     ? resetDay - today
+    : today === resetDay
+    ? 0
     : daysInMonth - today + resetDay;
 }
 
