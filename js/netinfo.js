@@ -106,7 +106,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const ipApiInfo = JSON.parse(ipApiResponse.data);
       const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
       const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
-      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `Congratulations! No Leak` : `${dnsApiInfo.geo}`;
+      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `Congratulations! No Leak.` : `${dnsApiInfo.geo}`;
       const hostname = await resolveHostname(ipApiInfo.query);
 
       let location;
