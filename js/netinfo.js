@@ -63,39 +63,6 @@ function getIP() {
   return `${!v4 && !v6 ? 'Network Error' : `${internalIP}`}\n`;
 }
 
-function getSTUNIP() {
-  return new Promise((resolve) => {
-    const pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
-    pc.createDataChannel('');
-    pc.createOffer()
-      .then(offer => pc.setLocalDescription(offer))
-      .catch(() => resolve({ ip: '', port: '' }));
-
-    pc.onicecandidate = (ice) => {
-      if (ice && ice.candidate && ice.candidate.candidate) {
-        const candidate = ice.candidate.candidate;
-        const ipPortV4Regex = /candidate:\d+\s\d+\sudp\s\d+\s([0-9]{1,3}(\.[0-9]{1,3}){3})\s(\d+)/i;
-        const ipPortV6Regex = /candidate:\d+\s\d+\sudp\s\d+\s([a-fA-F0-9:.]+)\s(\d+)/i;
-        let ipPortMatch = ipPortV4Regex.exec(candidate) || ipPortV6Regex.exec(candidate);
-        if (ipPortMatch) {
-          let ip = ipPortMatch[1];
-          const port = ipPortMatch[3] || ipPortMatch[2];
-          if (ip.includes(':')) {
-            ip = `[${ip}]`;
-          }
-          resolve({ ip, port });
-          pc.close();
-        }
-      }
-    };
-
-    setTimeout(() => {
-      resolve({ ip: '', port: '' });
-      pc.close();
-    }, 1000);
-  });
-}
-
 function getCurrentTimestamp() {
   const now = new Date();
   return `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
@@ -121,16 +88,10 @@ async function resolveHostname(ip) {
 }
 
 async function fetchNetworkData() {
-  const [ipApiResponse, dnsApiResponse, stunResult] = await Promise.all([
-    httpMethod.get('http://208.95.112.1/json'),
-    httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`),
-    Promise.race([
-      getSTUNIP(),
-      new Promise(resolve => setTimeout(() => resolve({ ip: '', port: '' }), 1000))
-    ])
-  ]);
+  const ipApiResponse = await httpMethod.get('http://208.95.112.1/json');
+  const dnsApiResponse = await httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`);
 
-  return { ipApiResponse, dnsApiResponse, stunResult };
+  return { ipApiResponse, dnsApiResponse };
 }
 
 async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
@@ -143,7 +104,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
   while (retryTimes > 0) {
     try {
-      const { ipApiResponse, dnsApiResponse, stunResult } = await fetchNetworkData();
+      const { ipApiResponse, dnsApiResponse } = await fetchNetworkData();
 
       checkStatus(ipApiResponse);
       checkStatus(dnsApiResponse);
@@ -154,7 +115,6 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
       const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `${dnsApiInfo.ip}\nLeak: No DNS Leaks` : `${dnsApiInfo.ip}\nLeak: ${dnsApiInfo.geo}`;
 
-      const stunInfo = stunResult.ip ? `${stunResult.ip}:${stunResult.port}` : 'N/A [STUN Timeout]';
       const hostname = await resolveHostname(ipApiInfo.query);
       const timestamp = getCurrentTimestamp();
 
@@ -196,7 +156,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}Public: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nGEO: ${location}\nRTC: ${stunInfo}\nDNS: ${dnsLeakInfo}\nTime: ${timestamp}`,
+        content: `${getIP()}Public: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nGEO: ${location}\nDNS: ${dnsLeakInfo}\nTime: ${timestamp}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
