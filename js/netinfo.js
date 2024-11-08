@@ -54,7 +54,7 @@ function getSSID() {
 
 function getIP() {
   const { v4, v6 } = $network;
-  const protocol = v6?.primaryAddress ? 'Protocol: IPv4/v6 (Dual Stack)' : 'Protocol: IPv4 (Single Stack)';
+  const protocol = v6?.primaryAddress ? 'Protocol: IPv4/v6 [Dual Stack]' : 'Protocol: IPv4 [Single Stack]';
   const internalIP = v4?.primaryAddress ? `Private: ${v4.primaryAddress}` : '';
   return `${!v4 && !v6 ? 'Network Error' : `${protocol}\n${internalIP}`}\n`;
 }
