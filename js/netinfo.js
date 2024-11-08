@@ -54,8 +54,8 @@ function getSSID() {
 
 function getIP() {
   const { v4, v6 } = $network;
-  const protocol = v6?.primaryAddress ? '[IP Version] IPv4/v6 (Dual Stack)' : '[IP Version] IPv4 (Single Stack)';
-  const internalIP = v4?.primaryAddress ? `[Internal IP] ${v4.primaryAddress}` : '';
+  const protocol = v6?.primaryAddress ? 'Protocol: IPv4/v6 (Dual Stack)' : 'Protocol: IPv4 (Single Stack)';
+  const internalIP = v4?.primaryAddress ? `Private: ${v4.primaryAddress}` : '';
   return `${!v4 && !v6 ? 'Network Error' : `${protocol}\n${internalIP}`}\n`;
 }
 
@@ -148,9 +148,9 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
 
       const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
-      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `${dnsApiInfo.ip} Regular` : `${dnsApiInfo.ip} Leak - ${dnsApiInfo.geo}`;
+      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `${dnsApiInfo.ip}\nLeak: No DNS Leaks` : `${dnsApiInfo.ip}\nLeak: ${dnsApiInfo.geo}`;
 
-      const stunInfo = stunResult.ip ? `${stunResult.ip}:${stunResult.port}` : 'N/A (STUN Timeout)';
+      const stunInfo = stunResult.ip ? `${stunResult.ip}:${stunResult.port}` : 'N/A [STUN Timeout]';
       const hostname = await resolveHostname(ipApiInfo.query);
       const timestamp = getCurrentTimestamp();
 
@@ -192,7 +192,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
 
       $done({
         title: getSSID() ? `Wi-Fi | ${getSSID()}` : getCellularInfo(),
-        content: `${getIP()}Egress: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nLocation: ${location}\nWebRTC: ${stunInfo}\nDNS: ${dnsLeakInfo}\nTime: ${timestamp}`,
+        content: `${getIP()}Public: ${ipApiInfo.query}\nPTR: ${hostname}\nISP: ${ipApiInfo.as}\nGEO: ${location}\nRTC: ${stunInfo}\nDNS: ${dnsLeakInfo}\nTime: ${timestamp}`,
         icon: getSSID() ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
