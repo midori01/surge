@@ -118,8 +118,8 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       );
       const dnsLeakInfo = matchedKey
         ? dnsGeoMap[matchedKey]
-        : (dnsApiInfo.geo.split(' - ')[0] === ipApiInfo.country ? `Congratulations! Unleak` : `${dnsApiInfo.geo}`);
-
+        : (dnsApiInfo.geo.toLowerCase().includes(ipApiInfo.country.toLowerCase()) ? `Congratulations! Unleak` : `${dnsApiInfo.geo}`);
+  
       let location;
       if (ipApiInfo.countryCode === 'GB') {
         location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, UK`;
