@@ -113,14 +113,16 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const ipApiInfo = JSON.parse(ipApiResponse.data);
       const hostname = await resolveHostname(ipApiInfo.query);
       const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
-      const geoCountry = dnsApiInfo.geo.split(' - ')[0].toLowerCase();
-      const ipCountry = ipApiInfo.country.toLowerCase();
-      const matchedKey = Object.keys(dnsGeoMap).find(key => 
-        dnsApiInfo.geo.toLowerCase().includes(key.toLowerCase())
-      );
-      const dnsLeakInfo = geoCountry === ipCountry
-        ? "Congratulations! Unleak"
-        : (matchedKey ? dnsGeoMap[matchedKey] : dnsApiInfo.geo);
+      const geoCountry = dnsApiInfo.geo.split(' - ')[0].trim().toLowerCase();
+      const ipCountry = ipApiInfo.country.trim().toLowerCase();
+
+      let dnsLeakInfo;
+      if (geoCountry === ipCountry) {
+        dnsLeakInfo = "Congratulations! Unleak";
+      } else {
+        const matchedKey = Object.keys(dnsGeoMap).find(key => dnsApiInfo.geo.toLowerCase().includes(key.toLowerCase()));
+        dnsLeakInfo = matchedKey ? dnsGeoMap[matchedKey] : dnsApiInfo.geo;
+      }
 
       let location;
       if (ipApiInfo.countryCode === 'GB') {
@@ -135,13 +137,17 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         const isTaipei = /Taipei/.test(ipApiInfo.regionName) || /Taipei/.test(ipApiInfo.city);
         location = isTaipei ? `Taipei, ROC (${ipApiInfo.country})` : `${ipApiInfo.city}, ROC (${ipApiInfo.country})`;
       } else if (ipApiInfo.countryCode === 'CN') {
-        location = ['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(ipApiInfo.regionName)
-          ? `${ipApiInfo.regionName}, P.R. China`
-          : `${ipApiInfo.city}, ${ipApiInfo.regionName}, PRC`;
+        if (['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(ipApiInfo.regionName)) {
+          location = `${ipApiInfo.regionName}, P.R. China`;
+        } else {
+          location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, PRC`;
+        }
       } else if (ipApiInfo.countryCode === 'JP') {
-        location = (ipApiInfo.regionName === 'Tokyo' && ipApiInfo.city === 'Tokyo')
-          ? `${ipApiInfo.regionName}, ${ipApiInfo.country}`
-          : `${ipApiInfo.city}, ${ipApiInfo.regionName}, ${ipApiInfo.country}`;
+        if (ipApiInfo.regionName === 'Tokyo' && ipApiInfo.city === 'Tokyo') {
+          location = `${ipApiInfo.regionName}, ${ipApiInfo.country}`;
+        } else {
+          location = `${ipApiInfo.city}, ${ipApiInfo.regionName}, ${ipApiInfo.country}`;
+        }
       } else if (ipApiInfo.countryCode === 'US') {
         location = `${ipApiInfo.city}, ${ipApiInfo.region}, USA`;
       } else if (ipApiInfo.countryCode === 'CA') {
@@ -151,7 +157,11 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       } else if (['SG', 'VA', 'MC', 'GI'].includes(ipApiInfo.countryCode)) {
         location = `${ipApiInfo.country} (${ipApiInfo.countryCode})`;
       } else if (ipApiInfo.countryCode === 'KR') {
-        location = ipApiInfo.city.includes('-') ? `${ipApiInfo.city.split('-')[0]}, ${ipApiInfo.country}` : `${ipApiInfo.city}, ${ipApiInfo.country}`;
+        let city = ipApiInfo.city;
+        if (city.includes('-')) {
+          city = city.split('-')[0];
+        }
+        location = `${city}, ${ipApiInfo.country}`;
       } else {
         location = `${ipApiInfo.city}, ${ipApiInfo.country}`;
       }
