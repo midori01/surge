@@ -103,6 +103,8 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
     "BIGLOBE": "Japan - BIGLOBE Inc.",
     "So-net": "Japan - So-net Corp.",
     "Sony Network": "Japan - So-net Corp.",
+    "Japan - Oracle": "Japan - Oracle Cloud",
+    "South Korea - Oracle": "South Korea - Oracle",
     "China Mobile": "China - China Mobile",
     "China Unicom": "China - China Unicom",
     "China Telecom": "China - China Telecom"
