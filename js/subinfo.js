@@ -4,21 +4,14 @@ let args = getArgs();
   let info = await getDataInfo(args.url);
   if (!info) $done();
   
-  let resetDayLeft = getRemainingDays();
   let used = info.download + info.upload;
   let total = info.total;
   let expire = args.expire || info.expire;
   let content = [`Usage: ${bytesToSize(used)} | ${bytesToSize(total)}`];
 
-  if (resetDayLeft > 0) {
-    content.push(`Reset: ${resetDayLeft} days later`);
-  } else {
-    content.push("Reset: Today");
-  }
-
   if (expire && expire !== "false") {
     if (/^[\d.]+$/.test(expire)) expire *= 1000;
-    content.push(`Expire: ${formatTime(expire)}`);
+    content.push(`Expire: ${formatDate(expire)}`);
   }
 
   let now = new Date();
@@ -27,7 +20,7 @@ let args = getArgs();
   let currentTime = `${hour}:${minutes}`;
 
   $done({
-    title: `${args.title || 'LIBER'} | ${currentTime}`,
+    title: `LIBER | ${currentTime}`,
     content: content.join("\n"),
     icon: args.icon || "airplane.circle",
     "icon-color": args.color || "#FAC858",
@@ -75,19 +68,6 @@ async function getDataInfo(url) {
   );
 }
 
-function getRemainingDays() {
-  let now = new Date();
-  let today = now.getDate();
-  let resetDay = 1;
-  let daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-  
-  return today < resetDay
-    ? resetDay - today
-    : today === resetDay
-    ? 0
-    : daysInMonth - today + resetDay;
-}
-
 function bytesToSize(bytes) {
   if (bytes === 0) return "0";
   const sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
@@ -95,6 +75,10 @@ function bytesToSize(bytes) {
   return (bytes / Math.pow(1024, i)).toFixed(2) + " " + sizes[i];
 }
 
-function formatTime(time) {
-  return new Date(time).toLocaleDateString();
+function formatDate(time) {
+  let date = new Date(time);
+  let year = date.getFullYear();
+  let month = (date.getMonth() + 1).toString().padStart(2, '0');
+  let day = date.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
