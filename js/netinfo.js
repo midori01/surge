@@ -120,16 +120,10 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const ipApiInfo = JSON.parse(ipApiResponse.data);
       const hostname = await resolveHostname(ipApiInfo.query);
       const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
-      const geoCountry = dnsApiInfo.geo.split(' - ')[0].trim().toLowerCase();
-      const ipCountry = ipApiInfo.country.trim().toLowerCase();
 
       let dnsLeakInfo;
-      if (geoCountry === ipCountry) {
-        dnsLeakInfo = "Congratulations! Unleak";
-      } else {
-        const matchedKey = Object.keys(dnsGeoMap).find(key => dnsApiInfo.geo.toLowerCase().includes(key.toLowerCase()));
-        dnsLeakInfo = matchedKey ? dnsGeoMap[matchedKey] : dnsApiInfo.geo;
-      }
+      const matchedKey = Object.keys(dnsGeoMap).find(key => dnsApiInfo.geo.toLowerCase().includes(key.toLowerCase()));
+      dnsLeakInfo = matchedKey ? dnsGeoMap[matchedKey] : dnsApiInfo.geo;
 
       let location;
       if (ipApiInfo.countryCode === 'GB') {
