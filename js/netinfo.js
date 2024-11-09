@@ -152,6 +152,12 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         location = `${ipApiInfo.country} SAR, PRC`;
       } else if (['SG', 'VA', 'MC', 'GI'].includes(ipApiInfo.countryCode)) {
         location = `${ipApiInfo.country} (${ipApiInfo.countryCode})`;
+      } else if (ipApiInfo.countryCode === 'KR') {
+        let city = ipApiInfo.city;
+        if (city.includes('-')) {
+          city = city.split('-')[0];
+        }
+        location = `${city}, ${ipApiInfo.country}`;
       } else {
         location = `${ipApiInfo.city}, ${ipApiInfo.country}`;
       }
