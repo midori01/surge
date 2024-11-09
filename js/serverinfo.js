@@ -21,7 +21,7 @@
       title: params.name || `${hostname} | ${timeString}`,
       icon: params.icon || 'aqi.medium',
       "icon-color": getColorBasedOnMemUsage(parseInt(jsonData.mem_usage)),
-      content: `Status: CPU ${cpuUsage} | MEM ${memUsage}\nTraffic: RX ${bytesToSize(outTraffic)} | TX ${bytesToSize(inTraffic)}\nUptime: ${uptime}`
+      content: `Status: CPU ${cpuUsage} | MEM ${memUsage}\nTraffic: ↓ ${bytesToSize(outTraffic)} | ↑ ${bytesToSize(inTraffic)}\nUptime: ${uptime}`
     };
 
     $done(panel);
