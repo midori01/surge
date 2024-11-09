@@ -78,7 +78,7 @@ async function resolveHostname(ip) {
   } catch (error) {
     console.error('Error resolving hostname:', error);
   }
-  return 'N/A';
+  return 'Lookup Failed: NXDOMAIN';
 }
 
 async function fetchNetworkData() {
