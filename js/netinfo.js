@@ -96,6 +96,13 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
     return response;
   };
 
+  const dnsGeoMap = {
+    "Sony Network": "Japan - Sony Network",
+    "China Mobile": "China - China Mobile",
+    "China Unicom": "China - China Unicom",
+    "China Telecom": "China - China Telecom"
+  };
+
   while (retryTimes > 0) {
     try {
       const { ipApiResponse, dnsApiResponse } = await fetchNetworkData();
@@ -104,10 +111,14 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       checkStatus(dnsApiResponse);
 
       const ipApiInfo = JSON.parse(ipApiResponse.data);
-      const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
-      const dnsGeoCountry = dnsApiInfo.geo.split(' - ')[0];
-      const dnsLeakInfo = dnsGeoCountry === ipApiInfo.country ? `Congratulations! Unleak` : `${dnsApiInfo.geo}`;
       const hostname = await resolveHostname(ipApiInfo.query);
+      const dnsApiInfo = JSON.parse(dnsApiResponse.data).dns;
+      const matchedKey = Object.keys(dnsGeoMap).find(key => 
+        dnsApiInfo.geo.toLowerCase().includes(key.toLowerCase())
+      );
+      const dnsLeakInfo = matchedKey
+        ? dnsGeoMap[matchedKey]
+        : (dnsApiInfo.geo.split(' - ')[0] === ipApiInfo.country ? `Congratulations! Unleak` : `${dnsApiInfo.geo}`);
 
       let location;
       if (ipApiInfo.countryCode === 'GB') {
