@@ -173,23 +173,23 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   };
 
   const locationMap = {
-    'GB': (info) => `${info.city}, ${info.regionName}, UK`,
-    'AE': (info) => `${info.city}, ${info.region}, UAE`,
-    'TW': (info) => /Taipei/.test(info.city) ? `Taipei, ROC (${info.country})` : `${info.city}, ROC (${info.country})`,
-    'CN': (info) => ['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(info.regionName) 
-          ? `${info.regionName}, PRC` 
-          : `${info.city}, ${info.regionName}, PRC`,
     'JP': (info) => (info.regionName === 'Tokyo' && info.city === 'Tokyo') 
           ? `${info.regionName}, ${info.country}`
           : `${info.city}, ${info.regionName}, ${info.country}`,
+    'CN': (info) => ['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(info.regionName) 
+          ? `${info.regionName}, PRC` 
+          : `${info.city}, ${info.regionName}, PRC`,
+    'TW': (info) => /Taipei/.test(info.city) ? `Taipei, ROC (${info.country})` : `${info.city}, ROC (${info.country})`,
+    'DE': (info) => /Frankfurt/.test(info.city) ? `Frankfurt, ${info.country}` : `${info.city}, ${info.country}`,
+    'ZA': (info) => /Johannesburg/.test(info.city) ? `Jo'burg, ${info.country}` : `${info.city}, ${info.country}`,
+    'KR': (info) => `${info.city.split('-')[0]}, ${info.country}`,
     'US': (info) => `${info.city}, ${info.region}, USA`,
+    'GU': (info) => `${info.city}, ${info.country} (US)`,
     'CA': (info) => `${info.city}, ${info.region}, ${info.country}`,
+    'GB': (info) => `${info.city}, ${info.regionName}, UK`,
+    'AE': (info) => `${info.city}, ${info.region}, UAE`,
     'HK': (info) => `${info.country} SAR, PRC`,
     'MO': (info) => `${info.country} SAR, PRC`,
-    'KR': (info) => {
-      let city = info.city.split('-')[0];
-      return `${city}, ${info.country}`;
-    },
     'SG': (info) => `${info.country} (${info.countryCode})`,
     'VA': (info) => `${info.country} (${info.countryCode})`,
     'MC': (info) => `${info.country} (${info.countryCode})`,
