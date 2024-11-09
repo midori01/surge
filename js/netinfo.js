@@ -97,7 +97,12 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   };
 
   const dnsGeoMap = {
-    "Sony Network": "Japan - Sony Network",
+    "NTT": "Japan - NTT Corp",
+    "KDDI": "Japan - KDDI Corp.",
+    "SoftBank": "Japan - SoftBank Corp.",
+    "BIGLOBE": "Japan - BIGLOBE Inc.",
+    "So-net": "Japan - So-net Corp.",
+    "Sony Network": "Japan - So-net Corp.",
     "China Mobile": "China - China Mobile",
     "China Unicom": "China - China Unicom",
     "China Telecom": "China - China Telecom"
