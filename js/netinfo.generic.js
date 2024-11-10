@@ -153,7 +153,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const mappedDnsGeo = `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
       $done({
         title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
-        content: `IP Address: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Info: ${mappedDnsGeo}`,
+        content: `IP Address: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Exit: ${mappedDnsGeo}`,
         icon: networkInfoType.type === 'WiFi' ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
