@@ -56,7 +56,7 @@ async function resolveHostname(ip) {
     const data = JSON.parse(response.data);
     return data?.Answer?.[0]?.data ?? 'Lookup Failed: NXDOMAIN';
   } catch (error) {
-    return 'Lookup Failed: TIMEOUT';
+    return 'Lookup Failed: Network Error';
   }
 }
 
