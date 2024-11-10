@@ -52,19 +52,12 @@ function getNetworkInfoType() {
 async function resolveHostname(ip) {
   try {
     const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
-    const response = await httpMethod.get(`http://223.5.5.5/resolve?name=${reverseDNS}&type=PTR`);
+    const response = await httpMethod.get({ url: `http://223.5.5.5/resolve?name=${reverseDNS}&type=PTR` });
     const data = JSON.parse(response.data);
     return data?.Answer?.[0]?.data ?? 'Lookup Failed: NXDOMAIN';
   } catch (error) {
     return 'Lookup Failed: Network Error';
   }
-}
-
-async function fetchNetworkData() {
-  return Promise.allSettled([
-    httpMethod.get('http://208.95.112.1/json'),
-    httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`)
-  ]);
 }
 
 async function retryOperation(fn, retries, delay) {
@@ -140,32 +133,27 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   const protocolType = getProtocolType();
   const timestamp = getTimestamp();
   try {
-    while (retryTimes-- > 0) {
-      const [ipApiResponse, dnsApiResponse] = await Promise.all([
-        retryOperation(() => httpMethod.get('http://208.95.112.1/json'), retryTimes, retryInterval),
-        retryOperation(() => httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`), retryTimes, retryInterval)
-      ]);
-      if (ipApiResponse.status > 300 || dnsApiResponse.status > 300) {
-        throw new Error("API Error");
-      }
-      const ipInfo = JSON.parse(ipApiResponse.data);
-      const hostname = await resolveHostname(ipInfo.query);
-      const location = (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo);
-      const dnsGeo = JSON.parse(dnsApiResponse.data).dns.geo;
-      const [country, keyword] = dnsGeo.split(" - ");
-      const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
-      const mappedDnsGeo = `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
-      $done({
-        title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
-        content: `IP Address: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Exit: ${mappedDnsGeo}`,
-        icon: networkInfoType.type === 'WiFi' ? 'wifi' : 'simcard',
-        'icon-color': '#73C2FB',
-      });
-      return;
-    }
+    const [ipApiResponse, dnsApiResponse] = await Promise.all([
+      retryOperation(() => httpMethod.get({ url: 'http://208.95.112.1/json' }), retryTimes, retryInterval),
+      retryOperation(() => httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), retryTimes, retryInterval)
+    ]);
+    const ipInfo = JSON.parse(ipApiResponse.data);
+    const hostname = await resolveHostname(ipInfo.query);
+    const location = (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo);
+    const dnsGeo = JSON.parse(dnsApiResponse.data).dns.geo;
+    const [country, keyword] = dnsGeo.split(" - ");
+    const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
+    const mappedDnsGeo = `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
+    $done({
+      title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
+      content: `IP Address: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Exit: ${mappedDnsGeo}`,
+      icon: networkInfoType.type === 'WiFi' ? 'wifi' : 'simcard',
+      'icon-color': '#73C2FB',
+    });
   } catch (error) {
     $done({
       title: 'Error',
+      content: `Failed to fetch network info: ${error.message}`,
       icon: 'wifi.exclamationmark',
       'icon-color': '#CB1B45',
     });
