@@ -51,14 +51,9 @@ function getNetworkInfoType() {
 
 async function resolveHostname(ip) {
   const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
-  try {
-    const response = await httpMethod.get(`http://223.5.5.5/resolve?name=${reverseDNS}&type=PTR`);
-    const data = JSON.parse(response.data);
-    return data?.Answer?.[0]?.data || 'Lookup Failed: NXDOMAIN';
-  } catch (error) {
-    console.error('Error resolving hostname:', error);
-    return 'Lookup Failed: NXDOMAIN';
-  }
+  const response = await httpMethod.get(`http://223.5.5.5/resolve?name=${reverseDNS}&type=PTR`);
+  const data = JSON.parse(response.data);
+  return data?.Answer?.[0]?.data ?? 'Lookup Failed: NXDOMAIN';
 }
 
 async function fetchNetworkData() {
@@ -69,13 +64,11 @@ async function fetchNetworkData() {
 }
 
 async function retryOperation(fn, retries, delay) {
-  let attempts = 0;
-  while (attempts < retries) {
+  for (let attempts = 0; attempts < retries; attempts++) {
     try {
       return await fn();
     } catch (error) {
-      if (++attempts < retries) {
-        console.warn(`Retrying... Attempt ${attempts}`);
+      if (attempts < retries - 1) {
         await new Promise(resolve => setTimeout(resolve, delay));
       } else {
         throw error;
@@ -161,7 +154,6 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       });
       return;
     } catch (error) {
-      console.error(`Attempt failed, retries left: ${retryTimes}`, error);
       if (retryTimes > 0) await new Promise(resolve => setTimeout(resolve, retryInterval));
     }
   }
