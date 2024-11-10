@@ -135,7 +135,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
     const dnsGeo = JSON.parse(dnsApiResponse.data).dns.geo;
     const [country, keyword] = dnsGeo.split(" - ");
     const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
-    const mappedDnsGeo = `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;  
+    const mappedDnsGeo = `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
       content: `IP Address: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Exit: ${mappedDnsGeo}`,
