@@ -14,7 +14,7 @@ class httpMethod {
 
 function randomString32() {
   const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-  return Array.from({ length: 32 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+  return Array.from({ length: 32 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
 }
 
 function getTimestamp() {
@@ -26,26 +26,27 @@ function getProtocolType() {
 }
 
 function getNetworkInfoType() {
-  const radioGeneration = {
-    'GPRS': '2.5G',
-    'CDMA1x': '2.5G',
-    'EDGE': '2.75G',
-    'WCDMA': '3G',
-    'HSDPA': '3.5G',
-    'CDMAEVDORev0': '3.5G',
-    'CDMAEVDORevA': '3.5G',
-    'CDMAEVDORevB': '3.75G',
-    'HSUPA': '3.75G',
-    'eHRPD': '3.9G',
-    'LTE': '4G',
-    'NRNSA': '5G',
-    'NR': '5G'
-  };
-
   const wifiSSID = $network.wifi?.ssid;
   const radio = $network['cellular-data']?.radio;
   if (wifiSSID) return { type: 'WiFi', info: wifiSSID };
-  if (radio) return { type: 'Cellular', info: `${radioGeneration[radio] || ''} ${radio}`.trim() };
+  if (radio) {
+    const radioGeneration = {
+      'GPRS': '2G',
+      'CDMA1x': '2G',
+      'EDGE': '2G',
+      'WCDMA': '3G',
+      'HSDPA': '3G',
+      'CDMAEVDORev0': '3G',
+      'CDMAEVDORevA': '3G',
+      'CDMAEVDORevB': '3G',
+      'HSUPA': '3G',
+      'eHRPD': '3G',
+      'LTE': '4G',
+      'NRNSA': '5G',
+      'NR': '5G'
+    };
+    return { type: 'Cellular', info: `${radioGeneration[radio] || ''} ${radio}`.trim() };
+  }
   return { type: 'Unknown', info: '' };
 }
 
@@ -74,8 +75,7 @@ async function retryOperation(fn, retries, delay) {
     try {
       return await fn();
     } catch (error) {
-      attempts++;
-      if (attempts < retries) {
+      if (++attempts < retries) {
         console.warn(`Retrying... Attempt ${attempts}`);
         await new Promise(resolve => setTimeout(resolve, delay));
       } else {
@@ -87,12 +87,12 @@ async function retryOperation(fn, retries, delay) {
 
 async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   const dnsGeoMap = {
-    "NTT": "NTT Corp",
+    "NTT": "NTT Corp.",
     "KDDI": "KDDI Corp.",
-    "SoftBank": "SoftBank Corp.",
+    "SoftBank": "SoftBank Corp.", 
     "Rakuten": "Rakuten Inc.",
     "BIGLOBE": "BIGLOBE Inc.",
-    "Internet Initiative Japan": "IIJ Inc.",
+    "Internet Initiative": "IIJ Inc.",
     "ARTERIA": "ARTERIA Corp.",
     "So-net": "So-net Corp.",
     "Sony Network": "So-net Corp.",
@@ -142,6 +142,10 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
     'default': (info) => `${info.city}, ${info.country}`
   };
 
+  const networkInfoType = getNetworkInfoType();
+  const protocolType = getProtocolType();
+  const timestamp = getTimestamp();
+
   while (retryTimes-- > 0) {
     try {
       const [ipApiResponse, dnsApiResponse] = await retryOperation(fetchNetworkData, retryTimes, retryInterval);
@@ -155,9 +159,9 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
       const location = (locationMap[ipInfo.countryCode] || locationMap['default'])(ipInfo);
 
       $done({
-        title: `${getNetworkInfoType().info} | ${getProtocolType()} | ${getTimestamp()}`,
+        title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
         content: `IP Address: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Leak: ${mappedDnsGeo}`,
-        icon: getNetworkInfoType().type === 'WiFi' ? 'wifi' : 'simcard',
+        icon: networkInfoType.type === 'WiFi' ? 'wifi' : 'simcard',
         'icon-color': '#73C2FB',
       });
       return;
