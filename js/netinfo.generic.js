@@ -35,39 +35,6 @@ const networkInfoType = (() => {
   };
   return { type: 'Cellular', info: `${radioGeneration[radio] || ''} ${radio}`.trim() };
 })();
-
-function randomString32() {
-  const array = new Uint8Array(32);
-  crypto.getRandomValues(array);
-  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-  return Array.from(array).map(byte => chars[byte % chars.length]).join('');
-}
-
-async function resolveHostname(ip) {
-  try {
-    const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
-    const response = await httpMethod.get({ url: `http://223.5.5.5/resolve?name=${reverseDNS}&type=PTR` });
-    const data = JSON.parse(response.data);
-    return data?.Answer?.[0]?.data ?? 'Lookup Failed: NXDOMAIN';
-  } catch (error) {
-    return 'Lookup Failed: Network Error';
-  }
-}
-
-async function retryOperation(fn, retries, delay) {
-  for (let attempts = 0; attempts < retries; attempts++) {
-    try {
-      return await fn();
-    } catch (error) {
-      if (attempts < retries - 1) {
-        await new Promise(resolve => setTimeout(resolve, delay));
-      } else {
-        throw error;
-      }
-    }
-  }
-}
-
 const locationMap = new Map([
   ['JP', (info) => (info.regionName === 'Tokyo' && info.city === 'Tokyo') ? `${info.regionName}, ${info.country}` : `${info.city}, ${info.regionName}, ${info.country}`],
   ['CN', (info) => ['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(info.regionName) ? `${info.regionName}, PRC` : `${info.city}, ${info.regionName}, PRC`],
@@ -88,7 +55,6 @@ const locationMap = new Map([
   ['GI', (info) => `${info.country} (${info.countryCode})`],
   ['default', (info) => `${info.city}, ${info.country}`]
 ]);
-
 const dnsGeoMap = new Map([
   ["NTT", "NTT Corp."],
   ["KDDI", "KDDI Corp."],
@@ -122,6 +88,38 @@ const dnsGeoMap = new Map([
   ["CERNET", "CERNET"]
 ]);
 
+function randomString32() {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  return Array.from(array).map(byte => chars[byte % chars.length]).join('');
+}
+
+async function resolveHostname(ip) {
+  try {
+    const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
+    const response = await httpMethod.get({ url: `http://223.5.5.5/resolve?name=${reverseDNS}&type=PTR` });
+    const data = JSON.parse(response.data);
+    return data?.Answer?.[0]?.data ?? 'Lookup Failed: NXDOMAIN';
+  } catch (error) {
+    return 'Lookup Failed: Network Error';
+  }
+}
+
+async function retryOperation(fn, retries, delay) {
+  for (let attempts = 0; attempts < retries; attempts++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (attempts < retries - 1) {
+        await new Promise(resolve => setTimeout(resolve, delay));
+      } else {
+        throw error;
+      }
+    }
+  }
+}
+
 async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
   try {
     const [ipApiResponse, dnsApiResponse] = await Promise.all([
@@ -129,8 +127,10 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
       retryOperation(() => httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), retryTimes, retryInterval)
     ]);
     const ipInfo = JSON.parse(ipApiResponse.data);
-    const hostname = await resolveHostname(ipInfo.query);
-    const location = (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo);
+    const [hostname, location] = await Promise.all([
+      resolveHostname(ipInfo.query),
+      (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
+    ]);
     const dnsGeo = JSON.parse(dnsApiResponse.data).dns.geo;
     const [country, keyword] = dnsGeo.split(" - ");
     const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
