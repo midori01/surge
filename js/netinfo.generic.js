@@ -106,8 +106,8 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
     "China Unicom": "China Unicom",
     "China Telecom": "China Telecom",
     "China Broadband": "China Broadband",
-    "China Education": "China Education"
-    "CERNET": "China Education"
+    "China Education": "China Education",
+    "CERNET": "China Education",
     "CHINA169": "China Unicom",
     "CHINANET": "China Telecom"
   };
