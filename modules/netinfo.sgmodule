@@ -1,9 +1,0 @@
-#!name=Netinfo
-#!desc=Show Network Information.
-#!category=Remote
-
-[Script]
-netinfo = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/netinfo.generic.js
-
-[Panel]
-netinfo = script-name=netinfo,update-interval=1
