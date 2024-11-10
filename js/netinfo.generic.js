@@ -30,15 +30,13 @@ function getNetworkInfoType() {
   const wifiSSID = $network.wifi?.ssid;
   if (wifiSSID) return { type: 'WiFi', info: wifiSSID };
   const radio = $network['cellular-data']?.radio;
-  if (radio) {
-    const radioGeneration = {
-      GPRS: '2G', Edge: '2G', CDMA1x: '2G',
-      WCDMA: '3G', HSDPA: '3G', HSUPA: '3G', CDMAEVDORev0: '3G', CDMAEVDORevA: '3G', CDMAEVDORevB: '3G', eHRPD: '3G',
-      LTE: '4G',
-      NRNSA: '5G', NR: '5G'
-    };
-    return { type: 'Cellular', info: `${radioGeneration[radio] || ''} ${radio}`.trim() };
-  }
+  const radioGeneration = {
+    GPRS: '2G', Edge: '2G', CDMA1x: '2G',
+    WCDMA: '3G', HSDPA: '3G', HSUPA: '3G', CDMAEVDORev0: '3G', CDMAEVDORevA: '3G', CDMAEVDORevB: '3G', eHRPD: '3G',
+    LTE: '4G',
+    NRNSA: '5G', NR: '5G'
+  };
+  return { type: 'Cellular', info: `${radioGeneration[radio] || ''} ${radio}`.trim() };
 }
 
 async function resolveHostname(ip) {
@@ -49,7 +47,7 @@ async function resolveHostname(ip) {
 }
 
 async function fetchNetworkData() {
-  return Promise.all([
+  return Promise.allSettled([
     httpMethod.get('http://208.95.112.1/json'),
     httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`)
   ]);
