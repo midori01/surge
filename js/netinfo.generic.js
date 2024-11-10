@@ -50,10 +50,14 @@ function getNetworkInfoType() {
 }
 
 async function resolveHostname(ip) {
-  const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
-  const response = await httpMethod.get(`http://223.5.5.5/resolve?name=${reverseDNS}&type=PTR`);
-  const data = JSON.parse(response.data);
-  return data?.Answer?.[0]?.data ?? 'Lookup Failed: NXDOMAIN';
+  try {
+    const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
+    const response = await httpMethod.get(`http://223.5.5.5/resolve?name=${reverseDNS}&type=PTR`);
+    const data = JSON.parse(response.data);
+    return data?.Answer?.[0]?.data ?? 'Lookup Failed: NXDOMAIN';
+  } catch (error) {
+    return 'Lookup Failed: NXDOMAIN';
+  }
 }
 
 async function fetchNetworkData() {
@@ -145,7 +149,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         throw new Error("API Error");
       }
       const ipInfo = JSON.parse(ipApiResponse.data);
-      const hostname = await resolveHostname(ipInfo.query);
+      const hostname = await resolveHostname(ipInfo.query);  // 调用resolveHostname
       const location = (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo);
       const dnsGeo = JSON.parse(dnsApiResponse.data).dns.geo;
       const [country, keyword] = dnsGeo.split(" - ");
