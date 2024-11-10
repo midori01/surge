@@ -92,7 +92,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
   } catch (error) {
     $done({
       title: 'Error',
-      content: `Failed: ${error.message}`,
+      content: `${error.message}`,
       icon: 'wifi.exclamationmark',
       'icon-color': '#CB1B45',
     });
