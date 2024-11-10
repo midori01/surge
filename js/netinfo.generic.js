@@ -11,22 +11,9 @@ class httpMethod {
   }
 }
 
-function randomString32() {
-  const array = new Uint8Array(32);
-  crypto.getRandomValues(array);
-  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-  return Array.from(array).map(byte => chars[byte % chars.length]).join('');
-}
-
-function getTimestamp() {
-  return new Date().toTimeString().slice(0, 5);
-}
-
-function getProtocolType() {
-  return $network.v6?.primaryAddress ? 'Dual Stack' : 'IPv4 Only';
-}
-
-function getNetworkInfoType() {
+const timestamp = new Date().toTimeString().slice(0, 5);
+const protocolType = $network.v6?.primaryAddress ? 'Dual Stack' : 'IPv4 Only';
+const networkInfoType = (() => {
   const wifiSSID = $network.wifi?.ssid;
   if (wifiSSID) return { type: 'WiFi', info: wifiSSID };
   const radio = $network['cellular-data']?.radio;
@@ -47,6 +34,13 @@ function getNetworkInfoType() {
     'NR': '5G'
   };
   return { type: 'Cellular', info: `${radioGeneration[radio] || ''} ${radio}`.trim() };
+})();
+
+function randomString32() {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  return Array.from(array).map(byte => chars[byte % chars.length]).join('');
 }
 
 async function resolveHostname(ip) {
@@ -128,10 +122,7 @@ const dnsGeoMap = new Map([
   ["CERNET", "CERNET"]
 ]);
 
-async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
-  const networkInfoType = getNetworkInfoType();
-  const protocolType = getProtocolType();
-  const timestamp = getTimestamp();
+async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
   try {
     const [ipApiResponse, dnsApiResponse] = await Promise.all([
       retryOperation(() => httpMethod.get({ url: 'http://208.95.112.1/json' }), retryTimes, retryInterval),
