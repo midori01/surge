@@ -29,7 +29,7 @@
     console.log('error: ' + e);
     $done({
       title: 'Error',
-      content: `Error ${e}`,
+      content: `${e}`,
       icon: 'error',
       'icon-color': '#F44336'
     });
