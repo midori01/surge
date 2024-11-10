@@ -12,8 +12,10 @@ class httpMethod {
 }
 
 function randomString32() {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
   const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-  return Array.from({ length: 32 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  return Array.from(array).map(byte => chars[byte % chars.length]).join('');
 }
 
 function getTimestamp() {
@@ -77,59 +79,59 @@ async function retryOperation(fn, retries, delay) {
   }
 }
 
-const locationMap = {
-  'JP': (info) => (info.regionName === 'Tokyo' && info.city === 'Tokyo') ? `${info.regionName}, ${info.country}` : `${info.city}, ${info.regionName}, ${info.country}`,
-  'CN': (info) => ['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(info.regionName) ? `${info.regionName}, PRC` : `${info.city}, ${info.regionName}, PRC`,
-  'TW': (info) => /Taipei/.test(info.city) ? `Taipei, ROC (${info.country})` : `${info.city}, ROC (${info.country})`,
-  'DE': (info) => /Frankfurt/.test(info.city) ? `Frankfurt, ${info.country}` : `${info.city}, ${info.country}`,
-  'ZA': (info) => /Johannesburg/.test(info.city) ? `Jo'burg, ${info.country}` : `${info.city}, ${info.country}`,
-  'KR': (info) => `${info.city.split('-')[0]}, ${info.country}`,
-  'US': (info) => `${info.city}, ${info.region}, USA`,
-  'GU': (info) => `${info.city}, ${info.country} (US)`,
-  'CA': (info) => `${info.city}, ${info.region}, ${info.country}`,
-  'GB': (info) => `${info.city}, ${info.regionName}, UK`,
-  'AE': (info) => `${info.city}, ${info.region}, UAE`,
-  'HK': (info) => `${info.country} SAR, PRC`,
-  'MO': (info) => `${info.country} SAR, PRC`,
-  'SG': (info) => `${info.country} (${info.countryCode})`,
-  'VA': (info) => `${info.country} (${info.countryCode})`,
-  'MC': (info) => `${info.country} (${info.countryCode})`,
-  'GI': (info) => `${info.country} (${info.countryCode})`,
-  'default': (info) => `${info.city}, ${info.country}`
-};
+const locationMap = new Map([
+  ['JP', (info) => (info.regionName === 'Tokyo' && info.city === 'Tokyo') ? `${info.regionName}, ${info.country}` : `${info.city}, ${info.regionName}, ${info.country}`],
+  ['CN', (info) => ['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(info.regionName) ? `${info.regionName}, PRC` : `${info.city}, ${info.regionName}, PRC`],
+  ['TW', (info) => /Taipei/.test(info.city) ? `Taipei, ROC (${info.country})` : `${info.city}, ROC (${info.country})`],
+  ['DE', (info) => /Frankfurt/.test(info.city) ? `Frankfurt, ${info.country}` : `${info.city}, ${info.country}`],
+  ['ZA', (info) => /Johannesburg/.test(info.city) ? `Jo'burg, ${info.country}` : `${info.city}, ${info.country}`],
+  ['KR', (info) => `${info.city.split('-')[0]}, ${info.country}`],
+  ['US', (info) => `${info.city}, ${info.region}, USA`],
+  ['GU', (info) => `${info.city}, ${info.country} (US)`],
+  ['CA', (info) => `${info.city}, ${info.region}, ${info.country}`],
+  ['GB', (info) => `${info.city}, ${info.regionName}, UK`],
+  ['AE', (info) => `${info.city}, ${info.region}, UAE`],
+  ['HK', (info) => `${info.country} SAR, PRC`],
+  ['MO', (info) => `${info.country} SAR, PRC`],
+  ['SG', (info) => `${info.country} (${info.countryCode})`],
+  ['VA', (info) => `${info.country} (${info.countryCode})`],
+  ['MC', (info) => `${info.country} (${info.countryCode})`],
+  ['GI', (info) => `${info.country} (${info.countryCode})`],
+  ['default', (info) => `${info.city}, ${info.country}`]
+]);
 
-const dnsGeoMap = {
-  "NTT": "NTT Corp.",
-  "KDDI": "KDDI Corp.",
-  "SoftBank": "SoftBank Corp.",
-  "Rakuten": "Rakuten Inc.",
-  "BIGLOBE": "BIGLOBE Inc.",
-  "Internet Initiative": "IIJ Inc.",
-  "ARTERIA": "ARTERIA Corp.",
-  "So-net": "So-net Corp.",
-  "Sony Network": "So-net Corp.",
-  "Cloudflare": "Cloudflare",
-  "Google": "Google",
-  "Amazon": "Amazon",
-  "Microsoft": "Microsoft",
-  "Oracle": "Oracle",
-  "Alibaba": "Alibaba",
-  "Tencent": "Tencent",
-  "China Mobile": "China Mobile",
-  "CHINAMOBILE": "China Mobile",
-  "CMNET": "China Mobile",
-  "China Unicom": "China Unicom",
-  "CHINAUNICOM": "China Unicom",
-  "CHINA169": "China Unicom",
-  "China Telecom": "China Telecom",
-  "CHINATELECOM": "China Telecom",
-  "CHINANET": "China Telecom",
-  "China Broadnet": "China Broadnet",
-  "China Cable": "China Broadnet",
-  "CBNET": "China Broadnet",
-  "China Education": "CERNET",
-  "CERNET": "CERNET"
-};
+const dnsGeoMap = new Map([
+  ["NTT", "NTT Corp."],
+  ["KDDI", "KDDI Corp."],
+  ["SoftBank", "SoftBank Corp."],
+  ["Rakuten", "Rakuten Inc."],
+  ["BIGLOBE", "BIGLOBE Inc."],
+  ["Internet Initiative", "IIJ Inc."],
+  ["ARTERIA", "ARTERIA Corp."],
+  ["So-net", "So-net Corp."],
+  ["Sony Network", "So-net Corp."],
+  ["Cloudflare", "Cloudflare"],
+  ["Google", "Google"],
+  ["Amazon", "Amazon"],
+  ["Microsoft", "Microsoft"],
+  ["Oracle", "Oracle"],
+  ["Alibaba", "Alibaba"],
+  ["Tencent", "Tencent"],
+  ["China Mobile", "China Mobile"],
+  ["CHINAMOBILE", "China Mobile"],
+  ["CMNET", "China Mobile"],
+  ["China Unicom", "China Unicom"],
+  ["CHINAUNICOM", "China Unicom"],
+  ["CHINA169", "China Unicom"],
+  ["China Telecom", "China Telecom"],
+  ["CHINATELECOM", "China Telecom"],
+  ["CHINANET", "China Telecom"],
+  ["China Broadnet", "China Broadnet"],
+  ["China Cable", "China Broadnet"],
+  ["CBNET", "China Broadnet"],
+  ["China Education", "CERNET"],
+  ["CERNET", "CERNET"]
+]);
 
 async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   const networkInfoType = getNetworkInfoType();
@@ -137,17 +139,20 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   const timestamp = getTimestamp();
   try {
     while (retryTimes-- > 0) {
-      const [ipApiResponse, dnsApiResponse] = await retryOperation(fetchNetworkData, retryTimes, retryInterval);
+      const [ipApiResponse, dnsApiResponse] = await Promise.all([
+        retryOperation(() => httpMethod.get('http://208.95.112.1/json'), retryTimes, retryInterval),
+        retryOperation(() => httpMethod.get(`http://${randomString32()}.edns.ip-api.com/json`), retryTimes, retryInterval)
+      ]);
       if (ipApiResponse.status > 300 || dnsApiResponse.status > 300) {
         throw new Error("API Error");
       }
       const ipInfo = JSON.parse(ipApiResponse.data);
       const hostname = await resolveHostname(ipInfo.query);
-      const location = (locationMap[ipInfo.countryCode] || locationMap['default'])(ipInfo);
+      const location = (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo);
       const dnsGeo = JSON.parse(dnsApiResponse.data).dns.geo;
       const [country, keyword] = dnsGeo.split(" - ");
-      const keywordMatch = Object.keys(dnsGeoMap).find(key => keyword.toLowerCase().includes(key.toLowerCase()));
-      const mappedDnsGeo = `${country} - ${dnsGeoMap[keywordMatch] || keyword}`;
+      const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
+      const mappedDnsGeo = `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
       $done({
         title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
         content: `IP Address: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Leak: ${mappedDnsGeo}`,
