@@ -28,27 +28,17 @@ function getProtocolType() {
 
 function getNetworkInfoType() {
   const wifiSSID = $network.wifi?.ssid;
-  const radio = $network['cellular-data']?.radio;
   if (wifiSSID) return { type: 'WiFi', info: wifiSSID };
+  const radio = $network['cellular-data']?.radio;
   if (radio) {
     const radioGeneration = {
-      'GPRS': '2G',
-      'Edge': '2G',
-      'WCDMA': '3G',
-      'HSDPA': '3G',
-      'HSUPA': '3G',
-      'CDMA1x': '2G',
-      'CDMAEVDORev0': '3G',
-      'CDMAEVDORevA': '3G',
-      'CDMAEVDORevB': '3G',
-      'eHRPD': '3G',
-      'LTE': '4G',
-      'NRNSA': '5G',
-      'NR': '5G'
+      GPRS: '2G', Edge: '2G', CDMA1x: '2G',
+      WCDMA: '3G', HSDPA: '3G', HSUPA: '3G', CDMAEVDORev0: '3G', CDMAEVDORevA: '3G', CDMAEVDORevB: '3G', eHRPD: '3G',
+      LTE: '4G',
+      NRNSA: '5G', NR: '5G'
     };
     return { type: 'Cellular', info: `${radioGeneration[radio] || ''} ${radio}`.trim() };
   }
-  return { type: 'Unknown', info: '' };
 }
 
 async function resolveHostname(ip) {
