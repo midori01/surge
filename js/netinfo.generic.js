@@ -105,7 +105,9 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
     "China Mobile": "China Mobile",
     "China Unicom": "China Unicom",
     "China Telecom": "China Telecom",
-    "China Broadband": "China Broadband"
+    "China Broadband": "China Broadband",
+    "CHINA169": "China Unicom",
+    "CHINANET": "China Telecom"
   };
 
   const locationMap = {
