@@ -83,7 +83,7 @@ const dnsGeoMap = new Map([
   ["CERNET", "CERNET"]
 ]);
 
-const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+const timestamp = new Date().toTimeString().slice(0, 5);
 const protocolType = $network.v6?.primaryAddress ? 'Dual Stack' : 'IPv4 Only';
 const networkInfoType = (() => {
   const wifiSSID = $network.wifi?.ssid;
