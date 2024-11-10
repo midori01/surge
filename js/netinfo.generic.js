@@ -103,13 +103,18 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
     "Google": "Google",
     "Cloudflare": "Cloudflare",
     "China Mobile": "China Mobile",
+    "CHINAMOBILE": "China Mobile",
+    "CMNET": "China Mobile",
     "China Unicom": "China Unicom",
-    "China Telecom": "China Telecom",
-    "China Broadband": "China Broadband",
-    "China Education": "China Education",
-    "CERNET": "China Education",
+    "CHINAUNICOM": "China Unicom",
     "CHINA169": "China Unicom",
-    "CHINANET": "China Telecom"
+    "China Telecom": "China Telecom",
+    "CHINANET": "China Telecom",
+    "China Broadnet": "China Broadnet",
+    "China Cable": "China Broadnet",
+    "CBNET": "China Broadnet",
+    "China Education": "CERNET",
+    "CERNET": "CERNET"
   };
 
   const locationMap = {
