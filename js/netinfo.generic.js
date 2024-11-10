@@ -56,7 +56,7 @@ async function resolveHostname(ip) {
     const data = JSON.parse(response.data);
     return data?.Answer?.[0]?.data ?? 'Lookup Failed: NXDOMAIN';
   } catch (error) {
-    return 'Lookup Failed: NXDOMAIN';
+    return 'Lookup Failed: TIMEOUT';
   }
 }
 
@@ -149,7 +149,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         throw new Error("API Error");
       }
       const ipInfo = JSON.parse(ipApiResponse.data);
-      const hostname = await resolveHostname(ipInfo.query);  // 调用resolveHostname
+      const hostname = await resolveHostname(ipInfo.query);
       const location = (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo);
       const dnsGeo = JSON.parse(dnsApiResponse.data).dns.geo;
       const [country, keyword] = dnsGeo.split(" - ");
