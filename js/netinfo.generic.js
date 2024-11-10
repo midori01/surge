@@ -75,6 +75,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
       retryOperation(() => httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), retryTimes, retryInterval)
     ]);
     const ipInfo = JSON.parse(ipApiResponse.data);
+    const ipType = ipInfo.hosting ? 'Datacenter IP' : 'Residential IP';
     const [hostname, location] = await Promise.all([
       resolveHostname(ipInfo.query),
       (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
@@ -85,7 +86,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
     const mappedDnsGeo = `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
-      content: `IP Address: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Exit: ${mappedDnsGeo}`,
+      content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nASN: ${ipInfo.as}\nLocation: ${location}\nDNS Exit: ${mappedDnsGeo}`,
       icon: networkInfoType.type === 'WiFi' ? 'wifi' : 'simcard',
       'icon-color': '#73C2FB',
     });
