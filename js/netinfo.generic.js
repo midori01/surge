@@ -12,14 +12,32 @@ class httpMethod {
   }
 }
 
-const timestamp = new Date().toTimeString().slice(0, 5);
-const protocolType = $network.v6?.primaryAddress ? 'Dual Stack' : 'IPv4 Only';
+const radioGeneration = {
+  'GPRS': '2G',
+  'Edge': '2G',
+  'WCDMA': '3G',
+  'HSDPA': '3G',
+  'HSUPA': '3G',
+  'CDMA1x': '2G',
+  'CDMAEVDORev0': '3G',
+  'CDMAEVDORevA': '3G',
+  'CDMAEVDORevB': '3G',
+  'eHRPD': '3G',
+  'HRPD': '3G',
+  'LTE': '4G',
+  'NRNSA': '5G',
+  'NR': '5G'
+};
+
 const networkInfoType = (() => {
   const wifiSSID = $network.wifi?.ssid;
   if (wifiSSID) return { type: 'WiFi', info: wifiSSID };
   const radio = $network['cellular-data']?.radio;
   return { type: 'Cellular', info: `${radioGeneration[radio] || ''} ${radio}`.trim() };
 })();
+
+const protocolType = $network.v6?.primaryAddress ? 'Dual Stack' : 'IPv4 Only';
+const timestamp = new Date().toTimeString().slice(0, 5);
 
 function randomString32() {
   const array = new Uint8Array(32);
@@ -84,23 +102,6 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
 (() => {
   getNetworkInfo();
 })();
-
-const radioGeneration = {
-  'GPRS': '2G',
-  'Edge': '2G',
-  'WCDMA': '3G',
-  'HSDPA': '3G',
-  'HSUPA': '3G',
-  'CDMA1x': '2G',
-  'CDMAEVDORev0': '3G',
-  'CDMAEVDORevA': '3G',
-  'CDMAEVDORevB': '3G',
-  'eHRPD': '3G',
-  'HRPD': '3G',
-  'LTE': '4G',
-  'NRNSA': '5G',
-  'NR': '5G'
-};
 
 const locationMap = new Map([
   ['JP', (info) => (info.regionName === 'Tokyo' && info.city === 'Tokyo') ? `${info.regionName}, ${info.country}` : `${info.city}, ${info.regionName}, ${info.country}`],
