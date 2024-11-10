@@ -3,7 +3,7 @@
 #!category=Remote
 
 [Script]
-netinfo.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/netinfo.js,script-update-interval=0
+netinfo = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/netinfo.generic.js
 
 [Panel]
-netinfo = script-name=netinfo.js,update-interval=1
+netinfo = script-name=netinfo,update-interval=1
