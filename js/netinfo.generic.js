@@ -1,8 +1,9 @@
 class httpMethod {
-  static request(method, option = {}) {
+  static async request(method, option = {}) {
     return new Promise((resolve, reject) => {
       $httpClient[method](option, (error, response, data) => {
-        error ? reject(error) : resolve({ ...response, data });
+        if (error) reject(error);
+        else resolve({ ...response, data });
       });
     });
   }
@@ -11,30 +12,23 @@ class httpMethod {
   }
 }
 
-const timestamp = new Date().toTimeString().slice(0, 5);
-const protocolType = $network.v6?.primaryAddress ? 'Dual Stack' : 'IPv4 Only';
-const networkInfoType = (() => {
-  const wifiSSID = $network.wifi?.ssid;
-  if (wifiSSID) return { type: 'WiFi', info: wifiSSID };
-  const radio = $network['cellular-data']?.radio;
-  const radioGeneration = {
-    'GPRS': '2G',
-    'Edge': '2G',
-    'WCDMA': '3G',
-    'HSDPA': '3G',
-    'HSUPA': '3G',
-    'CDMA1x': '2G',
-    'CDMAEVDORev0': '3G',
-    'CDMAEVDORevA': '3G',
-    'CDMAEVDORevB': '3G',
-    'eHRPD': '3G',
-    'HRPD': '3G',
-    'LTE': '4G',
-    'NRNSA': '5G',
-    'NR': '5G'
-  };
-  return { type: 'Cellular', info: `${radioGeneration[radio] || ''} ${radio}`.trim() };
-})();
+const radioGeneration = {
+  'GPRS': '2G',
+  'Edge': '2G',
+  'WCDMA': '3G',
+  'HSDPA': '3G',
+  'HSUPA': '3G',
+  'CDMA1x': '2G',
+  'CDMAEVDORev0': '3G',
+  'CDMAEVDORevA': '3G',
+  'CDMAEVDORevB': '3G',
+  'eHRPD': '3G',
+  'HRPD': '3G',
+  'LTE': '4G',
+  'NRNSA': '5G',
+  'NR': '5G'
+};
+
 const locationMap = new Map([
   ['JP', (info) => (info.regionName === 'Tokyo' && info.city === 'Tokyo') ? `${info.regionName}, ${info.country}` : `${info.city}, ${info.regionName}, ${info.country}`],
   ['CN', (info) => ['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(info.regionName) ? `${info.regionName}, PRC` : `${info.city}, ${info.regionName}, PRC`],
@@ -55,6 +49,7 @@ const locationMap = new Map([
   ['GI', (info) => `${info.country} (${info.countryCode})`],
   ['default', (info) => `${info.city}, ${info.country}`]
 ]);
+
 const dnsGeoMap = new Map([
   ["NTT", "NTT Corp."],
   ["KDDI", "KDDI Corp."],
@@ -88,6 +83,15 @@ const dnsGeoMap = new Map([
   ["CERNET", "CERNET"]
 ]);
 
+const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+const protocolType = $network.v6?.primaryAddress ? 'Dual Stack' : 'IPv4 Only';
+const networkInfoType = (() => {
+  const wifiSSID = $network.wifi?.ssid;
+  if (wifiSSID) return { type: 'WiFi', info: wifiSSID };
+  const radio = $network['cellular-data']?.radio;
+  return { type: 'Cellular', info: `${radioGeneration[radio] || ''} ${radio}`.trim() };
+})();
+
 function randomString32() {
   const array = new Uint8Array(32);
   crypto.getRandomValues(array);
@@ -107,17 +111,14 @@ async function resolveHostname(ip) {
 }
 
 async function retryOperation(fn, retries, delay) {
-  for (let attempts = 0; attempts < retries; attempts++) {
+  for (const _ of Array(retries)) {
     try {
       return await fn();
     } catch (error) {
-      if (attempts < retries - 1) {
-        await new Promise(resolve => setTimeout(resolve, delay));
-      } else {
-        throw error;
-      }
+      await new Promise(resolve => setTimeout(resolve, delay));
     }
   }
+  throw new Error('Operation failed after retries');
 }
 
 async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
@@ -134,7 +135,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
     const dnsGeo = JSON.parse(dnsApiResponse.data).dns.geo;
     const [country, keyword] = dnsGeo.split(" - ");
     const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
-    const mappedDnsGeo = `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
+    const mappedDnsGeo = `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;  
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
       content: `IP Address: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Exit: ${mappedDnsGeo}`,
