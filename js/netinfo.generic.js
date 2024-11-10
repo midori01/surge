@@ -89,7 +89,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   const dnsGeoMap = {
     "NTT": "NTT Corp.",
     "KDDI": "KDDI Corp.",
-    "SoftBank": "SoftBank Corp.", 
+    "SoftBank": "SoftBank Corp.",
     "Rakuten": "Rakuten Inc.",
     "BIGLOBE": "BIGLOBE Inc.",
     "Internet Initiative": "IIJ Inc.",
