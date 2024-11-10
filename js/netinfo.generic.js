@@ -22,7 +22,7 @@ function getTimestamp() {
 }
 
 function getProtocolType() {
-  return $network.v6?.primaryAddress ? 'Dual-Stack' : 'Single-Stack';
+  return $network.v6?.primaryAddress ? 'Dual Stack' : 'Single Stack';
 }
 
 function getNetworkInfoType() {
