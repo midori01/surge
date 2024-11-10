@@ -135,6 +135,7 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   const networkInfoType = getNetworkInfoType();
   const protocolType = getProtocolType();
   const timestamp = getTimestamp();
+
   while (retryTimes-- > 0) {
     try {
       const [ipApiResponse, dnsApiResponse] = await retryOperation(fetchNetworkData, retryTimes, retryInterval);
@@ -159,21 +160,11 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   }
   $done({
     title: 'Error',
-    content: 'Network Error',
     icon: 'wifi.exclamationmark',
     'icon-color': '#CB1B45',
   });
 }
 
 (() => {
-  const timeoutHandle = setTimeout(() => {
-    $done({
-      title: "Timeout",
-      content: "Network Timeout",
-      icon: 'wifi.exclamationmark',
-      'icon-color': '#CB1B45',
-    });
-  }, 29500);
-  
-  getNetworkInfo().finally(() => clearTimeout(timeoutHandle));
+  getNetworkInfo();
 })();
