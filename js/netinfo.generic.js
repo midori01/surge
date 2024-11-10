@@ -135,7 +135,6 @@ async function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   const networkInfoType = getNetworkInfoType();
   const protocolType = getProtocolType();
   const timestamp = getTimestamp();
-
   while (retryTimes-- > 0) {
     try {
       const [ipApiResponse, dnsApiResponse] = await retryOperation(fetchNetworkData, retryTimes, retryInterval);
