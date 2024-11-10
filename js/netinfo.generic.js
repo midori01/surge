@@ -32,14 +32,14 @@ function getNetworkInfoType() {
   if (radio) {
     const radioGeneration = {
       'GPRS': '2G',
-      'CDMA1x': '2G',
-      'EDGE': '2G',
+      'Edge': '2G',
       'WCDMA': '3G',
       'HSDPA': '3G',
+      'HSUPA': '3G',
+      'CDMA1x': '2G',
       'CDMAEVDORev0': '3G',
       'CDMAEVDORevA': '3G',
       'CDMAEVDORevB': '3G',
-      'HSUPA': '3G',
       'eHRPD': '3G',
       'LTE': '4G',
       'NRNSA': '5G',
