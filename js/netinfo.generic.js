@@ -153,6 +153,7 @@ const dnsGeoMap = new Map([
   ["Linode", "Linode"],
   ["Akamai", "Akamai"],
   ["Oracle", "Oracle"],
+  ["DataCamp", "DataCamp"],
   ["Alibaba", "Alibaba"],
   ["Tencent", "Tencent"],
   ["China Mobile", "China Mobile"],
