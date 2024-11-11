@@ -83,7 +83,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
     const dnsGeo = JSON.parse(dnsApiResponse.data).dns.geo;
     const [country, keyword] = dnsGeo.split(" - ");
     const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
-    const mappedDnsGeo = dnsGeo === "Japan - Internet Initiative Japan Inc." ? "Internet Initiative Japan" : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
+    const mappedDnsGeo = keyword.toLowerCase().includes("initiative") ? "Internet Initiative Japan" : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
       content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Exit: ${mappedDnsGeo}`,
