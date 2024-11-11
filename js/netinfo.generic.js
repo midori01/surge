@@ -82,7 +82,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
     ]);
     const dnsGeo = dns.geo;
     const ednsIp = edns?.ip;
-    const ednsInfo = ednsIp ? `${ednsIp}` : 'Not Supported';
+    const ednsInfo = ednsIp ? `${ednsIp}` : 'Unavailable';
     const ipType = ipInfo.hosting ? 'Datacenter IP' : 'Residential IP';
     const [country, keyword] = dnsGeo.split(" - ");
     const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
