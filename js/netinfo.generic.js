@@ -76,7 +76,6 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
     ]);
     const ipInfo = JSON.parse(ipApiResponse.data);
     const { dns, edns } = JSON.parse(dnsApiResponse.data);
-    const ipType = ipInfo.hosting ? 'Datacenter IP' : 'Residential IP';
     const [hostname, location] = await Promise.all([
       resolveHostname(ipInfo.query),
       (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
@@ -84,6 +83,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
     const dnsGeo = dns.geo;
     const ednsIp = edns?.ip;
     const ednsInfo = ednsIp ? `${ednsIp}` : 'Not Supported';
+    const ipType = ipInfo.hosting ? 'Datacenter IP' : 'Residential IP';
     const [country, keyword] = dnsGeo.split(" - ");
     const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
     const mappedDnsGeo = dnsGeo.includes("Internet Initiative Japan")
