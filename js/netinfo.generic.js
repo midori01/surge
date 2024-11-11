@@ -51,9 +51,9 @@ async function resolveHostname(ip) {
     const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
     const response = await httpMethod.get({ url: `http://223.5.5.5/resolve?name=${reverseDNS}&type=PTR` });
     const data = JSON.parse(response.data);
-    return data?.Answer?.[0]?.data ?? 'Lookup Failed: NXDOMAIN';
+    return data?.Answer?.[0]?.data ?? 'Lookup Failed - NXDOMAIN';
   } catch (error) {
-    return 'Lookup Failed: Network Error';
+    return 'Lookup Failed - Network Error';
   }
 }
 
