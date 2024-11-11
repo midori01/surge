@@ -71,7 +71,7 @@ async function retryOperation(fn, retries, delay) {
 async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
   try {
     const [ipApiResponse, dnsApiResponse] = await Promise.all([
-      retryOperation(() => httpMethod.get({ url: 'http://208.95.112.1/json' }), retryTimes, retryInterval),
+      retryOperation(() => httpMethod.get({ url: 'http://208.95.112.1/json/?fields=66846719' }), retryTimes, retryInterval),
       retryOperation(() => httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), retryTimes, retryInterval)
     ]);
     const ipInfo = JSON.parse(ipApiResponse.data);
