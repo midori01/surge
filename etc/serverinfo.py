@@ -46,14 +46,14 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
         try:
             result = subprocess.run(["ping", "-c", "1", "-W", "1", host], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             if result.returncode == 0:
-                return "Successful (Unblocked)"
+                return "Successful (GFW Pass)"
             else:
-                return "Failed (Blocked)"
+                return "Failed (GFW Blocked)"
         except Exception as e:
             return "Error"
 
 def run_server():
-    with socketserver.ThreadingTCPServer(("0.0.0.0", 7122), RequestHandler) as httpd:
+    with socketserver.ThreadingTCPServer(("127.0.0.1", 7122), RequestHandler) as httpd:
         try:
             print(f"Serving at port 7122")
             httpd.serve_forever()
