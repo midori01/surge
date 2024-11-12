@@ -6,6 +6,7 @@ import json
 import time
 import psutil
 import socket
+import subprocess
 from datetime import datetime
 
 class RequestHandler(http.server.BaseHTTPRequestHandler):
@@ -13,7 +14,7 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
-        
+
         cpu_usage = psutil.cpu_percent()
         mem_usage = psutil.virtual_memory().percent
         net_io = psutil.net_io_counters()
@@ -24,6 +25,7 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
         uptime = int(time.time() - psutil.boot_time())
         last_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         hostname = socket.gethostname()
+        ping_result = self.ping_host("210.2.4.8")
         
         response_dict = {
             "hostname": hostname,
@@ -39,6 +41,16 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
         response_json = json.dumps(response_dict).encode('utf-8')
         
         self.wfile.write(response_json)
+
+    def ping_host(self, host):
+        try:
+            result = subprocess.run(["ping", "-c", "1", "-W", "1", host], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            if result.returncode == 0:
+                return "Pass"
+            else:
+                return "Block"
+        except Exception as e:
+            return "Error"
 
 def run_server():
     with socketserver.ThreadingTCPServer(("0.0.0.0", 7122), RequestHandler) as httpd:
