@@ -39,6 +39,10 @@ const networkInfoType = (() => {
 const protocolType = $network.v6?.primaryAddress ? 'Dual Stack' : 'IPv4 Only';
 const timestamp = new Date().toTimeString().slice(0, 5);
 
+function httpAPI(path = "", method = "POST", body = null) {
+  return new Promise(resolve => $httpAPI(method, path, body, resolve));
+}
+
 function randomString32() {
   const array = new Uint8Array(32);
   crypto.getRandomValues(array);
@@ -80,6 +84,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
       resolveHostname(ipInfo.query),
       (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
     ]);
+    const dnsServer = [...new Set((await httpAPI("/v1/dns", "GET")).dnsCache.map(d => d.server))].join(", ");
     const dnsGeo = dns.geo;
     const ednsIp = edns?.ip;
     const ednsInfo = ednsIp ? `${ednsIp}` : 'Unavailable';
@@ -91,7 +96,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
       : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
-      content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Exit: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
+      content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Resolver: ${dnsServer}\nDNS Exit: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
       icon: networkInfoType.type === 'WiFi' ? 'wifi' : 'simcard',
       'icon-color': '#73C2FB',
     });
