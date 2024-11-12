@@ -84,7 +84,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
       resolveHostname(ipInfo.query),
       (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
     ]);
-    const dnsServer = [...new Set((await httpAPI("/v1/dns", "GET")).dnsCache.map(d => d.server))].join(", ");
+    const dnsServer = [...new Set((await httpAPI("/v1/dns", "GET")).dnsCache.map(d => d.server))].join(", ") || "No Servers found in DNS Cache";
     const dnsGeo = dns.geo;
     const ednsIp = edns?.ip;
     const ednsInfo = ednsIp ? `${ednsIp}` : 'Unavailable';
@@ -96,7 +96,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
       : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
-      content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nDNS Resolver: ${dnsServer}\nDNS Exit: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
+      content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nResolver: ${dnsServer}\nDNS Exit: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
       icon: networkInfoType.type === 'WiFi' ? 'wifi' : 'simcard',
       'icon-color': '#73C2FB',
     });
