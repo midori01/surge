@@ -28,7 +28,9 @@ let args = getArgs();
 })();
 
 function getArgs() {
-  return Object.fromEntries(new URLSearchParams($argument));
+  let args = Object.fromEntries(new URLSearchParams($argument));
+  if (args.url) args.url = encodeURIComponent(args.url);
+  return args;
 }
 
 function getUserInfo(url) {
