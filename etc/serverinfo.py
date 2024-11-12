@@ -14,7 +14,6 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
-
         cpu_usage = psutil.cpu_percent()
         mem_usage = psutil.virtual_memory().percent
         net_io = psutil.net_io_counters()
@@ -36,10 +35,11 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
             "bytes_sent": str(bytes_sent),
             "bytes_recv": str(bytes_recv),
             "bytes_total": str(bytes_total),
-            "last_time": last_time
+            "last_time": last_time,
+            "ping_result": ping_result
         }
-        response_json = json.dumps(response_dict).encode('utf-8')
         
+        response_json = json.dumps(response_dict).encode('utf-8')
         self.wfile.write(response_json)
 
     def ping_host(self, host):
