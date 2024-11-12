@@ -46,9 +46,9 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
         try:
             result = subprocess.run(["ping", "-c", "1", "-W", "1", host], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             if result.returncode == 0:
-                return "Pass"
+                return "Successful (Unblocked)"
             else:
-                return "Block"
+                return "Failed (Blocked)"
         except Exception as e:
             return "Error"
 
