@@ -84,7 +84,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
       resolveHostname(ipInfo.query),
       (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
     ]);
-    const dnsServer = [...new Set((await httpAPI("/v1/dns", "GET")).dnsCache.map(d => d.server))].join(", ") || "No DNS Servers Found";
+    const dnsServer = [...new Set((await httpAPI("/v1/dns", "GET")).dnsCache.map(d => d.server).filter(server => /^(quic|https|h3)/i.test(server) || !/^(quic|https|h3)/i.test(server))].join(", ") || "No DNS Servers Found";
     const dnsGeo = dns.geo;
     const ednsIp = edns?.ip;
     const ednsInfo = ednsIp ? `${ednsIp}` : 'Unavailable';
