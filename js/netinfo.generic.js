@@ -13,27 +13,27 @@ class httpMethod {
 }
 
 const radioGeneration = {
-  'GPRS': '2G',
-  'Edge': '2G',
-  'WCDMA': '3G',
-  'HSDPA': '3G',
-  'HSUPA': '3G',
-  'CDMA1x': '2G',
-  'CDMAEVDORev0': '3G',
-  'CDMAEVDORevA': '3G',
-  'CDMAEVDORevB': '3G',
-  'eHRPD': '3G',
-  'HRPD': '3G',
-  'LTE': '4G',
-  'NRNSA': '5G',
-  'NR': '5G'
+  'GPRS': 'GPRS',
+  'Edge': 'EDGE',
+  'WCDMA': 'WCDMA',
+  'HSDPA': 'HSDPA',
+  'HSUPA': 'HSUPA',
+  'CDMA1x': 'CDMA 1x',
+  'CDMAEVDORev0': 'CDMA EV-DO',
+  'CDMAEVDORevA': 'CDMA EV-DO',
+  'CDMAEVDORevB': 'CDMA EV-DO',
+  'eHRPD': 'eHRPD',
+  'HRPD': 'HRPD',
+  'LTE': '4G LTE',
+  'NRNSA': '5G NR',
+  'NR': '5G NR'
 };
 
 const networkInfoType = (() => {
   const wifiSSID = $network.wifi?.ssid;
   if (wifiSSID) return { type: 'WiFi', info: wifiSSID };
   const radio = $network['cellular-data']?.radio;
-  return { type: 'Cellular', info: `${radioGeneration[radio] || ''} ${radio}`.trim() };
+  return { type: 'Cellular', info: `${radioGeneration[radio] || ''}`.trim() };
 })();
 
 const protocolType = $network.v6?.primaryAddress ? 'Dual Stack' : 'IPv4 Only';
