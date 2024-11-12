@@ -53,7 +53,7 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
             return "Error"
 
 def run_server():
-    with socketserver.ThreadingTCPServer(("127.0.0.1", 7122), RequestHandler) as httpd:
+    with socketserver.ThreadingTCPServer(("0.0.0.0", 7122), RequestHandler) as httpd:
         try:
             print(f"Serving at port 7122")
             httpd.serve_forever()
