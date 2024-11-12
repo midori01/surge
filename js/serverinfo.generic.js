@@ -1,7 +1,8 @@
 (async () => {
   try {
     const params = getParams();
-    const url = params.url || 'http://127.0.0.1:7122';
+    const ip = params.ip;
+    const url = `http://${ip}:7122`;
     const stats = await httpAPI(url);
     const jsonData = JSON.parse(stats.body);
     const updateTime = new Date();
