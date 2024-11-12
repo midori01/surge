@@ -1,5 +1,5 @@
 #!name=Subinfo
-#!desc=Show Airport Subscription Info.
+#!desc=Show LIBER Subscription Info.
 #!category=MIDORI
 #!arguments=Encode.SubURL:""
 
