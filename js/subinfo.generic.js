@@ -28,13 +28,11 @@ let args = getArgs();
 })();
 
 function getArgs() {
-  let args = Object.fromEntries(new URLSearchParams($argument));
-  if (args.url) args.url = encodeURIComponent(args.url);
-  return args;
+  return Object.fromEntries(new URLSearchParams($argument));
 }
 
 function getUserInfo(url) {
-  let request = { headers: { "User-Agent": "Quantumult%20X" }, url };
+  let request = { headers: { "User-Agent": "Quantumult%20X" }, url: encodeURI(url) };
   return new Promise((resolve, reject) =>
     $httpClient.get(request, (err, resp) => {
       if (err || resp.status !== 200) {
