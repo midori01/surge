@@ -108,7 +108,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
       content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoords: ${coordinates}\nResolver: ${dnsServer}\nDNS Leak: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
-      icon: networkInfoType.type === 'WiFi' ? 'wifi' : networkInfoType.info === 'Ethernet' ? 'network' : 'simcard',
+      icon: networkInfoType.type === 'WiFi' ? 'wifi' : networkInfoType.info === 'Ethernet' ? 'cable.connector.horizontal' : 'cellularbars',
       'icon-color': '#73C2FB',
     });
   } catch (error) {
