@@ -20,9 +20,9 @@
     const gfwcheck = jsonData.ping_result || 'Unknown';
     const panel = {
       title: `${hostname} | ${timeString}`,
+      content: `Status: CPU ${cpuUsage} | MEM ${memUsage}\nTraffic: ↓ ${bytesToSize(outTraffic)} | ↑ ${bytesToSize(inTraffic)}\nUptime: ${uptime}\nIP Check: ${gfwcheck}`,
       icon: 'aqi.medium',
-      "icon-color": getColorBasedOnMemUsage(parseInt(jsonData.mem_usage)),
-      content: `Status: CPU ${cpuUsage} | MEM ${memUsage}\nTraffic: ↓ ${bytesToSize(outTraffic)} | ↑ ${bytesToSize(inTraffic)}\nUptime: ${uptime}\nIP Check: ${gfwcheck}`
+      "icon-color": getColorBasedOnMemUsage(parseInt(jsonData.mem_usage))
     };
 
     $done(panel);
