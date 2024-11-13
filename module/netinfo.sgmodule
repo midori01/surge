@@ -3,7 +3,7 @@
 #!category=MIDORI
 
 [Script]
-netinfo.panel.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/netinfo.generic.js
+netinfo.generic = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/netinfo.generic.js
 
 [Panel]
-netinfo = script-name=netinfo.panel.js,update-interval=1
+netinfo = script-name=netinfo.generic,update-interval=1
