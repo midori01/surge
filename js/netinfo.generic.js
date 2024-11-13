@@ -60,7 +60,7 @@ function formatCoordinates(lat, lon) {
 async function resolveHostname(ip) {
   try {
     const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
-    const response = await httpMethod.get({ url: `https://dns.google/resolve?name=${reverseDNS}&type=PTR` });
+    const response = await httpMethod.get({ url: `https://doh.pub/dns-query?name=${reverseDNS}&type=PTR` });
     const data = JSON.parse(response.data);
     return data?.Answer?.[0]?.data ?? 'Lookup Failed - NXDOMAIN';
   } catch (error) {
