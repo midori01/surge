@@ -60,7 +60,7 @@ function formatCoordinates(lat, lon) {
 async function resolveHostname(ip) {
   try {
     const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
-    const response = await httpMethod.get({ url: `http://223.5.5.5/resolve?name=${reverseDNS}&type=PTR` });
+    const response = await httpMethod.get({ url: `https://dns.google/resolve?name=${reverseDNS}&type=PTR` });
     const data = JSON.parse(response.data);
     return data?.Answer?.[0]?.data ?? 'Lookup Failed - NXDOMAIN';
   } catch (error) {
@@ -83,7 +83,7 @@ async function retryOperation(fn, retries, delay) {
 async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
   try {
     const [ipApiResponse, dnsApiResponse, dnsData] = await Promise.all([
-      retryOperation(() => httpMethod.get({ url: 'http://208.95.112.1/json/?fields=66846719' }), retryTimes, retryInterval),
+      retryOperation(() => httpMethod.get({ url: 'http://ip-api.com/json/?fields=66846719' }), retryTimes, retryInterval),
       retryOperation(() => httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), retryTimes, retryInterval),
       httpAPI("/v1/dns", "GET")
     ]);
