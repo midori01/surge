@@ -50,6 +50,16 @@ function randomString32() {
   return Array.from(array).map(byte => chars[byte % chars.length]).join('');
 }
 
+function formatCoordinates(lat, lon) {
+  const toDMS = (value) => {
+    const d = Math.floor(Math.abs(value));
+    const m = Math.floor((Math.abs(value) - d) * 60);
+    const s = Math.round(((Math.abs(value) - d) * 60 - m) * 60);
+    return `${d}°${m}′${s}″${value >= 0 ? 'N' : 'S'}`;
+  };
+  return `${toDMS(lat)} ${toDMS(lon).replace(/S$/, 'E').replace(/N$/, 'W')}`;
+}
+
 async function resolveHostname(ip) {
   try {
     const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
@@ -80,9 +90,10 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
     ]);
     const ipInfo = JSON.parse(ipApiResponse.data);
     const { dns, edns } = JSON.parse(dnsApiResponse.data);
-    const [hostname, location] = await Promise.all([
+    const [hostname, location, coordinates] = await Promise.all([
       resolveHostname(ipInfo.query),
-      (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
+      (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo),
+      formatCoordinates(ipInfo.lat, ipInfo.lon)
     ]);
     const dnsData = await httpAPI("/v1/dns", "GET"), dnsServer = [...new Set(dnsData.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")))].filter(d => /^(quic|https?|h3)/i.test(d) || !dnsData.dnsCache.some(d => /^(quic|https?|h3)/i.test(d.server))).join(", ") || "No DNS Servers Found";
     const dnsGeo = dns.geo;
@@ -96,7 +107,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
       : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
-      content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nResolver: ${dnsServer}\nDNS Leak: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
+      content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoordinates: ${coordinates}\nResolver: ${dnsServer}\nDNS Leak: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
       icon: networkInfoType.type === 'WiFi' ? 'wifi' : 'simcard',
       'icon-color': '#73C2FB',
     });
