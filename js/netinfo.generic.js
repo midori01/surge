@@ -33,7 +33,7 @@ const networkInfoType = (() => {
   const wifiSSID = $network.wifi?.ssid;
   if (wifiSSID) return { type: 'WiFi', info: wifiSSID };
   const radio = $network['cellular-data']?.radio;
-  return { type: 'Cellular', info: `${radioGeneration[radio] || ''}`.trim() };
+  return { type: 'Cellular', info: `${radioGeneration[radio] || 'Ethernet'}`.trim() };
 })();
 
 const protocolType = $network.v6?.primaryAddress ? 'Dual Stack' : 'IPv4 Only';
@@ -108,7 +108,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
       content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoords: ${coordinates}\nResolver: ${dnsServer}\nDNS Leak: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
-      icon: networkInfoType.type === 'WiFi' ? 'wifi' : 'simcard',
+      icon: networkInfoType.type === 'WiFi' ? 'wifi' : networkInfoType.info === 'Ethernet' ? 'ethernet' : 'simcard',
       'icon-color': '#73C2FB',
     });
   } catch (error) {
