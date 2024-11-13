@@ -44,20 +44,17 @@ function httpAPI(path = "", method = "POST", body = null) {
 }
 
 function randomString32() {
-  const array = new Uint8Array(32);
-  crypto.getRandomValues(array);
-  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-  return Array.from(array).map(byte => chars[byte % chars.length]).join('');
+  return Array.from(crypto.getRandomValues(new Uint8Array(32)), byte => "abcdefghijklmnopqrstuvwxyz0123456789"[byte % 36]).join('');
 }
 
 function formatCoordinates(lat, lon) {
-  const toDMS = (value) => {
+  const toDMS = (value, pos, neg) => {
     const d = Math.floor(Math.abs(value));
     const m = Math.floor((Math.abs(value) - d) * 60);
     const s = Math.round(((Math.abs(value) - d) * 60 - m) * 60);
-    return `${d}°${m}′${s}″${value >= 0 ? 'N' : 'S'}`;
+    return `${d}°${m}′${s}″${value >= 0 ? pos : neg}`;
   };
-  return `${toDMS(lat)} ${toDMS(lon).replace(/S$/, 'E').replace(/N$/, 'W')}`;
+  return `${toDMS(lat, 'N', 'S')} ${toDMS(lon, 'E', 'W')}`;
 }
 
 async function resolveHostname(ip) {
@@ -72,11 +69,12 @@ async function resolveHostname(ip) {
 }
 
 async function retryOperation(fn, retries, delay) {
-  for (const _ of Array(retries)) {
+  let attempts = retries;
+  while (attempts--) {
     try {
       return await fn();
     } catch (error) {
-      await new Promise(resolve => setTimeout(resolve, delay));
+      if (attempts > 0) await new Promise(resolve => setTimeout(resolve, delay));
     }
   }
   throw new Error('Operation failed after retries');
@@ -84,27 +82,24 @@ async function retryOperation(fn, retries, delay) {
 
 async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
   try {
-    const [ipApiResponse, dnsApiResponse] = await Promise.all([
-      retryOperation(() => httpMethod.get({ url: 'http://208.95.112.1/json/?fields=66846719' }), retryTimes, retryInterval),
-      retryOperation(() => httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), retryTimes, retryInterval)
-    ]);
+    const ipApiResponse = await retryOperation(() => httpMethod.get({ url: 'http://208.95.112.1/json/?fields=66846719' }), retryTimes, retryInterval);
+    const dnsApiResponse = await retryOperation(() => httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), retryTimes, retryInterval);
     const ipInfo = JSON.parse(ipApiResponse.data);
     const { dns, edns } = JSON.parse(dnsApiResponse.data);
-    const [hostname, location, coordinates] = await Promise.all([
-      resolveHostname(ipInfo.query),
-      (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo),
-      formatCoordinates(ipInfo.lat, ipInfo.lon)
-    ]);
-    const dnsData = await httpAPI("/v1/dns", "GET"), dnsServer = [...new Set(dnsData.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")))].filter(d => /^(quic|https?|h3)/i.test(d) || !dnsData.dnsCache.some(d => /^(quic|https?|h3)/i.test(d.server))).join(", ") || "No DNS Servers Found";
+    const hostnamePromise = resolveHostname(ipInfo.query);
+    const locationPromise = (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo);
+    const coordinates = formatCoordinates(ipInfo.lat, ipInfo.lon);
+    const dnsData = await httpAPI("/v1/dns", "GET");
+    const dnsServers = new Set(dnsData.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")));
+    const isEncrypted = Array.from(dnsServers).some(d => /^(quic|https?|h3)/i.test(d));
+    const dnsServer = Array.from(dnsServers).filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS Servers Found";
+    const [hostname, location] = await Promise.all([hostnamePromise, locationPromise]);
     const dnsGeo = dns.geo;
-    const ednsIp = edns?.ip;
-    const ednsInfo = ednsIp ? `${ednsIp}` : 'Unavailable';
+    const ednsInfo = edns?.ip || 'Unavailable';
     const ipType = ipInfo.hosting ? 'Datacenter IP' : 'Residential IP';
     const [country, keyword] = dnsGeo.split(" - ");
     const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
-    const mappedDnsGeo = dnsGeo.includes("Internet Initiative Japan")
-      ? "Internet Initiative Japan"
-      : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
+    const mappedDnsGeo = dnsGeo.includes("Internet Initiative Japan") ? "Internet Initiative Japan" : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
       content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoords: ${coordinates}\nResolver: ${dnsServer}\nDNS Leak: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
