@@ -15,7 +15,7 @@ let args = Object.fromEntries(new URLSearchParams($argument));
 
   $done({
     title: `LIBER | ${expireInfo} | ${formatTime()}`,
-    content: `Usage: ${bytesToSize(used)} | ${bytesToSize(total)}`,
+    content: `${bytesToSize(used)} Used | Total ${bytesToSize(total)}`,
     icon: "airplane.circle",
     "icon-color": "#FAC858",
   });
