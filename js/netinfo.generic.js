@@ -82,18 +82,21 @@ async function retryOperation(fn, retries, delay) {
 
 async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
   try {
-    const ipApiResponse = await retryOperation(() => httpMethod.get({ url: 'http://208.95.112.1/json/?fields=66846719' }), retryTimes, retryInterval);
-    const dnsApiResponse = await retryOperation(() => httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), retryTimes, retryInterval);
+    const [ipApiResponse, dnsApiResponse, dnsData] = await Promise.all([
+      retryOperation(() => httpMethod.get({ url: 'http://208.95.112.1/json/?fields=66846719' }), retryTimes, retryInterval),
+      retryOperation(() => httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), retryTimes, retryInterval),
+      httpAPI("/v1/dns", "GET")
+    ]);
     const ipInfo = JSON.parse(ipApiResponse.data);
     const { dns, edns } = JSON.parse(dnsApiResponse.data);
-    const hostnamePromise = resolveHostname(ipInfo.query);
-    const locationPromise = (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo);
+    const [hostname, location] = await Promise.all([
+      resolveHostname(ipInfo.query),
+      (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
+    ]);
     const coordinates = formatCoordinates(ipInfo.lat, ipInfo.lon);
-    const dnsData = await httpAPI("/v1/dns", "GET");
     const dnsServers = new Set(dnsData.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")));
     const isEncrypted = Array.from(dnsServers).some(d => /^(quic|https?|h3)/i.test(d));
     const dnsServer = Array.from(dnsServers).filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS Servers Found";
-    const [hostname, location] = await Promise.all([hostnamePromise, locationPromise]);
     const dnsGeo = dns.geo;
     const ednsInfo = edns?.ip || 'Unavailable';
     const ipType = ipInfo.hosting ? 'Datacenter IP' : 'Residential IP';
