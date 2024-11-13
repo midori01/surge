@@ -6,4 +6,4 @@
 netinfo.generic = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/netinfo.generic.js
 
 [Panel]
-netinfo = script-name=netinfo.generic,update-interval=1
+netinfo.panel = script-name=netinfo.generic,update-interval=1
