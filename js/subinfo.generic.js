@@ -1,84 +1,50 @@
-let args = getArgs();
+let args = Object.fromEntries(new URLSearchParams($argument));
 
 (async () => {
   let info = await getDataInfo(args.url);
-  if (!info) $done();
-  
-  let used = info.download + info.upload;
-  let total = info.total;
-  let expire = info.expire;
-  let content = [`Usage: ${bytesToSize(used)} | ${bytesToSize(total)}`];
-
+  if (!info) return $done();
+  let { download, upload, total, expire } = info;
+  let used = download + upload;
+  let expireInfo;
   if (expire && expire !== "false") {
-    if (/^[\d.]+$/.test(expire)) expire *= 1000;
-    content.push(`Expire: ${formatDate(expire)}`);
+    expire = /^[\d.]+$/.test(expire) ? expire * 1000 : expire;
+    expireInfo = new Date(expire) < new Date() ? "Expired" : formatDate(expire);
+  } else {
+    expireInfo = "Lifetime";
   }
 
-  let now = new Date();
-  let hour = now.getHours().toString().padStart(2, '0');
-  let minutes = now.getMinutes().toString().padStart(2, '0');
-  let currentTime = `${hour}:${minutes}`;
-
   $done({
-    title: `LIBER | ${currentTime}`,
-    content: content.join("\n"),
+    title: `LIBER | ${expireInfo} | ${formatTime()}`,
+    content: `Usage: ${bytesToSize(used)} | ${bytesToSize(total)}`,
     icon: "airplane.circle",
     "icon-color": "#FAC858",
   });
 })();
 
-function getArgs() {
-  return Object.fromEntries(new URLSearchParams($argument));
-}
-
-function getUserInfo(url) {
-  let request = { headers: { "User-Agent": "Quantumult%20X" }, url: encodeURI(url) };
-  return new Promise((resolve, reject) =>
-    $httpClient.get(request, (err, resp) => {
-      if (err || resp.status !== 200) {
-        reject(err || resp.status);
-        return;
-      }
-      let header = Object.keys(resp.headers).find(
-        (key) => key.toLowerCase() === "subscription-userinfo"
-      );
-      if (header) {
-        resolve(resp.headers[header]);
-        return;
-      }
-      reject("No Data");
-    })
-  );
-}
-
-async function getDataInfo(url) {
-  const [err, data] = await getUserInfo(url)
-    .then((data) => [null, data])
-    .catch((err) => [err, null]);
-  if (err) {
-    console.log(err);
-    return;
-  }
-
-  return Object.fromEntries(
-    data
-      .match(/\w+=[\d.eE+-]+/g)
-      .map((item) => item.split("="))
-      .map(([k, v]) => [k, Number(v)])
-  );
+function getDataInfo(url) {
+  return new Promise((resolve, reject) => {
+    $httpClient.get({ url: encodeURI(url), headers: { "User-Agent": "Quantumult%20X" } }, (err, resp) => {
+      if (err || resp.status !== 200) return reject(err || resp.status);
+      let header = resp.headers["subscription-userinfo"];
+      if (header) resolve(Object.fromEntries(header.match(/\w+=[\d.eE+-]+/g).map(item => item.split("=").map((v, i) => i === 1 ? +v : v))));
+      else reject("No Data");
+    });
+  });
 }
 
 function bytesToSize(bytes) {
-  if (bytes === 0) return "0";
   const sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  if (bytes === 0) return "0";
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   return (bytes / Math.pow(1024, i)).toFixed(2) + " " + sizes[i];
 }
 
 function formatDate(time) {
   let date = new Date(time);
-  let year = date.getFullYear();
-  let month = (date.getMonth() + 1).toString().padStart(2, '0');
-  let day = date.getDate().toString().padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+}
+
+function formatTime() {
+  let now = new Date();
+  return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 }
