@@ -3,11 +3,9 @@
 import http.server
 import socketserver
 import json
-import time
 import psutil
 import socket
 import subprocess
-from datetime import datetime
 
 class RequestHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
@@ -20,22 +18,18 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
         bytes_sent = net_io.bytes_sent
         bytes_recv = net_io.bytes_recv
         bytes_total = bytes_sent + bytes_recv
-        utc_timestamp = int(time.time())
         uptime = int(time.time() - psutil.boot_time())
-        last_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         hostname = socket.gethostname()
         ping_result = self.ping_host("210.2.4.8")
         
         response_dict = {
             "hostname": hostname,
-            "utc_timestamp": utc_timestamp,
             "uptime": uptime,
             "cpu_usage": cpu_usage,
             "mem_usage": mem_usage,
             "bytes_sent": str(bytes_sent),
             "bytes_recv": str(bytes_recv),
             "bytes_total": str(bytes_total),
-            "last_time": last_time,
             "ping_result": ping_result
         }
         
