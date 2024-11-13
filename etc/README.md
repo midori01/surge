@@ -1,7 +1,7 @@
 # ServerInfo Panel
 `Install`
 ```bash
-bash <(curl -sSLf "https://raw.githubusercontent.com/midori01/surge/main/etc/install.sh")
+bash <(curl -sSLf "https://raw.githubusercontent.com/midori01/surge/main/etc/serverinfo.sh")
 ```
 `Uninstall`
 ```bash
