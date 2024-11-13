@@ -4,7 +4,7 @@
 #!arguments=SubName:"LIBER",SubURL:"https://…"
 
 [Script]
-subinfo.panel.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/subinfo.generic.js,argument=name={{{SubName}}}&url={{{SubURL}}}
+subinfo.generic = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/subinfo.generic.js,argument=name={{{SubName}}}&url={{{SubURL}}}
 
 [Panel]
-subinfo = script-name=subinfo.panel.js,update-interval=1
+subinfo.panel = script-name=subinfo.generic,update-interval=1
