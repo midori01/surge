@@ -7,7 +7,7 @@
 AND,((IP-CIDR,{{{ServerIP}}}/32,no-resolve),(DEST-PORT,7122),(PROTOCOL,HTTP)),{{{Policy}}}
 
 [Script]
-serverinfo.generic = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.generic.js,argument=ip={{{ServerIP}}}
+serverinfo.generic.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.generic.js,argument=ip={{{ServerIP}}}
 
 [Panel]
-serverinfo.panel = script-name=serverinfo.generic,update-interval=1
+serverinfo.panel = script-name=serverinfo.generic.js,update-interval=1
