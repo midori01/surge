@@ -74,7 +74,7 @@ async function resolveHostname(ip, timeout = 2000) {
     const data = JSON.parse(response.data);
     return data?.Answer?.[0]?.data ?? 'Lookup Failed - NXDOMAIN';
   } catch {
-    return 'Lookup Failed - Request Failed';
+    return 'Lookup Failed - API Timeout';
   }
 }
 
