@@ -1,7 +1,10 @@
-#!name=Subinfo Panel
-#!desc=Show LIBER Subscription Info.
+#!name=LIBER Subscribe
+#!desc=美味しいたまごぜひ！一度ご賞味下さいませ♪
 #!category=MIDORI
-#!arguments=SubName:"LIBER",SubURL:"https://…"
+#!arguments=SubURL:"https://…",SubName:"LIBER",Update:"10800",GroupType:"select",NoAlert:"1",Hidden:"0"
+
+[Proxy Group]
+{{{SubName}}} = {{{GroupType}}}, policy-path={{{SubURL}, update-interval={{{Update}}}, no-alert={{{NoAlert}}}, hidden={{{Hidden}}}, icon-url=https://raw.githubusercontent.com/midori01/surge/main/icons/img/hinapiyo.png
 
 [Script]
 subinfo.generic.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/subinfo.generic.js,argument=name={{{SubName}}}&url={{{SubURL}}}
