@@ -60,7 +60,7 @@ function formatCoordinates(lat, lon) {
 async function withTimeout(promise, timeout) {
   return Promise.race([
     promise,
-    new Promise((_, reject) => setTimeout(() => reject(new Error('API Request Timeout')), timeout))
+    new Promise((_, reject) => setTimeout(() => reject(new Error('API request timeout')), timeout))
   ]);
 }
 
@@ -68,7 +68,7 @@ async function resolveHostname(ip, timeout = 1000) {
   const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
   try {
     const response = await withTimeout(
-      httpMethod.get({ url: `https://dns.google/resolve?name=${reverseDNS}&type=PTR` }),
+      httpMethod.get({ url: `https://doh.pub/dns-query?name=${reverseDNS}&type=PTR` }),
       timeout
     );
     const data = JSON.parse(response.data);
@@ -89,7 +89,7 @@ async function getNetworkInfo() {
     const ipInfo = JSON.parse(ipApiResponse.data);
     const { dns, edns } = JSON.parse(dnsApiResponse.data);
     const [hostname, location] = await Promise.all([
-      resolveHostname(ipInfo.query, timeout),
+      resolveHostname(ipInfo.query),
       (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
     ]);
     const coordinates = formatCoordinates(ipInfo.lat, ipInfo.lon);
