@@ -60,11 +60,11 @@ function formatCoordinates(lat, lon) {
 async function withTimeout(promise, timeout) {
   return Promise.race([
     promise,
-    new Promise((_, reject) => setTimeout(() => reject(new Error('API request timeout')), timeout))
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), timeout))
   ]);
 }
 
-async function resolveHostname(ip, timeout = 1000) {
+async function resolveHostname(ip, timeout = 2000) {
   const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
   try {
     const response = await withTimeout(
@@ -80,7 +80,7 @@ async function resolveHostname(ip, timeout = 1000) {
 
 async function getNetworkInfo() {
   try {
-    const timeout = 2000;
+    const timeout = 3000;
     const [ipApiResponse, dnsApiResponse, dnsData] = await Promise.all([
       withTimeout(httpMethod.get({ url: 'http://ip-api.com/json/?fields=66846719' }), timeout),
       withTimeout(httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), timeout),
