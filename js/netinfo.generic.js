@@ -25,8 +25,8 @@ const radioGeneration = {
   'eHRPD': 'eHRPD',
   'HRPD': 'HRPD',
   'LTE': '4G LTE',
-  'NRNSA': '5G NR NSA',
-  'NR': '5G NR SA'
+  'NRNSA': '5G NRNSA',
+  'NR': '5G NR'
 };
 
 const networkInfoType = (() => {
