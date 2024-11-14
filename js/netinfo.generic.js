@@ -57,46 +57,47 @@ function formatCoordinates(lat, lon) {
   return `${toDMS(lat, 'N', 'S')} ${toDMS(lon, 'E', 'W')}`;
 }
 
-async function resolveHostname(ip) {
+async function withTimeout(promise, timeout) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('API Request Timeout')), timeout))
+  ]);
+}
+
+async function resolveHostname(ip, timeout = 1000) {
+  const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
   try {
-    const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
-    const response = await httpMethod.get({ url: `https://doh.pub/dns-query?name=${reverseDNS}&type=PTR` });
+    const response = await withTimeout(
+      httpMethod.get({ url: `https://dns.google/resolve?name=${reverseDNS}&type=PTR` }),
+      timeout
+    );
     const data = JSON.parse(response.data);
     return data?.Answer?.[0]?.data ?? 'Lookup Failed - NXDOMAIN';
-  } catch (error) {
-    return 'Lookup Failed - Network Error';
+  } catch {
+    return 'Lookup Failed - Request Failed';
   }
 }
 
-async function retryOperation(fn, retries, delay) {
-  let attempts = retries;
-  while (attempts--) {
-    try {
-      return await fn();
-    } catch (error) {
-      if (attempts > 0) await new Promise(resolve => setTimeout(resolve, delay));
-    }
-  }
-  throw new Error('Operation failed after retries');
-}
-
-async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
+async function getNetworkInfo() {
   try {
+    const timeout = 2000;
     const [ipApiResponse, dnsApiResponse, dnsData] = await Promise.all([
-      retryOperation(() => httpMethod.get({ url: 'http://ip-api.com/json/?fields=66846719' }), retryTimes, retryInterval),
-      retryOperation(() => httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), retryTimes, retryInterval),
-      httpAPI("/v1/dns", "GET")
+      withTimeout(httpMethod.get({ url: 'http://ip-api.com/json/?fields=66846719' }), timeout),
+      withTimeout(httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), timeout),
+      withTimeout(httpAPI("/v1/dns", "GET"), timeout)
     ]);
     const ipInfo = JSON.parse(ipApiResponse.data);
     const { dns, edns } = JSON.parse(dnsApiResponse.data);
     const [hostname, location] = await Promise.all([
-      resolveHostname(ipInfo.query),
+      resolveHostname(ipInfo.query, timeout),
       (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
     ]);
     const coordinates = formatCoordinates(ipInfo.lat, ipInfo.lon);
-    const dnsServers = new Set(dnsData.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")));
-    const isEncrypted = Array.from(dnsServers).some(d => /^(quic|https?|h3)/i.test(d));
-    const dnsServer = Array.from(dnsServers).filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS Servers Found";
+    const dnsServers = Array.from(new Set(dnsData.dnsCache.map(d =>
+      d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")
+    )));
+    const isEncrypted = dnsServers.some(d => /^(quic|https?|h3)/i.test(d));
+    const dnsServer = dnsServers.filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS Servers Found";
     const dnsGeo = dns.geo;
     const ednsInfo = edns?.ip || 'Unavailable';
     const ipType = ipInfo.hosting ? 'Datacenter IP' : 'Residential IP';
@@ -112,7 +113,7 @@ async function getNetworkInfo(retryTimes = 3, retryInterval = 1000) {
   } catch (error) {
     $done({
       title: 'Error',
-      content: `${error.message}`,
+      content: error.message,
       icon: 'wifi.exclamationmark',
       'icon-color': '#CB1B45',
     });
