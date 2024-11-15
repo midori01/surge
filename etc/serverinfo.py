@@ -48,10 +48,9 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
             return "Error"
 
 def run_server():
-    with socketserver.ThreadingTCPServer(("::", 7122), RequestHandler) as httpd:
-        httpd.socket.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
+    with socketserver.ThreadingTCPServer(("0.0.0.0", 7122), RequestHandler) as httpd:
         try:
-            print(f"Serving on port 7122 (IPv4 & IPv6)")
+            print(f"Serving at port 7122")
             httpd.serve_forever()
         except KeyboardInterrupt:
             print("KeyboardInterrupt is captured, program exited")
