@@ -93,13 +93,11 @@ async function getNetworkInfo() {
       (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
     ]);
     const coordinates = formatCoordinates(ipInfo.lat, ipInfo.lon);
-    const dnsServers = [...new Set(dnsData.dnsCache.map(d => 
+    const dnsServers = Array.from(new Set(dnsData.dnsCache.map(d =>
       d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")
-    ))];
+    )));
     const isEncrypted = dnsServers.some(d => /^(quic|https?|h3)/i.test(d));
-    const dnsServer = dnsServers
-      .filter(d => isEncrypted || /^[^:]+$/.test(d))
-      .join(", ") || "No DNS Servers Found";
+    const dnsServer = dnsServers.filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS Servers Found";
     const dnsGeo = dns.geo;
     const ednsInfo = edns?.ip || 'Unavailable';
     const ipType = ipInfo.hosting ? '[Datacenter]' : '[Residential]';
