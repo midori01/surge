@@ -100,7 +100,7 @@ async function getNetworkInfo() {
     const dnsServer = dnsServers.filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS Servers Found";
     const dnsGeo = dns.geo;
     const ednsInfo = edns?.ip || 'Unavailable';
-    const ipType = ipInfo.hosting ? 'Datacenter IP' : 'Residential IP';
+    const ipType = ipInfo.hosting ? 'IP [Datacenter]' : 'IP [Residential]';
     const [country, keyword] = dnsGeo.split(" - ");
     const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
     const mappedDnsGeo = dnsGeo.includes("Internet Initiative Japan") ? "Internet Initiative Japan" : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
