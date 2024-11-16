@@ -193,12 +193,10 @@ const dnsGeoMap = new Map([
 ]);
 
 const timezoneAbbreviations = new Map([
-  ["Los_Angeles", "LAX"],
+  ["Los_Angeles", "Angeles"],
   ["New_York", "NewYork"],
   ["Mexico_City", "Mexico"],
   ["Sao_Paulo", "SaoPaulo"],
-  ["Hong_Hong", "HongKong"],
-  ["Johannesburg", "Jo'burg"],
-  ["Amsterdam", "AMS"],
-  ["Melbourne", "MEL"]
+  ["Hong_Kong", "HongKong"],
+  ["Johannesburg", "Jo'burg"]
 ]);
