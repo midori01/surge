@@ -194,5 +194,6 @@ const dnsGeoMap = new Map([
 
 const timezoneAbbreviations = new Map([
   ["Los_Angeles", "Angeles"],
+  ["Mexico_City", "Mexico"],
   ["Johannesburg", "Jo'burg"]
 ]);
