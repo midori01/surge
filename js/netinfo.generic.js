@@ -197,7 +197,7 @@ const timezoneAbbreviations = new Map([
   ["New_York", "NewYork"],
   ["Mexico_City", "Mexico"],
   ["Sao_Paulo", "SaoPaulo"],
-  ["Hong_Hong", "HongKong"]
+  ["Hong_Hong", "HongKong"],
   ["Johannesburg", "Jo'burg"],
   ["Amsterdam", "AMS"],
   ["Melbourne", "MEL"]
