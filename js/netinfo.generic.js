@@ -47,6 +47,12 @@ function randomString32() {
   return Array.from(crypto.getRandomValues(new Uint8Array(32)), byte => "abcdefghijklmnopqrstuvwxyz0123456789"[byte % 36]).join('');
 }
 
+function formatTimezone(timezone) {
+  const [region, city] = timezone.split('/');
+  const abbreviation = timezoneAbbreviations.get(city) || city;
+  return `${region}/${abbreviation}`;
+}
+
 function formatCoordinates(lat, lon) {
   const toDMS = (value, pos, neg) => {
     const d = Math.floor(Math.abs(value));
@@ -92,7 +98,7 @@ async function getNetworkInfo() {
       resolveHostname(ipInfo.query),
       (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
     ]);
-    const utcOffset = `UTC${ipInfo.offset >= 0 ? '+' : ''}${ipInfo.offset / 3600}`;
+    const timezoneInfo = `${formatTimezone(ipInfo.timezone)} UTC${ipInfo.offset >= 0 ? '+' : ''}${ipInfo.offset / 3600}`;
     const coordinates = formatCoordinates(ipInfo.lat, ipInfo.lon);
     const dnsServers = [...new Set(dnsData.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")))];
     const isEncrypted = dnsServers.some(d => /^(quic|https?|h3)/i.test(d));
@@ -105,7 +111,7 @@ async function getNetworkInfo() {
     const mappedDnsGeo = dnsGeo.includes("Internet Initiative Japan") ? "Internet Initiative Japan" : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
-      content: `IP: ${ipInfo.query} ${ipType}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoords: ${coordinates}\nTimezone: ${ipInfo.timezone} ${utcOffset}\nResolver: ${dnsServer}\nLeakDNS: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
+      content: `IP: ${ipInfo.query} ${ipType}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoords: ${coordinates}\nTimezone: ${timezoneInfo}\nResolver: ${dnsServer}\nLeakDNS: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
       icon: networkInfoType.type === 'WiFi' ? 'wifi' : networkInfoType.info === 'Ethernet' ? 'cable.connector.horizontal' : 'cellularbars',
       'icon-color': '#73C2FB',
     });
@@ -184,4 +190,10 @@ const dnsGeoMap = new Map([
   ["CBNET", "China Broadnet"],
   ["China Education", "CERNET"],
   ["CERNET", "CERNET"]
+]);
+
+const timezoneAbbreviations = new Map([
+  ["Los_Angeles", "LAX"],
+  ["New_York", "NYC"],
+  ["Mexico_City", "Mexico"]
 ]);
