@@ -49,7 +49,7 @@ function randomString32() {
 
 function formatTimezone(timezone) {
   const [region, city] = timezone.split('/');
-  const abbreviation = timezoneAbbreviations.get(city) || city;
+  const abbreviation = timezoneAbbreviations.get(city) || city.replace('_', '');
   return `${region}/${abbreviation}`;
 }
 
@@ -194,9 +194,5 @@ const dnsGeoMap = new Map([
 
 const timezoneAbbreviations = new Map([
   ["Los_Angeles", "Angeles"],
-  ["New_York", "NewYork"],
-  ["Mexico_City", "Mexico"],
-  ["Sao_Paulo", "SaoPaulo"],
-  ["Hong_Kong", "HongKong"],
   ["Johannesburg", "Jo'burg"]
 ]);
