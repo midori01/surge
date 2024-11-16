@@ -101,13 +101,11 @@ async function getNetworkInfo() {
     const timezoneInfo = `${formatTimezone(ipInfo.timezone)} UTC${ipInfo.offset >= 0 ? '+' : ''}${ipInfo.offset / 3600}`;
     const coordinates = formatCoordinates(ipInfo.lat, ipInfo.lon);
     const dnsServers = [...new Set(dnsData.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")))];
-    const encryptedDns = dnsServers.find(d => /^(https?|quic|h3)/i.test(d));
-    const scripts = dnsServers.filter(d => !/^(https?|quic|h3|\d+\.\d+\.\d+\.\d+|[a-fA-F0-9:]+)/i.test(d));
-    const dnsServer = encryptedDns ? 
-        /https?/i.test(encryptedDns) ? "Encrypted-DNS (DoH)" : 
-        /quic/i.test(encryptedDns) ? "Encrypted-DNS (DoQ)" : "Encrypted-DNS (DoH3)" :
-        scripts.length ? scripts.join(", ") : 
-        dnsServers.length ? "Plaintext-DNS (UDP)" : "No DNS Servers Found";
+    const encryptedDns = dnsServers.find(d => /^(https?|quic|h3):/i.test(d));
+    const script = dnsServers.find(d => /^[^:\/]+$/.test(d));
+    const dnsServer = encryptedDns 
+        ? `Encrypted-DNS (${/https?/i.test(encryptedDns) ? "DoH" : /quic/i.test(encryptedDns) ? "DoQ" : "DoH3"})`
+        : script || (dnsServers.length ? "Plaintext-DNS (UDP)" : "No DNS Servers Found");
     const dnsGeo = dns.geo;
     const ednsInfo = edns?.ip || 'Unavailable';
     const ipType = ipInfo.hosting ? '[Datacenter]' : '[Residential]';
