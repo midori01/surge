@@ -106,7 +106,7 @@ async function getNetworkInfo() {
     const mappedDnsGeo = dnsGeo.includes("Internet Initiative Japan") ? "Internet Initiative Japan" : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
-      content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoords: ${coordinates}\nResolver: ${dnsServer}\nDNS Exit: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
+      content: `${ipType}: ${ipInfo.query}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoords: ${coordinates}\nResolver: ${dnsServer}\nLeakDNS: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
       icon: networkInfoType.type === 'WiFi' ? 'wifi' : networkInfoType.info === 'Ethernet' ? 'cable.connector.horizontal' : 'cellularbars',
       'icon-color': '#73C2FB',
     });
