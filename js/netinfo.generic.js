@@ -100,7 +100,7 @@ async function getNetworkInfo() {
     ]);
     const timezoneInfo = `${formatTimezone(ipInfo.timezone)} UTC${ipInfo.offset >= 0 ? '+' : ''}${ipInfo.offset / 3600}`;
     const coordinates = formatCoordinates(ipInfo.lat, ipInfo.lon);
-    const dnsServers = [...new Set(dnsData.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")))];
+    const dnsServers = [...new Set(dnsData.dnsCache.map(d => d.server))];
     const isEncrypted = dnsServers.some(d => /^(quic|https?|h3)/i.test(d));
     const dnsServer = dnsServers.filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS Servers Found";
     const dnsGeo = dns.geo;
