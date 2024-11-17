@@ -80,7 +80,7 @@ async function resolveHostname(ip, timeout = 2000) {
     const data = JSON.parse(response.data);
     return data?.Answer?.[0]?.data ?? 'Lookup Failed - NXDOMAIN';
   } catch {
-    return 'Lookup Failed - API Timeout';
+    return 'Lookup Failed - TIMEOUT!';
   }
 }
 
@@ -102,7 +102,7 @@ async function getNetworkInfo() {
     const coordinates = formatCoordinates(ipInfo.lat, ipInfo.lon);
     const dnsServers = [...new Set(dnsData.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")))];
     const isEncrypted = dnsServers.some(d => /^(quic|https?|h3)/i.test(d));
-    const dnsServer = dnsServers.filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS Servers Found";
+    const dnsServer = dnsServers.filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS servers found";
     const dnsGeo = dns.geo;
     const ednsInfo = edns?.ip || 'Unavailable';
     const ipType = ipInfo.hosting ? '(Datacenter)' : '(Residential)';
@@ -195,5 +195,6 @@ const dnsGeoMap = new Map([
 const timezoneAbbreviations = new Map([
   ["Los_Angeles", "Angeles"],
   ["Mexico_City", "Mexico"],
-  ["Johannesburg", "Jo'burg"]
+  ["Johannesburg", "Jo'burg"],
+  ["Amsterdam", "A'dam"]
 ]);
