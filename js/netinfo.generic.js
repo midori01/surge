@@ -1,11 +1,6 @@
 class httpMethod {
-  static async request(method, option = {}) {
-    return new Promise((resolve, reject) => {
-      $httpClient[method](option, (error, response, data) => {
-        if (error) reject(error);
-        else resolve({ ...response, data });
-      });
-    });
+  static request(method, option = {}) {
+    return new Promise((r, j) => $httpClient[method](option, (e, res, d) => e ? j(e) : r({ ...res, data: d })));
   }
   static get(option = {}) {
     return this.request('get', option);
@@ -141,14 +136,11 @@ async function withTimeout(promise, timeout) {
 }
 
 async function resolveHostname(ip, timeout = 2000) {
-  const reverseDNS = ip.split('.').reverse().join('.') + '.in-addr.arpa';
   try {
-    const response = await withTimeout(
-      httpMethod.get({ url: `https://doh.pub/dns-query?name=${reverseDNS}&type=PTR` }),
-      timeout
-    );
-    const data = JSON.parse(response.data);
-    return data?.Answer?.[0]?.data ?? 'Lookup Failed - NXDOMAIN';
+    const { data } = await withTimeout(httpMethod.get({
+      url: `https://doh.pub/dns-query?name=${ip.split('.').reverse().join('.')}.in-addr.arpa&type=PTR`
+    }), timeout);
+    return JSON.parse(data)?.Answer?.[0]?.data || 'Lookup Failed - NXDOMAIN';
   } catch {
     return 'Lookup Failed - TIMEOUT!';
   }
