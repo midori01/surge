@@ -96,7 +96,6 @@ async function getNetworkInfo() {
     const ipInfo = JSON.parse(ipApiResponse.data);
     const { dns, edns } = JSON.parse(dnsApiResponse.data);
     const dnsData = dnsDataResponse;
-    const dnsDelay = dnsServer !== "No DNS servers found" && dnsDelayResponse.delay && !isNaN(dnsDelayResponse.delay) ? `${(dnsDelayResponse.delay * 1000).toFixed(0)}ms` : '';
     const [hostname, location] = await Promise.all([
       resolveHostname(ipInfo.query),
       (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
@@ -106,6 +105,7 @@ async function getNetworkInfo() {
     const dnsServers = [...new Set(dnsData.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")))];
     const isEncrypted = dnsServers.some(d => /^(quic|https?|h3)/i.test(d));
     const dnsServer = dnsServers.filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS servers found";
+    const dnsDelay = dnsServer !== "No DNS servers found" && dnsDelayResponse.delay && !isNaN(dnsDelayResponse.delay) ? `${(dnsDelayResponse.delay * 1000).toFixed(0)}ms` : '';
     const dnsGeo = dns.geo;
     const ednsInfo = edns?.ip || 'Unavailable';
     const ipType = ipInfo.hosting ? '(Datacenter)' : '(Residential)';
