@@ -105,12 +105,11 @@ async function getNetworkInfo() {
     const isEncrypted = dnsServers.some(d => /^(quic|https?|h3)/i.test(d));
     const dnsServer = dnsServers.filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS servers found";
     const dnsDelay = dnsServer !== "No DNS servers found" && dnsDelayResponse.delay && !isNaN(dnsDelayResponse.delay) ? ` - ${(dnsDelayResponse.delay * 1000).toFixed(0)}ms` : '';
-    const dnsGeo = dns.geo;
     const ednsInfo = edns?.ip || 'Unavailable';
     const ipType = ipInfo.hosting ? '(Datacenter)' : '(Residential)';
-    const [country, keyword] = dnsGeo.split(" - ");
+    const [country, keyword] = dns.geo.split(" - ");
     const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
-    const mappedDnsGeo = dnsGeo.includes("Internet Initiative Japan") ? "Internet Initiative Japan" : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
+    const mappedDnsGeo = dns.geo.includes("Internet Initiative Japan") ? "Internet Initiative Japan" : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
       content: `IP: ${ipInfo.query} ${ipType}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoords: ${coordinates}\nTimezone: ${timezoneInfo}\nResolver: ${dnsServer}${dnsDelay}\nLeakDNS: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
