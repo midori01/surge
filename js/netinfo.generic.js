@@ -155,45 +155,51 @@ async function resolveHostname(ip, timeout = 2000) {
 }
 
 async function getNetworkInfo() {
-  try {
-    const timeout = 3000;
-    const [ipApiResponse, dnsApiResponse, dnsDataResponse, dnsDelayResponse] = await Promise.all([
-      withTimeout(httpMethod.get({ url: 'http://ip-api.com/json/?fields=66846719' }), timeout).catch(err => err),
-      withTimeout(httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), timeout).catch(err => err),
-      withTimeout(httpAPI("/v1/dns", "GET"), timeout).catch(err => err),
-      withTimeout(httpAPI("/v1/test/dns_delay", "POST"), timeout).catch(err => err)
-    ]);
-    const ipInfo = JSON.parse(ipApiResponse.data);
-    const { dns, edns } = JSON.parse(dnsApiResponse.data);
-    const [hostname, location] = await Promise.all([
-      resolveHostname(ipInfo.query),
-      (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
-    ]);
-    const timezoneInfo = `${formatTimezone(ipInfo.timezone)} UTC${ipInfo.offset >= 0 ? '+' : ''}${ipInfo.offset / 3600}`;
-    const coordinates = formatCoordinates(ipInfo.lat, ipInfo.lon);
-    const dnsServers = [...new Set(dnsDataResponse.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")))];
-    const isEncrypted = dnsServers.some(d => /^(quic|https?|h3)/i.test(d));
-    const dnsServer = dnsServers.filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS servers found";
-    const dnsDelay = dnsServer !== "No DNS servers found" && dnsDelayResponse.delay && !isNaN(dnsDelayResponse.delay) ? ` - ${(dnsDelayResponse.delay * 1000).toFixed(0)}ms` : '';
-    const ednsInfo = edns?.ip || 'Unavailable';
-    const ipType = ipInfo.hosting ? '(Datacenter)' : '(Residential)';
-    const [country, keyword] = dns.geo.split(" - ");
-    const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
-    const mappedDnsGeo = dns.geo.includes("Internet Initiative Japan") ? "Internet Initiative Japan" : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
-    $done({
-      title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
-      content: `IP: ${ipInfo.query} ${ipType}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoords: ${coordinates}\nTimezone: ${timezoneInfo}\nResolver: ${dnsServer}${dnsDelay}\nLeakDNS: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
-      icon: networkInfoType.type === 'WiFi' ? 'wifi' : networkInfoType.info === 'Ethernet' ? 'cable.connector.horizontal' : 'cellularbars',
-      'icon-color': '#73C2FB',
-    });
-  } catch (error) {
+  const timeout = 3000;
+  const [ipApiResponse, dnsApiResponse, dnsDataResponse, dnsDelayResponse] = await Promise.all([
+    withTimeout(httpMethod.get({ url: 'http://ip-api.com/json/?fields=66846719' }), timeout).catch(err => ({ error: err.message })),
+    withTimeout(httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), timeout).catch(err => ({ error: err.message })),
+    withTimeout(httpAPI("/v1/dns", "GET"), timeout).catch(err => ({ error: err.message })),
+    withTimeout(httpAPI("/v1/test/dns_delay", "POST"), timeout).catch(err => ({ error: err.message }))
+  ]);
+  const errors = [
+    ipApiResponse.error && `ipApi: ${ipApiResponse.error}`,
+    dnsApiResponse.error && `dnsApi: ${dnsApiResponse.error}`,
+    dnsDataResponse.error && `dnsData: ${dnsDataResponse.error}`,
+    dnsDelayResponse.error && `dnsDelay: ${dnsDelayResponse.error}`
+  ].filter(Boolean).join('\n');
+  if (errors) {
     $done({
       title: 'Error',
-      content: error.message,
+      content: errors,
       icon: 'wifi.exclamationmark',
       'icon-color': '#CB1B45',
     });
+    return;
   }
+  const ipInfo = JSON.parse(ipApiResponse.data);
+  const { dns, edns } = JSON.parse(dnsApiResponse.data);
+  const [hostname, location] = await Promise.all([
+    resolveHostname(ipInfo.query),
+    (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
+  ]);
+  const timezoneInfo = `${formatTimezone(ipInfo.timezone)} UTC${ipInfo.offset >= 0 ? '+' : ''}${ipInfo.offset / 3600}`;
+  const coordinates = formatCoordinates(ipInfo.lat, ipInfo.lon);
+  const dnsServers = [...new Set(dnsDataResponse.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")))];
+  const isEncrypted = dnsServers.some(d => /^(quic|https?|h3)/i.test(d));
+  const dnsServer = dnsServers.filter(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true).join(", ") || "No DNS servers found";
+  const dnsDelay = dnsServer !== "No DNS servers found" && dnsDelayResponse.delay && !isNaN(dnsDelayResponse.delay) ? ` - ${(dnsDelayResponse.delay * 1000).toFixed(0)}ms` : '';
+  const ednsInfo = edns?.ip || 'Unavailable';
+  const ipType = ipInfo.hosting ? '(Datacenter)' : '(Residential)';
+  const [country, keyword] = dns.geo.split(" - ");
+  const keywordMatch = [...dnsGeoMap.keys()].find(key => keyword.toLowerCase().includes(key.toLowerCase()));
+  const mappedDnsGeo = dns.geo.includes("Internet Initiative Japan") ? "Internet Initiative Japan" : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
+  $done({
+    title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
+    content: `IP: ${ipInfo.query} ${ipType}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoords: ${coordinates}\nTimezone: ${timezoneInfo}\nResolver: ${dnsServer}${dnsDelay}\nLeakDNS: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
+    icon: networkInfoType.type === 'WiFi' ? 'wifi' : networkInfoType.info === 'Ethernet' ? 'cable.connector.horizontal' : 'cellularbars',
+    'icon-color': '#73C2FB',
+  });
 }
 
 (() => {
