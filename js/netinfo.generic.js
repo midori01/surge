@@ -87,13 +87,16 @@ async function resolveHostname(ip, timeout = 2000) {
 async function getNetworkInfo() {
   try {
     const timeout = 3000;
-    const [ipApiResponse, dnsApiResponse, dnsData] = await Promise.all([
-      withTimeout(httpMethod.get({ url: 'http://ip-api.com/json/?fields=66846719' }), timeout),
-      withTimeout(httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), timeout),
-      withTimeout(httpAPI("/v1/dns", "GET"), timeout)
+    const [ipApiResponse, dnsApiResponse, dnsDataResponse, dnsDelayResponse] = await Promise.all([
+      withTimeout(httpMethod.get({ url: 'http://ip-api.com/json/?fields=66846719' }), timeout).catch(err => err),
+      withTimeout(httpMethod.get({ url: `http://${randomString32()}.edns.ip-api.com/json` }), timeout).catch(err => err),
+      withTimeout(httpAPI("/v1/dns", "GET"), timeout).catch(err => err),
+      withTimeout(httpAPI("/v1/test/dns_delay", "POST"), timeout).catch(err => err)
     ]);
     const ipInfo = JSON.parse(ipApiResponse.data);
     const { dns, edns } = JSON.parse(dnsApiResponse.data);
+    const dnsData = dnsDataResponse;
+    const dnsDelay = (dnsDelayResponse.delay && !isNaN(dnsDelayResponse.delay)) ? `${(dnsDelayResponse.delay * 1000).toFixed(0)}ms` : '';
     const [hostname, location] = await Promise.all([
       resolveHostname(ipInfo.query),
       (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
@@ -111,7 +114,7 @@ async function getNetworkInfo() {
     const mappedDnsGeo = dnsGeo.includes("Internet Initiative Japan") ? "Internet Initiative Japan" : `${country} - ${dnsGeoMap.get(keywordMatch) || keyword}`;
     $done({
       title: `${networkInfoType.info} | ${protocolType} | ${timestamp}`,
-      content: `IP: ${ipInfo.query} ${ipType}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoords: ${coordinates}\nTimezone: ${timezoneInfo}\nResolver: ${dnsServer}\nLeakDNS: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
+      content: `IP: ${ipInfo.query} ${ipType}\nPTR: ${hostname}\nISP: ${ipInfo.as}\nLocation: ${location}\nCoords: ${coordinates}\nTimezone: ${timezoneInfo}\nResolver: ${dnsServer} ${dnsDelay}\nLeakDNS: ${mappedDnsGeo}\nEDNS Client Subnet: ${ednsInfo}`,
       icon: networkInfoType.type === 'WiFi' ? 'wifi' : networkInfoType.info === 'Ethernet' ? 'cable.connector.horizontal' : 'cellularbars',
       'icon-color': '#73C2FB',
     });
