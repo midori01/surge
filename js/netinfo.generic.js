@@ -96,7 +96,7 @@ async function getNetworkInfo() {
     const ipInfo = JSON.parse(ipApiResponse.data);
     const { dns, edns } = JSON.parse(dnsApiResponse.data);
     const dnsData = dnsDataResponse;
-    const dnsDelay = (dnsDelayResponse.delay && !isNaN(dnsDelayResponse.delay)) ? `${(dnsDelayResponse.delay * 1000).toFixed(0)}ms` : '';
+    const dnsDelay = dnsServer !== "No DNS servers found" && dnsDelayResponse.delay && !isNaN(dnsDelayResponse.delay) ? `${(dnsDelayResponse.delay * 1000).toFixed(0)}ms` : '';
     const [hostname, location] = await Promise.all([
       resolveHostname(ipInfo.query),
       (locationMap.get(ipInfo.countryCode) || locationMap.get('default'))(ipInfo)
