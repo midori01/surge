@@ -12,28 +12,98 @@ class httpMethod {
   }
 }
 
-const radioGeneration = {
-  'GPRS': 'GPRS',
-  'Edge': 'EDGE',
-  'WCDMA': 'WCDMA',
-  'HSDPA': 'HSDPA',
-  'HSUPA': 'HSUPA',
-  'CDMA1x': 'CDMA 1x',
-  'CDMAEVDORev0': 'CDMA EV-DO',
-  'CDMAEVDORevA': 'CDMA EV-DO',
-  'CDMAEVDORevB': 'CDMA EV-DO',
-  'eHRPD': 'eHRPD',
-  'HRPD': 'HRPD',
-  'LTE': '4G LTE',
-  'NRNSA': '5G NRNSA',
-  'NR': '5G NR'
-};
+const radioGeneration = new Map([
+  ['GPRS', 'GPRS'],
+  ['Edge', 'EDGE'],
+  ['WCDMA', 'WCDMA'],
+  ['HSDPA', 'HSDPA'],
+  ['HSUPA', 'HSUPA'],
+  ['CDMA1x', 'CDMA 1x'],
+  ['CDMAEVDORev0', 'CDMA EV-DO'],
+  ['CDMAEVDORevA', 'CDMA EV-DO'],
+  ['CDMAEVDORevB', 'CDMA EV-DO'],
+  ['eHRPD', 'eHRPD'],
+  ['HRPD', 'HRPD'],
+  ['LTE', '4G LTE'],
+  ['NRNSA', '5G NRNSA'],
+  ['NR', '5G NR']
+]);
+
+const locationMap = new Map([
+  ['JP', (info) => (info.regionName === 'Tokyo' && info.city === 'Tokyo') ? `${info.regionName}, ${info.country}` : `${info.city}, ${info.regionName}, ${info.country}`],
+  ['CN', (info) => ['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(info.regionName) ? `${info.regionName}, PRC` : `${info.city}, ${info.regionName}, PRC`],
+  ['TW', (info) => /Taipei/.test(info.city) ? `Taipei, ROC (${info.country})` : `${info.city}, ROC (${info.country})`],
+  ['DE', (info) => /Frankfurt/.test(info.city) ? `Frankfurt, ${info.country}` : `${info.city}, ${info.country}`],
+  ['ZA', (info) => /Johannesburg/.test(info.city) ? `Jo'burg, ${info.country}` : `${info.city}, ${info.country}`],
+  ['KR', (info) => `${info.city.split('-')[0]}, ${info.country}`],
+  ['US', (info) => `${info.city}, ${info.region}, US`],
+  ['GU', (info) => `${info.city}, ${info.country} (US)`],
+  ['CA', (info) => `${info.city}, ${info.region}, ${info.country}`],
+  ['GB', (info) => `${info.city}, ${info.regionName}, UK`],
+  ['AE', (info) => `${info.city}, ${info.region}, UAE`],
+  ['HK', (info) => `${info.country} SAR, PRC`],
+  ['MO', (info) => `${info.country} SAR, PRC`],
+  ['SG', (info) => `${info.country} (${info.countryCode})`],
+  ['VA', (info) => `${info.country} (${info.countryCode})`],
+  ['MC', (info) => `${info.country} (${info.countryCode})`],
+  ['GI', (info) => `${info.country} (${info.countryCode})`],
+  ['default', (info) => `${info.city}, ${info.country}`]
+]);
+
+const timezoneAbbreviations = new Map([
+  ["Los_Angeles", "Angeles"],
+  ["Mexico_City", "Mexico"],
+  ["Johannesburg", "Jo'burg"],
+  ["Amsterdam", "A'dam"]
+]);
+
+const dnsGeoMap = new Map([
+  ["NTT", "NTT"],
+  ["KDDI", "KDDI"],
+  ["SoftBank", "SoftBank"],
+  ["Internet Initiative Japan", "IIJ"],
+  ["Rakuten", "Rakuten"],
+  ["BIGLOBE", "BIGLOBE"],
+  ["So-net", "Sony Network"],
+  ["Sony Network", "Sony Network"],
+  ["ARTERIA", "ARTERIA"],
+  ["OPTAGE", "OPTAGE"],
+  ["IDC Frontier", "IDC Frontier"],
+  ["SAKURA", "SAKURA"],
+  ["Chunghwa Telecom", "Chunghwa Telecom"],
+  ["Data Communication Business", "Chunghwa Telecom"],
+  ["HINET", "Chunghwa Telecom"],
+  ["Cloudflare", "Cloudflare"],
+  ["Google", "Google"],
+  ["Amazon", "Amazon"],
+  ["Microsoft", "Microsoft"],
+  ["Linode", "Linode"],
+  ["Akamai", "Akamai"],
+  ["Oracle", "Oracle"],
+  ["DataCamp", "DataCamp"],
+  ["Alibaba", "Alibaba"],
+  ["Tencent", "Tencent"],
+  ["China Mobile", "China Mobile"],
+  ["CHINAMOBILE", "China Mobile"],
+  ["CMNET", "China Mobile"],
+  ["China Unicom", "China Unicom"],
+  ["CHINAUNICOM", "China Unicom"],
+  ["CHINA169", "China Unicom"],
+  ["China Telecom", "China Telecom"],
+  ["CHINATELECOM", "China Telecom"],
+  ["CHINANET", "China Telecom"],
+  ["China Broadnet", "China Broadnet"],
+  ["China Cable", "China Broadnet"],
+  ["CBNET", "China Broadnet"],
+  ["China Education", "CERNET"],
+  ["CERNET", "CERNET"]
+]);
 
 const networkInfoType = (() => {
   const wifiSSID = $network.wifi?.ssid;
   if (wifiSSID) return { type: 'WiFi', info: wifiSSID };
   const radio = $network['cellular-data']?.radio;
-  return { type: 'Cellular', info: `${radioGeneration[radio] || 'Ethernet'}`.trim() };
+  return { type: 'Cellular', info: radioGeneration.get(radio) || 'Ethernet' };
 })();
 
 const protocolType = $network.v6?.primaryAddress ? 'Dual Stack' : 'IPv4 Only';
@@ -129,73 +199,3 @@ async function getNetworkInfo() {
 (() => {
   getNetworkInfo();
 })();
-
-const locationMap = new Map([
-  ['JP', (info) => (info.regionName === 'Tokyo' && info.city === 'Tokyo') ? `${info.regionName}, ${info.country}` : `${info.city}, ${info.regionName}, ${info.country}`],
-  ['CN', (info) => ['Beijing', 'Shanghai', 'Tianjin', 'Chongqing'].includes(info.regionName) ? `${info.regionName}, PRC` : `${info.city}, ${info.regionName}, PRC`],
-  ['TW', (info) => /Taipei/.test(info.city) ? `Taipei, ROC (${info.country})` : `${info.city}, ROC (${info.country})`],
-  ['DE', (info) => /Frankfurt/.test(info.city) ? `Frankfurt, ${info.country}` : `${info.city}, ${info.country}`],
-  ['ZA', (info) => /Johannesburg/.test(info.city) ? `Jo'burg, ${info.country}` : `${info.city}, ${info.country}`],
-  ['KR', (info) => `${info.city.split('-')[0]}, ${info.country}`],
-  ['US', (info) => `${info.city}, ${info.region}, US`],
-  ['GU', (info) => `${info.city}, ${info.country} (US)`],
-  ['CA', (info) => `${info.city}, ${info.region}, ${info.country}`],
-  ['GB', (info) => `${info.city}, ${info.regionName}, UK`],
-  ['AE', (info) => `${info.city}, ${info.region}, UAE`],
-  ['HK', (info) => `${info.country} SAR, PRC`],
-  ['MO', (info) => `${info.country} SAR, PRC`],
-  ['SG', (info) => `${info.country} (${info.countryCode})`],
-  ['VA', (info) => `${info.country} (${info.countryCode})`],
-  ['MC', (info) => `${info.country} (${info.countryCode})`],
-  ['GI', (info) => `${info.country} (${info.countryCode})`],
-  ['default', (info) => `${info.city}, ${info.country}`]
-]);
-
-const dnsGeoMap = new Map([
-  ["NTT", "NTT"],
-  ["KDDI", "KDDI"],
-  ["SoftBank", "SoftBank"],
-  ["Internet Initiative Japan", "IIJ"],
-  ["Rakuten", "Rakuten"],
-  ["BIGLOBE", "BIGLOBE"],
-  ["So-net", "Sony Network"],
-  ["Sony Network", "Sony Network"],
-  ["ARTERIA", "ARTERIA"],
-  ["OPTAGE", "OPTAGE"],
-  ["IDC Frontier", "IDC Frontier"],
-  ["SAKURA", "SAKURA"],
-  ["Chunghwa Telecom", "Chunghwa Telecom"],
-  ["Data Communication Business", "Chunghwa Telecom"],
-  ["HINET", "Chunghwa Telecom"],
-  ["Cloudflare", "Cloudflare"],
-  ["Google", "Google"],
-  ["Amazon", "Amazon"],
-  ["Microsoft", "Microsoft"],
-  ["Linode", "Linode"],
-  ["Akamai", "Akamai"],
-  ["Oracle", "Oracle"],
-  ["DataCamp", "DataCamp"],
-  ["Alibaba", "Alibaba"],
-  ["Tencent", "Tencent"],
-  ["China Mobile", "China Mobile"],
-  ["CHINAMOBILE", "China Mobile"],
-  ["CMNET", "China Mobile"],
-  ["China Unicom", "China Unicom"],
-  ["CHINAUNICOM", "China Unicom"],
-  ["CHINA169", "China Unicom"],
-  ["China Telecom", "China Telecom"],
-  ["CHINATELECOM", "China Telecom"],
-  ["CHINANET", "China Telecom"],
-  ["China Broadnet", "China Broadnet"],
-  ["China Cable", "China Broadnet"],
-  ["CBNET", "China Broadnet"],
-  ["China Education", "CERNET"],
-  ["CERNET", "CERNET"]
-]);
-
-const timezoneAbbreviations = new Map([
-  ["Los_Angeles", "Angeles"],
-  ["Mexico_City", "Mexico"],
-  ["Johannesburg", "Jo'burg"],
-  ["Amsterdam", "A'dam"]
-]);
