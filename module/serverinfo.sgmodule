@@ -1,5 +1,5 @@
 #!name=Serverinfo Panel
-#!desc=Show Server Info.
+#!desc=Show Servers Information
 #!category=MIDORI
 #!arguments=ServerIP:"127.0.0.1",Policy:"DIRECT"
 
