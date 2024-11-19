@@ -1,5 +1,5 @@
 #!name=LIBER Subscribe
-#!desc=Show LIBER Subscription Information\n美味しいたまごぜひ一度ご賞味下さいませ\nLIBER 구독 정보를 표시합니다
+#!desc=Show LIBER Subscription Information\n美味しいたまごぜひ一度ご賞味下さいませ\nLIBER 구독 정보를 표시합니다\n展示 LIBER 订阅信息
 #!category=MIDORI
 #!arguments=SubURL:"https://…",SubName:"LIBER",UpdateInterval:"10800",GroupType:"select",NoAlert:"1",Hidden:"0",PolicyFilter:"*",TFO:"false",IPVersion:"dual",Hybrid:"false",BlockQUIC:"auto",UnderlyingProxy:"DIRECT",NoErrorAlert:"false",TestTimeout:"5",TestURL:"http://cp.cloudflare.com/generate_204",TestUDP:"cloudflare.com@1.0.0.1",IconURL:"https://raw.githubusercontent.com/midori01/surge/main/icons/img/hinapiyo.png"
 
