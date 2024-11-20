@@ -20,8 +20,8 @@ const radioGeneration = new Map([
   ['eHRPD', 'eHRPD'],
   ['HRPD', 'HRPD'],
   ['LTE', '4G LTE'],
-  ['NRNSA', '5G NRNSA'],
-  ['NR', '5G NR']
+  ['NRNSA', '5G Sub‑6 GHz'],
+  ['NR', '5G Sub-6 GHz']
 ]);
 
 const locationMap = new Map([
