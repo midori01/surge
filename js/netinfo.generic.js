@@ -101,7 +101,7 @@ const networkInfoType = (() => {
   return { type: 'Cellular', info: radioGeneration.get(radio) || 'Ethernet' };
 })();
 
-const protocolType = $network.v6?.primaryAddress ? 'Dual Stack' : 'IPv4 Only';
+const protocolType = $network.v6?.primaryAddress ? 'IPv4/IPv6' : 'IPv4 Only';
 const timestamp = new Date().toTimeString().slice(0, 5);
 
 function httpAPI(path = "", method = "POST", body = null) {
