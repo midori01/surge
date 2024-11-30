@@ -1,13 +1,13 @@
 #!name=Serverinfo Panel
 #!desc=Show Servers Information
 #!category=MIDORI
-#!arguments=ServerIP:"127.0.0.1",Policy:"DIRECT"
+#!arguments=Address:"127.0.0.1",Port:"7122",Policy:"DIRECT"
 
 [Rule]
-AND,((IP-CIDR,{{{ServerIP}}}/32,no-resolve),(DEST-PORT,7122),(PROTOCOL,HTTP)),{{{Policy}}}
+AND,((IP-CIDR,{{{Address}}}/32,no-resolve),(DEST-PORT,7122),(PROTOCOL,HTTP)),{{{Policy}}}
 
 [Script]
-serverinfo.generic.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.generic.js,argument=ip={{{ServerIP}}}
+serverinfo.generic.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.generic.js,argument=ip={{{Address}}}&port={{{Port}}}
 
 [Panel]
 serverinfo.panel = script-name=serverinfo.generic.js,update-interval=1
