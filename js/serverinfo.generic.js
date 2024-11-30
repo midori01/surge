@@ -1,8 +1,8 @@
 (async () => {
   try {
     const params = getParams();
-    const ip = params.ip ?? "127.0.0.1";
-    const port = params.port ?? 7122;
+    const ip = params.ip;
+    const port = params.port;
     const url = `http://${ip}:${port}`;
     const stats = await httpAPI(url);
     const jsonData = JSON.parse(stats.body);
