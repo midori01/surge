@@ -4,7 +4,7 @@
 #!arguments=Address:"127.0.0.1",Port:"7122",Policy:"DIRECT"
 
 [Rule]
-AND,((IP-CIDR,{{{Address}}}/32,no-resolve),(DEST-PORT,7122),(PROTOCOL,HTTP)),{{{Policy}}}
+AND,((IP-CIDR,{{{Address}}}/32,no-resolve),(DEST-PORT,{{{Port}}}),(PROTOCOL,HTTP)),{{{Policy}}}
 
 [Script]
 serverinfo.generic.js = type=generic,script-path=https://raw.githubusercontent.com/midori01/surge/main/js/serverinfo.generic.js,argument=ip={{{Address}}}&port={{{Port}}}
