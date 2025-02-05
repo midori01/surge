@@ -444,6 +444,14 @@
     {
       "name": "Surgay",
       "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/surgay.png"
+    },
+    {
+      "name": "Surge 5",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/surge_5.png"
+    },
+    {
+      "name": "Surge Black",
+      "url": "https://raw.githubusercontent.com/midori01/surge/main/icons/img/surge_black.png"
     }
   ]
 }
