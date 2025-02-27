@@ -179,7 +179,7 @@ async function getNetworkInfo() {
   const coordinates = formatCoordinates(ipInfo.lat, ipInfo.lon);
   const dnsServers = [...new Set(dnsDataResponse.dnsCache.map(d => d.server.replace(/(https?|quic|h3):\/\/([^\/]+)\/dns-query/, "$1://$2")))];
   const isEncrypted = dnsServers.some(d => /^(quic|tls|h3|https)/i.test(d));
-  const dnsServer = dnsServers.find(d => isEncrypted ? /^(quic|https?|h3)/i.test(d) : true) || "No DNS servers found";
+  const dnsServer = dnsServers.find(d => isEncrypted ? /^(quic|tls|h3|https)/i.test(d) : true) || "No DNS servers found";
   const dnsDelay = isEncrypted || dnsServer === "No DNS servers found" || !dnsDelayResponse.delay || isNaN(dnsDelayResponse.delay) ? '' : ` - ${(dnsDelayResponse.delay * 1000).toFixed(0)} ms`;
   const ednsInfo = edns?.ip || 'Unavailable';
   const ipType = ipInfo.hosting ? '(Datacenter)' : '(Residential)';
