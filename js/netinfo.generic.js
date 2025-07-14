@@ -92,7 +92,7 @@ const dnsGeoMap = new Map([
   ["CBNET", "China Broadnet"],
   ["China Education", "CERNET"],
   ["CERNET", "CERNET"],
-  ["Cisco OpenDNS", "Cisco"]
+  ["Cisco OpenDNS", "OpenDNS"]
 ]);
 
 const networkInfoType = (() => {
